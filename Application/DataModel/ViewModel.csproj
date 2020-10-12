@@ -9,7 +9,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Client\" />
     <Folder Include="Maintain\" />
     <Folder Include="Scheduler\" />
     <Folder Include="Sku\" />
