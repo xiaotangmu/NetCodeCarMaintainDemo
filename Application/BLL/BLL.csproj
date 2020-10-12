@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Base\**" />
+    <Compile Remove="Business\**" />
+    <Compile Remove="Report\**" />
+    <EmbeddedResource Remove="Base\**" />
+    <EmbeddedResource Remove="Business\**" />
+    <EmbeddedResource Remove="Report\**" />
+    <None Remove="Base\**" />
+    <None Remove="Business\**" />
+    <None Remove="Report\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="System\EventManagement.cs" />
+    <Compile Remove="System\LoginLogManagement.cs" />
+    <Compile Remove="System\OperationLogManagement.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.DirectoryServices.AccountManagement" Version="4.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Components\Cache\Cache.csproj" />
+    <ProjectReference Include="..\..\Components\Common\Common.csproj" />
+    <ProjectReference Include="..\..\Supervisor\Supervisor.csproj" />
+    <ProjectReference Include="..\DAO\DAO.csproj" />
+    <ProjectReference Include="..\..\Components\Localization\Localization.csproj" />
+    <ProjectReference Include="..\DataModel\ViewModel.csproj" />
+  </ItemGroup>
+
+</Project>

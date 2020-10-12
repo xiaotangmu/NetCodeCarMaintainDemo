@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+此文件由 Web 项目的发布/打包过程使用。可以通过编辑此 MSBuild 文件
+自定义此过程的行为。为了解与此相关的更多内容，请访问 https://go.microsoft.com/fwlink/?LinkID=208121。 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <_PublishTargetUrl>E:\Projects\release\project\旅游学院\server</_PublishTargetUrl>
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="appsettings.json">
+      <publishTime>09/20/2018 15:48:13</publishTime>
+    </File>
+    <File Include="Autofac.Configuration.dll">
+      <publishTime>09/07/2016 16:26:38</publishTime>
+    </File>
+    <File Include="Autofac.dll">
+      <publishTime>05/09/2018 11:57:54</publishTime>
+    </File>
+    <File Include="AutoMapper.dll">
+      <publishTime>04/10/2018 00:01:54</publishTime>
+    </File>
+    <File Include="CacheManager.Core.dll">
+      <publishTime>11/18/2017 02:58:22</publishTime>
+    </File>
+    <File Include="CacheManager.Microsoft.Extensions.Caching.Memory.dll">
+      <publishTime>11/18/2017 02:58:38</publishTime>
+    </File>
+    <File Include="CacheManager.Microsoft.Extensions.Configuration.dll">
+      <publishTime>11/18/2017 02:58:42</publishTime>
+    </File>
+    <File Include="CacheManager.StackExchange.Redis.dll">
+      <publishTime>11/18/2017 02:59:04</publishTime>
+    </File>
+    <File Include="Crc32.NET.dll">
+      <publishTime>12/07/2017 23:07:38</publishTime>
+    </File>
+    <File Include="Dapper.Contrib.dll">
+      <publishTime>05/16/2018 18:40:58</publishTime>
+    </File>
+    <File Include="Dapper.dll">
+      <publishTime>05/16/2018 18:40:32</publishTime>
+    </File>
+    <File Include="ICSharpCode.SharpZipLib.dll">
+      <publishTime>08/20/2017 13:51:42</publishTime>
+    </File>
+    <File Include="log4net.dll">
+      <publishTime>03/08/2017 19:26:22</publishTime>
+    </File>
+    <File Include="Microsoft.AspNetCore.Connections.Abstractions.dll">
+      <publishTime>06/29/2018 22:55:48</publishTime>
+    </File>
+    <File Include="Microsoft.AspNetCore.dll">
+      <publishTime>06/29/2018 22:55:48</publishTime>
+    </File>
+    <File Include="Microsoft.AspNetCore.Server.Kestrel.Core.dll">
+      <publishTime>06/29/2018 22:55:48</publishTime>
+    </File>
+    <File Include="Microsoft.AspNetCore.Server.Kestrel.dll">
+      <publishTime>06/29/2018 22:55:54</publishTime>
+    </File>
+    <File Include="Microsoft.AspNetCore.Server.Kestrel.Https.dll">
+      <publishTime>06/29/2018 22:55:46</publishTime>
+    </File>
+    <File Include="Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions.dll">
+      <publishTime>06/29/2018 22:55:48</publishTime>
+    </File>
+    <File Include="Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.dll">
+      <publishTime>06/29/2018 22:55:42</publishTime>
+    </File>
+    <File Include="Microsoft.Extensions.PlatformAbstractions.dll">
+      <publishTime>09/19/2018 16:35:54</publishTime>
+    </File>
+    <File Include="Npgsql.dll">
+      <publishTime>09/08/2018 15:28:52</publishTime>
+    </File>
+    <File Include="protobuf-net.dll">
+      <publishTime>05/13/2018 21:03:40</publishTime>
+    </File>
+    <File Include="runtimes/win/lib/netstandard2.0/System.Security.Cryptography.ProtectedData.dll">
+      <publishTime>05/15/2018 13:29:44</publishTime>
+    </File>
+    <File Include="StackExchange.Redis.StrongName.dll">
+      <publishTime>08/01/2017 12:20:24</publishTime>
+    </File>
+    <File Include="Swashbuckle.AspNetCore.Swagger.dll">
+      <publishTime>07/06/2018 17:09:02</publishTime>
+    </File>
+    <File Include="Swashbuckle.AspNetCore.SwaggerGen.dll">
+      <publishTime>07/06/2018 17:09:02</publishTime>
+    </File>
+    <File Include="System.Configuration.ConfigurationManager.dll">
+      <publishTime>05/15/2018 13:29:38</publishTime>
+    </File>
+    <File Include="System.Security.Cryptography.ProtectedData.dll">
+      <publishTime>05/15/2018 13:29:44</publishTime>
+    </File>
+    <File Include="test.pfx">
+      <publishTime>09/20/2018 15:48:13</publishTime>
+    </File>
+    <File Include="web.config">
+      <publishTime>09/26/2018 15:53:41</publishTime>
+    </File>
+    <File Include="WebHdfs.Extensions.FileProviders.dll">
+      <publishTime>10/17/2017 16:05:38</publishTime>
+    </File>
+    <File Include="YL.AMS.ApiDocUi.dll">
+      <publishTime>09/26/2018 09:42:56</publishTime>
+    </File>
+    <File Include="YL.AMS.ApiDocUi.pdb">
+      <publishTime>09/26/2018 09:42:56</publishTime>
+    </File>
+    <File Include="YL.AMS.Common.dll">
+      <publishTime>09/26/2018 09:42:57</publishTime>
+    </File>
+    <File Include="YL.AMS.Common.pdb">
+      <publishTime>09/26/2018 09:42:57</publishTime>
+    </File>
+    <File Include="YL.AMS.DataAccess.dll">
+      <publishTime>09/26/2018 09:42:55</publishTime>
+    </File>
+    <File Include="YL.AMS.DataAccess.dll.config">
+      <publishTime>09/21/2018 11:40:02</publishTime>
+    </File>
+    <File Include="YL.AMS.DataAccess.pdb">
+      <publishTime>09/26/2018 09:42:55</publishTime>
+    </File>
+    <File Include="YL.AMS.ORM.dll">
+      <publishTime>09/26/2018 09:42:59</publishTime>
+    </File>
+    <File Include="YL.AMS.ORM.dll.config">
+      <publishTime>09/20/2018 17:14:06</publishTime>
+    </File>
+    <File Include="YL.AMS.ORM.pdb">
+      <publishTime>09/26/2018 09:42:59</publishTime>
+    </File>
+    <File Include="YL.AMS.WebApi.deps.json">
+      <publishTime>09/26/2018 15:53:41</publishTime>
+    </File>
+    <File Include="YL.AMS.WebApi.dll">
+      <publishTime>09/26/2018 09:43:00</publishTime>
+    </File>
+    <File Include="YL.AMS.WebApi.pdb">
+      <publishTime>09/26/2018 09:43:00</publishTime>
+    </File>
+    <File Include="YL.AMS.WebApi.runtimeconfig.json">
+      <publishTime>09/26/2018 15:53:41</publishTime>
+    </File>
+  </ItemGroup>
+</Project>

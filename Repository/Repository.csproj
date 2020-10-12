@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Application\Entity\DateModel.csproj" />
+    <ProjectReference Include="..\Infrastructure\DataAccess\DataAccess.csproj" />
+    <ProjectReference Include="..\Infrastructure\ORM\ORM.csproj" />
+    <ProjectReference Include="..\Interface\Interface.csproj" />
+  </ItemGroup>
+
+</Project>

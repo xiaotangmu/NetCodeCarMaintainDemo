@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Hostel\**" />
+    <EmbeddedResource Remove="Hostel\**" />
+    <None Remove="Hostel\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="System\ILoginLogDAO.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Application\DataModel\ViewModel.csproj" />
+    <ProjectReference Include="..\Application\Entity\DateModel.csproj" />
+    <ProjectReference Include="..\Infrastructure\ORM\ORM.csproj" />
+  </ItemGroup>
+
+</Project>

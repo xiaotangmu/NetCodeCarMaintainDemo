@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Entity\DateModel.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Client\" />
+    <Folder Include="Maintain\" />
+    <Folder Include="Scheduler\" />
+    <Folder Include="Sku\" />
+  </ItemGroup>
+
+</Project>

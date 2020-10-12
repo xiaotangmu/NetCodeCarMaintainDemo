@@ -1,0 +1,1749 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="BeKicked" xml:space="preserve">
+    <value>该用户已被踢下线，请重新登录</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>确认</value>
+  </data>
+  <data name="Create_Failure" xml:space="preserve">
+    <value>新增失败</value>
+  </data>
+  <data name="Create_Succeed" xml:space="preserve">
+    <value>新增成功</value>
+  </data>
+  <data name="Data_Empty" xml:space="preserve">
+    <value>数据为空</value>
+  </data>
+  <data name="Data_Invalid" xml:space="preserve">
+    <value>数据无效</value>
+  </data>
+  <data name="Data_Updated" xml:space="preserve">
+    <value>数据已更新</value>
+  </data>
+  <data name="Data_ValidationFailed" xml:space="preserve">
+    <value>数据验证不通过</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="Delete_Failed" xml:space="preserve">
+    <value>删除失败</value>
+  </data>
+  <data name="Delete_Message" xml:space="preserve">
+    <value>您是否确定要删除这条数据？</value>
+  </data>
+  <data name="Deleted_Successfully" xml:space="preserve">
+    <value>删除成功</value>
+  </data>
+  <data name="Dict_Create" xml:space="preserve">
+    <value>新增字典项</value>
+  </data>
+  <data name="Dict_Delete" xml:space="preserve">
+    <value>删除字典项</value>
+  </data>
+  <data name="DictType_Create" xml:space="preserve">
+    <value>新增字典项类型</value>
+  </data>
+  <data name="DictType_Delete" xml:space="preserve">
+    <value>删除字典项类型</value>
+  </data>
+  <data name="Disabled" xml:space="preserve">
+    <value>是否禁用</value>
+  </data>
+  <data name="Duplicate_Name" xml:space="preserve">
+    <value>名称重复</value>
+  </data>
+  <data name="Enabled" xml:space="preserve">
+    <value>是否启用</value>
+  </data>
+  <data name="ExistNodeData" xml:space="preserve">
+    <value>仍存在子级数据</value>
+  </data>
+  <data name="Expire" xml:space="preserve">
+    <value>会话已失效，请重新登录</value>
+  </data>
+  <data name="Home_Welcome" xml:space="preserve">
+    <value>欢迎</value>
+  </data>
+  <data name="InvalidMsg_CurrentLength" xml:space="preserve">
+    <value>，当前长度为：</value>
+  </data>
+  <data name="InvalidMsg_Maximum" xml:space="preserve">
+    <value>最大可输入长度(字符)为：</value>
+  </data>
+  <data name="InvalidMsg_Required" xml:space="preserve">
+    <value> 为必填项</value>
+  </data>
+  <data name="IsUse" xml:space="preserve">
+    <value>仍在使用中</value>
+  </data>
+  <data name="LoadCache_Failure" xml:space="preserve">
+    <value>加载缓存失败,错误信息请查看日志</value>
+  </data>
+  <data name="Login_Failure" xml:space="preserve">
+    <value>登录失败</value>
+  </data>
+  <data name="LogIn_Title" xml:space="preserve">
+    <value>登录提示！</value>
+  </data>
+  <data name="LoginBack" xml:space="preserve">
+    <value>重新登录后生效</value>
+  </data>
+  <data name="LoginOut_Failure" xml:space="preserve">
+    <value>登出失败</value>
+  </data>
+  <data name="LogOut" xml:space="preserve">
+    <value>退出</value>
+  </data>
+  <data name="Manage_ReloadCache" xml:space="preserve">
+    <value>重置缓存</value>
+  </data>
+  <data name="Manage_ReloadCacheTitle" xml:space="preserve">
+    <value>重新加载缓存</value>
+  </data>
+  <data name="Menu_Add" xml:space="preserve">
+    <value>新增菜单</value>
+  </data>
+  <data name="Menu_AddJurisdiction" xml:space="preserve">
+    <value>增加权限</value>
+  </data>
+  <data name="Menu_AddLowerMenu" xml:space="preserve">
+    <value>增加下级菜单</value>
+  </data>
+  <data name="Menu_AddNewRecord" xml:space="preserve">
+    <value>新增一级菜单</value>
+  </data>
+  <data name="Menu_Delete" xml:space="preserve">
+    <value>删除菜单</value>
+  </data>
+  <data name="Menu_Manage_GetCacheByCacheType" xml:space="preserve">
+    <value>查询缓存数据</value>
+  </data>
+  <data name="Menu_Manage_ReloadCache" xml:space="preserve">
+    <value>重新加载缓存</value>
+  </data>
+  <data name="Menu_Roles_GetRolesInfo" xml:space="preserve">
+    <value>读取角色信息</value>
+  </data>
+  <data name="Menu_UserGroup_GetUserGroupInfo" xml:space="preserve">
+    <value>读取用户组信息</value>
+  </data>
+  <data name="Menu_UserInfo_GetAllGroup" xml:space="preserve">
+    <value>显示可关联的用户组</value>
+  </data>
+  <data name="Menu_UserInfo_GetUserInformation" xml:space="preserve">
+    <value>读取用户信息</value>
+  </data>
+  <data name="Modify_Failure" xml:space="preserve">
+    <value>修改失败</value>
+  </data>
+  <data name="Modify_Successfully" xml:space="preserve">
+    <value>修改成功</value>
+  </data>
+  <data name="NotPermission" xml:space="preserve">
+    <value>无操作权限</value>
+  </data>
+  <data name="PSW_NotNULL" xml:space="preserve">
+    <value>密码不能为空</value>
+  </data>
+  <data name="Query_Fails" xml:space="preserve">
+    <value>查询失败</value>
+  </data>
+  <data name="Query_Invalid" xml:space="preserve">
+    <value>查询无效</value>
+  </data>
+  <data name="Reload_Successfully" xml:space="preserve">
+    <value>重新加载成功</value>
+  </data>
+  <data name="Roles_Create" xml:space="preserve">
+    <value>新增角色</value>
+  </data>
+  <data name="Roles_NotChoiceRole" xml:space="preserve">
+    <value>对不起，当前没有选中角色！</value>
+  </data>
+  <data name="SameData" xml:space="preserve">
+    <value>存在相同数据</value>
+  </data>
+  <data name="Failure" xml:space="preserve">
+    <value>失败</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>成功</value>
+  </data>
+  <data name="Upload_Failure" xml:space="preserve">
+    <value>上传失败</value>
+  </data>
+  <data name="Upload_Success" xml:space="preserve">
+    <value>上传成功</value>
+  </data>
+  <data name="UserGroup_Create" xml:space="preserve">
+    <value>新增用户组</value>
+  </data>
+  <data name="UserGroup_Delete" xml:space="preserve">
+    <value>删除用户组</value>
+  </data>
+  <data name="UserGroup_NotChoiceGroup" xml:space="preserve">
+    <value>对不起，当前没有选中用户组！</value>
+  </data>
+  <data name="UserInfo_Answer" xml:space="preserve">
+    <value>密码提示答案</value>
+  </data>
+  <data name="UserInfo_Create" xml:space="preserve">
+    <value>新增用户</value>
+  </data>
+  <data name="UserInfo_Delete" xml:space="preserve">
+    <value>删除用户信息</value>
+  </data>
+  <data name="UserInfo_ImgUploadLenthError" xml:space="preserve">
+    <value>对不起，图片过大，请上传图片大小为100KB以内的图片！</value>
+  </data>
+  <data name="UserInfo_ImgUploadNull" xml:space="preserve">
+    <value>对不起，无法找到图片！请重试！</value>
+  </data>
+  <data name="UserInfo_NotChoiceUser" xml:space="preserve">
+    <value>对不起，当前没选中用户！</value>
+  </data>
+  <data name="UserInfo_Question" xml:space="preserve">
+    <value>密码提示问题</value>
+  </data>
+  <data name="UserInfo_UserGroup" xml:space="preserve">
+    <value>加入用户组</value>
+  </data>
+  <data name="VC_Title" xml:space="preserve">
+    <value>看不清？换一张</value>
+  </data>
+  <data name="RoleMenuInfo" xml:space="preserve">
+    <value>此角色与该菜单</value>
+  </data>
+  <data name="UG_ROLE" xml:space="preserve">
+    <value>此用户组与该角色</value>
+  </data>
+  <data name="User_ROLE" xml:space="preserve">
+    <value>此用户与该角色</value>
+  </data>
+  <data name="User_UG" xml:space="preserve">
+    <value>此用户与该用户组</value>
+  </data>
+  <data name="Manage_SearchCache" xml:space="preserve">
+    <value>查询缓存内数据</value>
+  </data>
+  <data name="Role_SearchPlaceHolder" xml:space="preserve">
+    <value>请输入角色名称</value>
+  </data>
+  <data name="UserGroup_SearchPlaceHolder" xml:space="preserve">
+    <value>请输入用户组名称</value>
+  </data>
+  <data name="UserInfo_SearchPlaceHolder" xml:space="preserve">
+    <value>请输入用户名称</value>
+  </data>
+  <data name="Area_SearchPlaceHolder" xml:space="preserve">
+    <value>请输入区域名称</value>
+  </data>
+  <data name="Area_Create" xml:space="preserve">
+    <value>新增下级区域</value>
+  </data>
+  <data name="Area_Delete" xml:space="preserve">
+    <value>删除当前区域</value>
+  </data>
+  <data name="Home_CloseAllTheTabs" xml:space="preserve">
+    <value>关闭全部选项卡</value>
+  </data>
+  <data name="Home_CloseOperation" xml:space="preserve">
+    <value>关闭操作</value>
+  </data>
+  <data name="Home_ClosingOtherTabs" xml:space="preserve">
+    <value>关闭其他选项卡</value>
+  </data>
+  <data name="Home_LocateTheCurrentTab" xml:space="preserve">
+    <value>定位当前选项卡</value>
+  </data>
+  <data name="Cache_Error_Del" xml:space="preserve">
+    <value>删除缓存错误</value>
+  </data>
+  <data name="Cache_Error_ReLoad" xml:space="preserve">
+    <value>重新加载缓存错误</value>
+  </data>
+  <data name="Login_NameOrPwdError" xml:space="preserve">
+    <value>登录名或密码错误</value>
+  </data>
+  <data name="Login_UserDisabled" xml:space="preserve">
+    <value>该用户已被禁用</value>
+  </data>
+  <data name="Login_ValidaterCodeError" xml:space="preserve">
+    <value>验证码错误</value>
+  </data>
+  <data name="Login_ValidaterCodeExpire" xml:space="preserve">
+    <value>验证码已失效</value>
+  </data>
+  <data name="Request_Repeat" xml:space="preserve">
+    <value>检测到重复的请求</value>
+  </data>
+  <data name="Session_BeKicked" xml:space="preserve">
+    <value>该用户被其他用户踢下线，请重新登录</value>
+  </data>
+  <data name="Session_Expire" xml:space="preserve">
+    <value>会话过期</value>
+  </data>
+  <data name="Session_Invalid" xml:space="preserve">
+    <value>会话无效</value>
+  </data>
+  <data name="Session_SameUserLogin" xml:space="preserve">
+    <value>相同用户登录，是否踢掉？</value>
+  </data>
+  <data name="Please_Login" xml:space="preserve">
+    <value>请先登录</value>
+  </data>
+  <data name="SessionExpireOrLogin" xml:space="preserve">
+    <value>会话失效或未登录</value>
+  </data>
+  <data name="Menu_Roles_GetAllRole" xml:space="preserve">
+    <value>显示未禁用的角色</value>
+  </data>
+  <data name="Dic_NotOpen" xml:space="preserve">
+    <value>父节点未启用，请先启用父节点</value>
+  </data>
+  <data name="Token_Refresh_Success" xml:space="preserve">
+    <value>刷新Token成功</value>
+  </data>
+  <data name="Token_Remove_Success" xml:space="preserve">
+    <value>删除Token成功</value>
+  </data>
+  <data name="Token_Success" xml:space="preserve">
+    <value>获取Token成功</value>
+  </data>
+  <data name="Token_UserValidationError" xml:space="preserve">
+    <value>获取Token失败，无效用户名或密码</value>
+  </data>
+  <data name="Register_Successful" xml:space="preserve">
+    <value>注册成功</value>
+  </data>
+  <data name="ValidationCode_SendSuccessfully" xml:space="preserve">
+    <value>验证码发送成功</value>
+  </data>
+  <data name="Role_IsNotExist" xml:space="preserve">
+    <value>角色不存在</value>
+  </data>
+  <data name="ResetPassWord_Failed" xml:space="preserve">
+    <value>密码重置失败</value>
+  </data>
+  <data name="ResetPassWord_Success" xml:space="preserve">
+    <value>密码重置成功</value>
+  </data>
+  <data name="Corporation" xml:space="preserve">
+    <value>珠海鼎大科技</value>
+  </data>
+  <data name="SendEmail_Body" xml:space="preserve">
+    <value>&lt;p&gt;亲爱的{0}：&lt;br&gt;&lt;p&gt;您好！您的注册验证码为：{1}&lt;br&gt;&lt;p&gt;----此邮件为系统自动发出的邮件，请勿直接回复----&lt;br&gt;</value>
+  </data>
+  <data name="SendEmail_Subject" xml:space="preserve">
+    <value>资产管理系统注册验证码自动发送邮件</value>
+  </data>
+  <data name="TargetLost" xml:space="preserve">
+    <value>目标对象丢失</value>
+  </data>
+  <data name="Token_Failed" xml:space="preserve">
+    <value>获取Token失败</value>
+  </data>
+  <data name="Staff_Invalid" xml:space="preserve">
+    <value>员工信息无效</value>
+  </data>
+  <data name="DepartmentSameData" xml:space="preserve">
+    <value>该公司已存在相同的部门编码</value>
+  </data>
+  <data name="LoginName_SameData" xml:space="preserve">
+    <value>登录名已存在</value>
+  </data>
+  <data name="Mobile_SameData" xml:space="preserve">
+    <value>手机号已存在</value>
+  </data>
+  <data name="NotNull_Check" xml:space="preserve">
+    <value>存在必填项为空，请检查</value>
+  </data>
+  <data name="OrgCode_SameData" xml:space="preserve">
+    <value>已存在相同企业信息代码</value>
+  </data>
+  <data name="Org_SameData" xml:space="preserve">
+    <value>已存在相同企业名称</value>
+  </data>
+  <data name="Staff_SameData" xml:space="preserve">
+    <value>员工已存在</value>
+  </data>
+  <data name="UserCode_SameData" xml:space="preserve">
+    <value>用户编码已存在</value>
+  </data>
+  <data name="AreaCode_SameData" xml:space="preserve">
+    <value>区位编码已存在</value>
+  </data>
+  <data name="AreaName_SameData" xml:space="preserve">
+    <value>区位名称已存在</value>
+  </data>
+  <data name="AssetConfigCode_SameData" xml:space="preserve">
+    <value>资产配置参数编码已存在</value>
+  </data>
+  <data name="AssetConfigName_SameData" xml:space="preserve">
+    <value>资产配置参数名称已存在</value>
+  </data>
+  <data name="Setting_Failure" xml:space="preserve">
+    <value>设置失败</value>
+  </data>
+  <data name="Setting_Success" xml:space="preserve">
+    <value>设置成功</value>
+  </data>
+  <data name="inventoryParam_setting_pauseBusiness" xml:space="preserve">
+    <value>盘点时，暂停业务</value>
+  </data>
+  <data name="maintenanceMaturityDate_setting_reminderMonths" xml:space="preserve">
+    <value>提前提醒月数</value>
+  </data>
+  <data name="returnReminder_setting_reminderDays" xml:space="preserve">
+    <value>提前提醒天数</value>
+  </data>
+  <data name="review_setting_allocation" xml:space="preserve">
+    <value>调拨复核</value>
+  </data>
+  <data name="review_setting_collarUse" xml:space="preserve">
+    <value>领用复核</value>
+  </data>
+  <data name="review_setting_giveBack" xml:space="preserve">
+    <value>归还复核</value>
+  </data>
+  <data name="review_setting_repair" xml:space="preserve">
+    <value>报修复核</value>
+  </data>
+  <data name="review_setting_retreatStorage" xml:space="preserve">
+    <value>退库复核</value>
+  </data>
+  <data name="review_setting_scrap" xml:space="preserve">
+    <value>报废复核</value>
+  </data>
+  <data name="review_setting_warehousing" xml:space="preserve">
+    <value>入库复核</value>
+  </data>
+  <data name="Root_inventoryParam_setting" xml:space="preserve">
+    <value>盘点参数设置</value>
+  </data>
+  <data name="Root_maintenanceMaturityDate_setting" xml:space="preserve">
+    <value>维保到期日提醒设置</value>
+  </data>
+  <data name="Root_returnReminder_setting" xml:space="preserve">
+    <value>借用/领用归还提醒设置</value>
+  </data>
+  <data name="Root_review_setting" xml:space="preserve">
+    <value>复核设置</value>
+  </data>
+  <data name="review_setting_borrow" xml:space="preserve">
+    <value>借用复核</value>
+  </data>
+  <data name="AssetCodeRule_Asset_Classify" xml:space="preserve">
+    <value>资产分类</value>
+  </data>
+  <data name="AssetCodeRule_Buy_Day" xml:space="preserve">
+    <value>购入日期-日</value>
+  </data>
+  <data name="AssetCodeRule_Buy_Month" xml:space="preserve">
+    <value>购入日期-月</value>
+  </data>
+  <data name="AssetCodeRule_Department_Code" xml:space="preserve">
+    <value>所属部门编码</value>
+  </data>
+  <data name="AssetCodeRule_YearMonth_Six" xml:space="preserve">
+    <value>购入日期-年月（六位）</value>
+  </data>
+  <data name="AssetCodeRule_Year_Four" xml:space="preserve">
+    <value>购入日期-年（四位）</value>
+  </data>
+  <data name="AssetCodeRule_Year_Two" xml:space="preserve">
+    <value>购入日期-年（两位）</value>
+  </data>
+  <data name="PageType_0" xml:space="preserve">
+    <value>标签专用纸</value>
+  </data>
+  <data name="PageType_1" xml:space="preserve">
+    <value>A4纸(2列标签)</value>
+  </data>
+  <data name="PageType_2" xml:space="preserve">
+    <value>A4纸(3列标签)</value>
+  </data>
+  <data name="Tag_AseetName" xml:space="preserve">
+    <value>资产名称：</value>
+  </data>
+  <data name="Tag_BuyDate" xml:space="preserve">
+    <value>购入日期：</value>
+  </data>
+  <data name="Tag_Company" xml:space="preserve">
+    <value>购入公司：</value>
+  </data>
+  <data name="Tag_Location" xml:space="preserve">
+    <value>存放地点：</value>
+  </data>
+  <data name="Tag_Spec" xml:space="preserve">
+    <value>规格型号：</value>
+  </data>
+  <data name="Tag_Supplier" xml:space="preserve">
+    <value>供 应 商：</value>
+  </data>
+  <data name="Tag_User" xml:space="preserve">
+    <value>使 用 人：</value>
+  </data>
+  <data name="Email_SameData" xml:space="preserve">
+    <value>已存在相同邮箱</value>
+  </data>
+  <data name="BarCode_Management" xml:space="preserve">
+    <value>条码规则管理</value>
+  </data>
+  <data name="BasicData_Management" xml:space="preserve">
+    <value>基础资料管理</value>
+  </data>
+  <data name="LabelTemplate_Management" xml:space="preserve">
+    <value>标签模板设置</value>
+  </data>
+  <data name="organization_management" xml:space="preserve">
+    <value>组织架构管理</value>
+  </data>
+  <data name="role_management" xml:space="preserve">
+    <value>角色管理</value>
+  </data>
+  <data name="SysParam_Management" xml:space="preserve">
+    <value>系统参数</value>
+  </data>
+  <data name="system_configuration" xml:space="preserve">
+    <value>系统设置</value>
+  </data>
+  <data name="user_management" xml:space="preserve">
+    <value>用户管理</value>
+  </data>
+  <data name="WorkflowTemplate_Management" xml:space="preserve">
+    <value>流程模板管理</value>
+  </data>
+  <data name="WorkflowType_Management" xml:space="preserve">
+    <value>流程类型管理</value>
+  </data>
+  <data name="AssetCateGoryCode_SameData" xml:space="preserve">
+    <value>资产分类编码已存在</value>
+  </data>
+  <data name="AssetCateGoryName_SameData" xml:space="preserve">
+    <value>资产分类名称已存在</value>
+  </data>
+  <data name="AssetCode_SameData" xml:space="preserve">
+    <value>资产编码已存在</value>
+  </data>
+  <data name="StaffCode_ExitsUser" xml:space="preserve">
+    <value>该员工已有关联用户，不允许重复关联</value>
+  </data>
+  <data name="AssetSource_Buy" xml:space="preserve">
+    <value>购入</value>
+  </data>
+  <data name="AssetSource_Donate" xml:space="preserve">
+    <value>捐赠</value>
+  </data>
+  <data name="AssetSource_Lease" xml:space="preserve">
+    <value>租赁</value>
+  </data>
+  <data name="AssetSource_Other" xml:space="preserve">
+    <value>其他</value>
+  </data>
+  <data name="AssetBarcode_SameData" xml:space="preserve">
+    <value>资产条码已存在</value>
+  </data>
+  <data name="Asset_Status_0" xml:space="preserve">
+    <value>闲置</value>
+  </data>
+  <data name="Asset_Status_1" xml:space="preserve">
+    <value>领用中</value>
+  </data>
+  <data name="Asset_Status_2" xml:space="preserve">
+    <value>退库中</value>
+  </data>
+  <data name="Asset_Status_3" xml:space="preserve">
+    <value>调拨中</value>
+  </data>
+  <data name="Asset_Status_4" xml:space="preserve">
+    <value>变更中</value>
+  </data>
+  <data name="Asset_Status_5" xml:space="preserve">
+    <value>报废中</value>
+  </data>
+  <data name="Asset_Status_6" xml:space="preserve">
+    <value>借用中</value>
+  </data>
+  <data name="Asset_Status_7" xml:space="preserve">
+    <value>归还中</value>
+  </data>
+  <data name="Asset_Status_98" xml:space="preserve">
+    <value>已报废</value>
+  </data>
+  <data name="Asset_Status_99" xml:space="preserve">
+    <value>在用</value>
+  </data>
+  <data name="Submit_Failure" xml:space="preserve">
+    <value>提交失败</value>
+  </data>
+  <data name="Submit_Success" xml:space="preserve">
+    <value>提交成功</value>
+  </data>
+  <data name="check_status_0" xml:space="preserve">
+    <value>待审核</value>
+  </data>
+  <data name="check_status_1" xml:space="preserve">
+    <value>已审核</value>
+  </data>
+  <data name="check_status_2" xml:space="preserve">
+    <value>未通过</value>
+  </data>
+  <data name="check_status_99" xml:space="preserve">
+    <value>未提交审核</value>
+  </data>
+  <data name="BarCodeSN_Failure" xml:space="preserve">
+    <value>资产编码流水号已分配完，请增加流水号长度</value>
+  </data>
+  <data name="Asset_Property_Consumable" xml:space="preserve">
+    <value>耗材</value>
+  </data>
+  <data name="Asset_Property_Donate" xml:space="preserve">
+    <value>捐赠</value>
+  </data>
+  <data name="Asset_Property_Fixed" xml:space="preserve">
+    <value>固定资产</value>
+  </data>
+  <data name="Asset_Property_Intangible" xml:space="preserve">
+    <value>无形资产</value>
+  </data>
+  <data name="Asset_Property_LowValue" xml:space="preserve">
+    <value>低值易耗</value>
+  </data>
+  <data name="Asset_Allocation" xml:space="preserve">
+    <value>资产调拨</value>
+  </data>
+  <data name="Asset_Borrow" xml:space="preserve">
+    <value>资产借用</value>
+  </data>
+  <data name="Asset_Modification" xml:space="preserve">
+    <value>资产信息变更</value>
+  </data>
+  <data name="Asset_Outbound" xml:space="preserve">
+    <value>资产退库</value>
+  </data>
+  <data name="Asset_Recipient" xml:space="preserve">
+    <value>资产领用</value>
+  </data>
+  <data name="Asset_Return" xml:space="preserve">
+    <value>资产归还</value>
+  </data>
+  <data name="Asset_Scrap" xml:space="preserve">
+    <value>资产报废</value>
+  </data>
+  <data name="AssetInventory_Status_0" xml:space="preserve">
+    <value>未盘</value>
+  </data>
+  <data name="AssetInventory_Status_1" xml:space="preserve">
+    <value>已盘-有差异</value>
+  </data>
+  <data name="AssetInventory_Status_2" xml:space="preserve">
+    <value>已盘-无差异</value>
+  </data>
+  <data name="AssetInventory_Status_3" xml:space="preserve">
+    <value>盘盈</value>
+  </data>
+  <data name="AssetInventory_Status_4" xml:space="preserve">
+    <value>盘亏</value>
+  </data>
+  <data name="IRange_Type_Asset_Area" xml:space="preserve">
+    <value>资产区位</value>
+  </data>
+  <data name="IRange_Type_Asset_Category" xml:space="preserve">
+    <value>资产分类</value>
+  </data>
+  <data name="IRange_Type_OwnCompany" xml:space="preserve">
+    <value>所属公司</value>
+  </data>
+  <data name="IRange_Type_OwnDep" xml:space="preserve">
+    <value>所属部门</value>
+  </data>
+  <data name="Inventory_Status_0" xml:space="preserve">
+    <value>未盘点</value>
+  </data>
+  <data name="Inventory_Status_1" xml:space="preserve">
+    <value>已盘点</value>
+  </data>
+  <data name="All" xml:space="preserve">
+    <value>全部</value>
+  </data>
+  <data name="NotFoundAsset" xml:space="preserve">
+    <value>未找到资产信息</value>
+  </data>
+  <data name="JsonError" xml:space="preserve">
+    <value>Json数据有误，请按文档说明传参</value>
+  </data>
+  <data name="OnlyPrintOne" xml:space="preserve">
+    <value>只支持单张打印</value>
+  </data>
+  <data name="Data_Locked" xml:space="preserve">
+    <value>数据已被锁定</value>
+  </data>
+  <data name="ExistInventoryAsset" xml:space="preserve">
+    <value>存在盘点中的资产，不允许审核</value>
+  </data>
+  <data name="ExitsInventoryRange" xml:space="preserve">
+    <value>资产范围(公司+部门、分类、区位)在盘点中，不允许审核</value>
+  </data>
+  <data name="HaveBeenInProgress" xml:space="preserve">
+    <value>存在处理中的资产</value>
+  </data>
+  <data name="RepairStatus_0" xml:space="preserve">
+    <value>维修中</value>
+  </data>
+  <data name="RepairStatus_1" xml:space="preserve">
+    <value>已完成</value>
+  </data>
+  <data name="RepairStatus_NULL" xml:space="preserve">
+    <value>未提交</value>
+  </data>
+  <data name="NotSubmitNotYouCreate" xml:space="preserve">
+    <value>不能提交非自己创建的数据</value>
+  </data>
+  <data name="NULL" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Asset_Status_8" xml:space="preserve">
+    <value>维修中</value>
+  </data>
+  <data name="CanNotNegative" xml:space="preserve">
+    <value>数值不允许负数</value>
+  </data>
+  <data name="Refuse" xml:space="preserve">
+    <value>撤回</value>
+  </data>
+  <data name="WorkflowCoreBLL_Exception_Applicant" xml:space="preserve">
+    <value>非申请本人不可撤回</value>
+  </data>
+  <data name="WorkflowCoreBLL_Exception_HaveAudited" xml:space="preserve">
+    <value>流程已审核通过，不能撤回</value>
+  </data>
+  <data name="WorkflowCoreBLL_Exception_HaveRefused" xml:space="preserve">
+    <value>流程已驳回，不可撤回</value>
+  </data>
+  <data name="WorkflowCoreBLL_Exception_IsAuditing" xml:space="preserve">
+    <value>流程正在审核中，不可撤回</value>
+  </data>
+  <data name="WorkflowCoreBLL_Exception_NoSumit" xml:space="preserve">
+    <value>流程未提交，不需撤回</value>
+  </data>
+  <data name="WorkflowCoreBLL_Exception_PleaseLogin" xml:space="preserve">
+    <value>审核信息失效，请重新登录</value>
+  </data>
+  <data name="WorkflowCoreBLL_Exception_WorkflowNode" xml:space="preserve">
+    <value>该业务还没有创建审核流程节点</value>
+  </data>
+  <data name="WorkflowCoreBLL_Exception_WorkflowType" xml:space="preserve">
+    <value>该业务还没有创建流程类型</value>
+  </data>
+  <data name="DataHasUsed" xml:space="preserve">
+    <value>数据已被使用</value>
+  </data>
+  <data name="Repeat_Outbount" xml:space="preserve">
+    <value>重复退库领用资产</value>
+  </data>
+  <data name="Repeat_Return" xml:space="preserve">
+    <value>重复归还借用资产</value>
+  </data>
+  <data name="Return_NotExistOrder" xml:space="preserve">
+    <value>不存在借用单信息</value>
+  </data>
+  <data name="Borrow_NotAudited" xml:space="preserve">
+    <value>该借用单未审核</value>
+  </data>
+  <data name="Recipient_NotAudited" xml:space="preserve">
+    <value>该领用单未审核</value>
+  </data>
+  <data name="review_setting_infoModify" xml:space="preserve">
+    <value>变更复核</value>
+  </data>
+  <data name="Forbid_Edit_NotYourSelf_Order" xml:space="preserve">
+    <value>禁止修改他人业务单</value>
+  </data>
+  <data name="Forbid_Delete_NotYourSelf_Order" xml:space="preserve">
+    <value>禁止删除他人业务单</value>
+  </data>
+  <data name="Asset_Repair" xml:space="preserve">
+    <value>资产维修</value>
+  </data>
+  <data name="PrefixInUse" xml:space="preserve">
+    <value>前缀已被使用</value>
+  </data>
+  <data name="NoAuditAuthority" xml:space="preserve">
+    <value>无审核权限，无法进行审核</value>
+  </data>
+  <data name="Manager" xml:space="preserve">
+    <value>管理员</value>
+  </data>
+  <data name="NotSubmitedToAudit" xml:space="preserve">
+    <value>该单据可能已被撤回，请刷新重试</value>
+  </data>
+  <data name="MailIsNull" xml:space="preserve">
+    <value>请填写邮箱</value>
+  </data>
+  <data name="AssetRfid_SameData" xml:space="preserve">
+    <value>已存在相同的Rfid码</value>
+  </data>
+  <data name="Asset_Status_9" xml:space="preserve">
+    <value>已借出</value>
+  </data>
+  <data name="Age" xml:space="preserve">
+    <value>使用期限（月）</value>
+  </data>
+  <data name="AllocateRoleToUser" xml:space="preserve">
+    <value>分配用户角色：</value>
+  </data>
+  <data name="Amount" xml:space="preserve">
+    <value>金额</value>
+  </data>
+  <data name="AssetCode" xml:space="preserve">
+    <value>资产编码</value>
+  </data>
+  <data name="AssetName" xml:space="preserve">
+    <value>资产名称</value>
+  </data>
+  <data name="AssetSource" xml:space="preserve">
+    <value>资产来源</value>
+  </data>
+  <data name="AssetSpecification" xml:space="preserve">
+    <value>规格型号</value>
+  </data>
+  <data name="AuditAllocateOrder" xml:space="preserve">
+    <value>审核调拨单：</value>
+  </data>
+  <data name="AuditBorrowOrder" xml:space="preserve">
+    <value>审核借用单：</value>
+  </data>
+  <data name="AuditInventoryOrder" xml:space="preserve">
+    <value>审核盘点单：</value>
+  </data>
+  <data name="AuditModifyOrder" xml:space="preserve">
+    <value>审核变更单：</value>
+  </data>
+  <data name="AuditOutboundOrder" xml:space="preserve">
+    <value>审核退库单：</value>
+  </data>
+  <data name="AuditRecipientOrder" xml:space="preserve">
+    <value>审核领用单：</value>
+  </data>
+  <data name="AuditRegisterOrder" xml:space="preserve">
+    <value>审核入库： </value>
+  </data>
+  <data name="AuditRepairOrder" xml:space="preserve">
+    <value>审核维修单：</value>
+  </data>
+  <data name="AuditReturnOrder" xml:space="preserve">
+    <value>审核归还单： </value>
+  </data>
+  <data name="AuditScrapOrder" xml:space="preserve">
+    <value>审核报废单： </value>
+  </data>
+  <data name="AuthorizeRole" xml:space="preserve">
+    <value>角色授权：</value>
+  </data>
+  <data name="Barcode" xml:space="preserve">
+    <value>资产条码</value>
+  </data>
+  <data name="BatchAuditRegisterOrder" xml:space="preserve">
+    <value>批量审核入库：</value>
+  </data>
+  <data name="BatchDeleteRegisterOrder" xml:space="preserve">
+    <value>批量删除资产登记信息：</value>
+  </data>
+  <data name="BatchImportUser" xml:space="preserve">
+    <value>批量导入用户</value>
+  </data>
+  <data name="Card" xml:space="preserve">
+    <value>资产卡片</value>
+  </data>
+  <data name="ChangeLog" xml:space="preserve">
+    <value>变更记录（最近5条记录）</value>
+  </data>
+  <data name="CodeEmpty" xml:space="preserve">
+    <value>编号为空</value>
+  </data>
+  <data name="ConfirmRepairOrder" xml:space="preserve">
+    <value>确认完成维修单：</value>
+  </data>
+  <data name="ContractPerson" xml:space="preserve">
+    <value>联系人</value>
+  </data>
+  <data name="ContractTel" xml:space="preserve">
+    <value>电话</value>
+  </data>
+  <data name="CreateAllocateOrder" xml:space="preserve">
+    <value>创建调拨单：</value>
+  </data>
+  <data name="CreateArea" xml:space="preserve">
+    <value>新增区位：</value>
+  </data>
+  <data name="CreateBorrowOrder" xml:space="preserve">
+    <value>创建借用单：</value>
+  </data>
+  <data name="CreateCatogory" xml:space="preserve">
+    <value>新增资产分类：</value>
+  </data>
+  <data name="CreateDepartment" xml:space="preserve">
+    <value>新增部门：</value>
+  </data>
+  <data name="CreateInventoryOrder" xml:space="preserve">
+    <value>创建盘点单：</value>
+  </data>
+  <data name="CreateModifyOrder" xml:space="preserve">
+    <value>创建变更单：</value>
+  </data>
+  <data name="CreateOrganization" xml:space="preserve">
+    <value>新增公司：</value>
+  </data>
+  <data name="CreateOutboundOrder" xml:space="preserve">
+    <value>创建退库单：</value>
+  </data>
+  <data name="CreateRecipientOrder" xml:space="preserve">
+    <value>创建领用单： </value>
+  </data>
+  <data name="CreateRegisterOrder" xml:space="preserve">
+    <value>登记资产：</value>
+  </data>
+  <data name="CreateRepairOrder" xml:space="preserve">
+    <value>创建维修单：</value>
+  </data>
+  <data name="CreateReturnOrder" xml:space="preserve">
+    <value>创建归还单： </value>
+  </data>
+  <data name="CreateRole" xml:space="preserve">
+    <value>新增角色：</value>
+  </data>
+  <data name="CreateScrapOrder" xml:space="preserve">
+    <value>创建报废单： </value>
+  </data>
+  <data name="CreateStaff" xml:space="preserve">
+    <value>新增员工：</value>
+  </data>
+  <data name="CreateUser" xml:space="preserve">
+    <value>新增用户：</value>
+  </data>
+  <data name="CreateWorkflowType" xml:space="preserve">
+    <value>创建流程类型：</value>
+  </data>
+  <data name="DealingContent" xml:space="preserve">
+    <value>处理内容</value>
+  </data>
+  <data name="DealingMethod" xml:space="preserve">
+    <value>处理方式</value>
+  </data>
+  <data name="DealingPeople" xml:space="preserve">
+    <value>处理人</value>
+  </data>
+  <data name="DefaultDepartment" xml:space="preserve">
+    <value>默认部门</value>
+  </data>
+  <data name="DeleteAllocateOrder" xml:space="preserve">
+    <value>删除调拨单：</value>
+  </data>
+  <data name="DeleteArea" xml:space="preserve">
+    <value>删除区位：</value>
+  </data>
+  <data name="DeleteBorrowOrder" xml:space="preserve">
+    <value>删除借用单：</value>
+  </data>
+  <data name="DeleteCategory" xml:space="preserve">
+    <value>删除资产分类：</value>
+  </data>
+  <data name="DeleteInventoryOrder" xml:space="preserve">
+    <value>删除盘点单：</value>
+  </data>
+  <data name="DeleteModifyOrder" xml:space="preserve">
+    <value>删除变更单：</value>
+  </data>
+  <data name="DeleteOrganization" xml:space="preserve">
+    <value>删除公司/部门：</value>
+  </data>
+  <data name="DeleteOutboundOrder" xml:space="preserve">
+    <value>删除退库单：</value>
+  </data>
+  <data name="DeleteRecipientOrder" xml:space="preserve">
+    <value>删除领用单：</value>
+  </data>
+  <data name="DeleteRegisterOrder" xml:space="preserve">
+    <value>删除资产登记信息：</value>
+  </data>
+  <data name="DeleteRepairOrder" xml:space="preserve">
+    <value>删除维修单：</value>
+  </data>
+  <data name="DeleteReturnOrder" xml:space="preserve">
+    <value>删除归还单： </value>
+  </data>
+  <data name="DeleteRole" xml:space="preserve">
+    <value>删除角色：</value>
+  </data>
+  <data name="DeleteScrapOrder" xml:space="preserve">
+    <value>删除报废单： </value>
+  </data>
+  <data name="DeleteStaff" xml:space="preserve">
+    <value>删除员工：</value>
+  </data>
+  <data name="DeleteWorkflowType" xml:space="preserve">
+    <value>删除流程类型：</value>
+  </data>
+  <data name="DisableArea" xml:space="preserve">
+    <value>禁用区位：</value>
+  </data>
+  <data name="DisableRole" xml:space="preserve">
+    <value>角色禁用：</value>
+  </data>
+  <data name="DisableUser" xml:space="preserve">
+    <value>禁用用户：</value>
+  </data>
+  <data name="EnableArea" xml:space="preserve">
+    <value>启用区位：</value>
+  </data>
+  <data name="EnableRole" xml:space="preserve">
+    <value>角色启用：</value>
+  </data>
+  <data name="EnableUser" xml:space="preserve">
+    <value>启用用户：</value>
+  </data>
+  <data name="ExportFailed" xml:space="preserve">
+    <value>导出不成功</value>
+  </data>
+  <data name="FailureAndRetry" xml:space="preserve">
+    <value>操作失败，请重试</value>
+  </data>
+  <data name="ForbidDeleteUniqueOrganization" xml:space="preserve">
+    <value>禁止删除唯一公司</value>
+  </data>
+  <data name="LoginStatus_Login" xml:space="preserve">
+    <value>登录</value>
+  </data>
+  <data name="LoginStatus_Logout" xml:space="preserve">
+    <value>退出</value>
+  </data>
+  <data name="LoginUserLost" xml:space="preserve">
+    <value>用户信息丢失，请重新登录</value>
+  </data>
+  <data name="NameEmpty" xml:space="preserve">
+    <value>名称为空</value>
+  </data>
+  <data name="NoDataToExport" xml:space="preserve">
+    <value>没有可导出的数据</value>
+  </data>
+  <data name="NoExistAssetInformation" xml:space="preserve">
+    <value>资产信息不存在</value>
+  </data>
+  <data name="NoRecipientInfo" xml:space="preserve">
+    <value>不存在领用单信息</value>
+  </data>
+  <data name="OwnedDepartmentEmpty" xml:space="preserve">
+    <value>所属部门为空</value>
+  </data>
+  <data name="OwnedOrganizationEmpty" xml:space="preserve">
+    <value>所属公司为空</value>
+  </data>
+  <data name="OwnedOrganizationInvalid" xml:space="preserve">
+    <value>所属公司信息无效</value>
+  </data>
+  <data name="ParentCodeEmpty" xml:space="preserve">
+    <value>上级编号无效</value>
+  </data>
+  <data name="PleaseDeleteChildren" xml:space="preserve">
+    <value>请先删除本部门下的子部门或组</value>
+  </data>
+  <data name="PleaseDeleteDepartment" xml:space="preserve">
+    <value>请先删除本公司下的部门</value>
+  </data>
+  <data name="PleaseDeleteStaff" xml:space="preserve">
+    <value>请先删除本部门下的员工信息</value>
+  </data>
+  <data name="PleaseEntryAssetName" xml:space="preserve">
+    <value>请填写资产名称</value>
+  </data>
+  <data name="PleaseEntryBusinessDate" xml:space="preserve">
+    <value>请填写业务日期</value>
+  </data>
+  <data name="PleaseEntryPurchaseDate" xml:space="preserve">
+    <value>请填写购入日期</value>
+  </data>
+  <data name="PleaseSelectAssetType" xml:space="preserve">
+    <value>请选择资产类别</value>
+  </data>
+  <data name="PleaseSelectAuthRole" xml:space="preserve">
+    <value>请选择权限角色</value>
+  </data>
+  <data name="PleaseSelectBorrowOrder" xml:space="preserve">
+    <value>请选择借用单</value>
+  </data>
+  <data name="PleaseSelectBusinessType" xml:space="preserve">
+    <value>请选择业务类型</value>
+  </data>
+  <data name="PleaseSelectFlowTemplate" xml:space="preserve">
+    <value>请选择流程模板</value>
+  </data>
+  <data name="PleaseSelectOwnedDepartment" xml:space="preserve">
+    <value>请选择所属部门</value>
+  </data>
+  <data name="PleaseSelectRecipientOrder" xml:space="preserve">
+    <value>请选择领用单</value>
+  </data>
+  <data name="ProcessingDate" xml:space="preserve">
+    <value>处理日期</value>
+  </data>
+  <data name="PurchaseDate" xml:space="preserve">
+    <value>购入时间</value>
+  </data>
+  <data name="RecallAllocateOrder" xml:space="preserve">
+    <value>撤回调拨单：</value>
+  </data>
+  <data name="RecallBorrowOrder" xml:space="preserve">
+    <value>撤回借用单：</value>
+  </data>
+  <data name="RecallInventoryOrder" xml:space="preserve">
+    <value>撤回盘点单：</value>
+  </data>
+  <data name="RecallModifyOrder" xml:space="preserve">
+    <value>撤回变更单：</value>
+  </data>
+  <data name="RecallOutboundOrder" xml:space="preserve">
+    <value>撤回退库单：</value>
+  </data>
+  <data name="RecallRecipientOrder" xml:space="preserve">
+    <value>撤回领用单：</value>
+  </data>
+  <data name="RecallRegisterOrder" xml:space="preserve">
+    <value>撤销入库： </value>
+  </data>
+  <data name="RecallRepairOrder" xml:space="preserve">
+    <value>撤回维修单：</value>
+  </data>
+  <data name="RecallReturnOrder" xml:space="preserve">
+    <value>撤回归还单： </value>
+  </data>
+  <data name="RecallScrapOrder" xml:space="preserve">
+    <value>撤回报废单： </value>
+  </data>
+  <data name="RegisterAssetAuto" xml:space="preserve">
+    <value>由新增资产自动产生</value>
+  </data>
+  <data name="Remark" xml:space="preserve">
+    <value>备注</value>
+  </data>
+  <data name="ResetUserPassword" xml:space="preserve">
+    <value>重置用户密码：</value>
+  </data>
+  <data name="SameCode" xml:space="preserve">
+    <value>编码已存在</value>
+  </data>
+  <data name="SameCodeStaff" xml:space="preserve">
+    <value>已存在相同编号的员工</value>
+  </data>
+  <data name="SameName" xml:space="preserve">
+    <value>名称已存在</value>
+  </data>
+  <data name="SameWorkflow" xml:space="preserve">
+    <value>已存在相同业务类型流程</value>
+  </data>
+  <data name="SetUserDataAuthorization" xml:space="preserve">
+    <value>设置用户数据权限：</value>
+  </data>
+  <data name="SetUserPrefix" xml:space="preserve">
+    <value>设置用户前缀：</value>
+  </data>
+  <data name="SN" xml:space="preserve">
+    <value>SN号</value>
+  </data>
+  <data name="StaffCodeEmpty" xml:space="preserve">
+    <value>员工编号为空</value>
+  </data>
+  <data name="SubmitAllocateOrder" xml:space="preserve">
+    <value>提交调拨单：</value>
+  </data>
+  <data name="SubmitBorrowOrder" xml:space="preserve">
+    <value>提交借用单：</value>
+  </data>
+  <data name="SubmitInventoryExcelOnPDA" xml:space="preserve">
+    <value>PDA提交Excel盘点结果：</value>
+  </data>
+  <data name="SubmitInventoryOrder" xml:space="preserve">
+    <value>提交盘点单：</value>
+  </data>
+  <data name="SubmitInventoryResult" xml:space="preserve">
+    <value>提交盘点结果：</value>
+  </data>
+  <data name="SubmitInventoryResultOnPDA" xml:space="preserve">
+    <value>PDA提交盘点结果：</value>
+  </data>
+  <data name="SubmitInventoryResultOnWx" xml:space="preserve">
+    <value>公众号端提交盘点结果：</value>
+  </data>
+  <data name="SubmitModifyOrder" xml:space="preserve">
+    <value>提交变更单：</value>
+  </data>
+  <data name="SubmitOutboundOrder" xml:space="preserve">
+    <value>提交退库单：</value>
+  </data>
+  <data name="SubmitRecipientOrder" xml:space="preserve">
+    <value>提交领用单： </value>
+  </data>
+  <data name="SubmitRegisterOrder" xml:space="preserve">
+    <value>提交入库：</value>
+  </data>
+  <data name="SubmitRepairOrder" xml:space="preserve">
+    <value>提交维修单：</value>
+  </data>
+  <data name="SubmitReturnOrder" xml:space="preserve">
+    <value>提交归还单： </value>
+  </data>
+  <data name="SubmitScrapOrder" xml:space="preserve">
+    <value>提交报废单： </value>
+  </data>
+  <data name="Supplier" xml:space="preserve">
+    <value>供应商</value>
+  </data>
+  <data name="Unit" xml:space="preserve">
+    <value>计量单位</value>
+  </data>
+  <data name="UpdateAllocateOrder" xml:space="preserve">
+    <value>修改调拨单：</value>
+  </data>
+  <data name="UpdateArea" xml:space="preserve">
+    <value>修改区位：</value>
+  </data>
+  <data name="UpdateBarcodeRule" xml:space="preserve">
+    <value>修改条码规则</value>
+  </data>
+  <data name="UpdateBorrowOrder" xml:space="preserve">
+    <value>修改借用单：</value>
+  </data>
+  <data name="UpdateCategory" xml:space="preserve">
+    <value>修改资产分类：</value>
+  </data>
+  <data name="UpdateDepartment" xml:space="preserve">
+    <value>修改部门：</value>
+  </data>
+  <data name="UpdateInventoryOrder" xml:space="preserve">
+    <value>修改盘点单：</value>
+  </data>
+  <data name="UpdateModifyOrder" xml:space="preserve">
+    <value>修改变更单：</value>
+  </data>
+  <data name="UpdateOrganization" xml:space="preserve">
+    <value>修改公司：</value>
+  </data>
+  <data name="UpdateOutboundOrder" xml:space="preserve">
+    <value>修改退库单：</value>
+  </data>
+  <data name="UpdateRecipientOrder" xml:space="preserve">
+    <value>修改领用单： </value>
+  </data>
+  <data name="UpdateRegisterOrder" xml:space="preserve">
+    <value>修改资产登记信息： </value>
+  </data>
+  <data name="UpdateRepairOrder" xml:space="preserve">
+    <value>修改维修单：</value>
+  </data>
+  <data name="UpdateReturnOrder" xml:space="preserve">
+    <value>修改归还单： </value>
+  </data>
+  <data name="UpdateRole" xml:space="preserve">
+    <value>修改角色：</value>
+  </data>
+  <data name="UpdateScrapOrder" xml:space="preserve">
+    <value>修改报废单： </value>
+  </data>
+  <data name="UpdateStaff" xml:space="preserve">
+    <value>修改员工：</value>
+  </data>
+  <data name="UpdateSystemArg" xml:space="preserve">
+    <value>修改系统参数：</value>
+  </data>
+  <data name="UpdateTemplate" xml:space="preserve">
+    <value>修改标签模板：</value>
+  </data>
+  <data name="UpdateUser" xml:space="preserve">
+    <value>修改用户：</value>
+  </data>
+  <data name="UpdateWorkflowType" xml:space="preserve">
+    <value>修改流程类型：</value>
+  </data>
+  <data name="UsageArea" xml:space="preserve">
+    <value>使用区域</value>
+  </data>
+  <data name="UsageDepartment" xml:space="preserve">
+    <value>使用部门</value>
+  </data>
+  <data name="UsageOrganization" xml:space="preserve">
+    <value>使用公司</value>
+  </data>
+  <data name="UsageUser" xml:space="preserve">
+    <value>使用人</value>
+  </data>
+  <data name="res_type_asset_allocate" xml:space="preserve">
+    <value>资产调拨</value>
+  </data>
+  <data name="res_type_asset_borrow" xml:space="preserve">
+    <value>资产借用</value>
+  </data>
+  <data name="res_type_asset_inventory" xml:space="preserve">
+    <value>资产盘点</value>
+  </data>
+  <data name="res_type_asset_modify" xml:space="preserve">
+    <value>资产变更</value>
+  </data>
+  <data name="res_type_asset_outbound" xml:space="preserve">
+    <value>资产退库</value>
+  </data>
+  <data name="res_type_asset_recipient" xml:space="preserve">
+    <value>资产领用</value>
+  </data>
+  <data name="res_type_asset_register" xml:space="preserve">
+    <value>资产入库</value>
+  </data>
+  <data name="res_type_asset_repair" xml:space="preserve">
+    <value>资产维修</value>
+  </data>
+  <data name="res_type_asset_return" xml:space="preserve">
+    <value>资产归还</value>
+  </data>
+  <data name="res_type_asset_scrap" xml:space="preserve">
+    <value>资产报废</value>
+  </data>
+  <data name="AreaCode" xml:space="preserve">
+    <value>区位编码</value>
+  </data>
+  <data name="AreaName" xml:space="preserve">
+    <value>区位名称</value>
+  </data>
+  <data name="IsEnable" xml:space="preserve">
+    <value>是否启用</value>
+  </data>
+  <data name="DepartmentIsUsing" xml:space="preserve">
+    <value>部门已在使用中</value>
+  </data>
+  <data name="OrganizationIsUsing" xml:space="preserve">
+    <value>公司已在使用中</value>
+  </data>
+  <data name="RoleIsUsing" xml:space="preserve">
+    <value>角色已在使用中</value>
+  </data>
+  <data name="StaffIsUsing" xml:space="preserve">
+    <value>员工已在使用中</value>
+  </data>
+  <data name="Repeat_Submit_Repair" xml:space="preserve">
+    <value>已存在相同资产维修单</value>
+  </data>
+  <data name="TemplateIsUsing" xml:space="preserve">
+    <value>模板正在使用中</value>
+  </data>
+  <data name="CanNotUpdateOrganization" xml:space="preserve">
+    <value>已存在相同编码的员工</value>
+  </data>
+  <data name="SameFlowTypeCode" xml:space="preserve">
+    <value>流程类型编码已存在</value>
+  </data>
+  <data name="SameFlowTypeName" xml:space="preserve">
+    <value>流程类型名称已存在</value>
+  </data>
+  <data name="SameNodeCode" xml:space="preserve">
+    <value>模板节点编码已存在</value>
+  </data>
+  <data name="SameNodeName" xml:space="preserve">
+    <value>模板节点名称已存在</value>
+  </data>
+  <data name="SameRoleCode" xml:space="preserve">
+    <value>角色编码已存在</value>
+  </data>
+  <data name="SameRoleName" xml:space="preserve">
+    <value>角色名称已存在</value>
+  </data>
+  <data name="SameTemplateCode" xml:space="preserve">
+    <value>流程模板编码已存在</value>
+  </data>
+  <data name="SameTemplateName" xml:space="preserve">
+    <value>流程模板名称已存在</value>
+  </data>
+  <data name="ForbidToDealNotYourBorrowOrder" xml:space="preserve">
+    <value>禁止归还非本人借用的资产</value>
+  </data>
+  <data name="ForbidToDealNotYoursRecipientOrder" xml:space="preserve">
+    <value>禁止退库非本人领用的资产</value>
+  </data>
+  <data name="NoUserPrefix" xml:space="preserve">
+    <value>请先设置用户前缀</value>
+  </data>
+  <data name="ErrorEmail" xml:space="preserve">
+    <value>邮箱格式错误,请检查</value>
+  </data>
+  <data name="MustEntryDepartOrStaff" xml:space="preserve">
+    <value>需要指定使用部门和使用人</value>
+  </data>
+  <data name="Import_Template_Error" xml:space="preserve">
+    <value>导入模板格式错误</value>
+  </data>
+  <data name="LoginName_IsNull" xml:space="preserve">
+    <value>登录名为空</value>
+  </data>
+  <data name="UserCode_IsNull" xml:space="preserve">
+    <value>用户编码为空</value>
+  </data>
+  <data name="BatchImportAsset" xml:space="preserve">
+    <value>批量导入资产</value>
+  </data>
+  <data name="BatchImportOrganization" xml:space="preserve">
+    <value>批量导入组织架构</value>
+  </data>
+  <data name="Department_Invalid" xml:space="preserve">
+    <value>所属部门信息无效</value>
+  </data>
+  <data name="HigherDepartment_Invalid" xml:space="preserve">
+    <value>上级部门信息无效</value>
+  </data>
+  <data name="NoAssetCategory" xml:space="preserve">
+    <value>不存在资产分类</value>
+  </data>
+  <data name="InvalidAssetCategory" xml:space="preserve">
+    <value>资产分类信息无效</value>
+  </data>
+  <data name="InvalidAssetProperty" xml:space="preserve">
+    <value>资产性质信息无效</value>
+  </data>
+  <data name="InvalidAssetSource" xml:space="preserve">
+    <value>资产来源信息无效</value>
+  </data>
+  <data name="InvalidRegisterArea" xml:space="preserve">
+    <value>登记区域信息无效</value>
+  </data>
+  <data name="InvalidUsageArea" xml:space="preserve">
+    <value>当前区域信息无效</value>
+  </data>
+  <data name="InvalidUsageDepartment" xml:space="preserve">
+    <value>使用部门信息无效</value>
+  </data>
+  <data name="InvalidUsageOrganization" xml:space="preserve">
+    <value>使用公司信息无效</value>
+  </data>
+  <data name="Asset_HasRfidNum" xml:space="preserve">
+    <value>资产已存在关联的RFID标签，请先解绑</value>
+  </data>
+  <data name="Binding_Failure" xml:space="preserve">
+    <value>绑定失败</value>
+  </data>
+  <data name="Binding_Success" xml:space="preserve">
+    <value>绑定成功</value>
+  </data>
+  <data name="Unbind_Failure" xml:space="preserve">
+    <value>解绑失败</value>
+  </data>
+  <data name="Unbind_Success" xml:space="preserve">
+    <value>解绑成功</value>
+  </data>
+  <data name="GenerateInventoryReport" xml:space="preserve">
+    <value>生成盘点报告</value>
+  </data>
+  <data name="InventoryReport" xml:space="preserve">
+    <value>盘点报告</value>
+  </data>
+  <data name="LostUpdateFile" xml:space="preserve">
+    <value>上传文件丢失</value>
+  </data>
+  <data name="NotSupportFormat" xml:space="preserve">
+    <value>文件格式不支持</value>
+  </data>
+  <data name="AssetCategory" xml:space="preserve">
+    <value>盘点资产分类：</value>
+  </data>
+  <data name="AssetInventoryDetail" xml:space="preserve">
+    <value>资产盘点情况明细</value>
+  </data>
+  <data name="AssetInventoryReport" xml:space="preserve">
+    <value>资产盘点报告</value>
+  </data>
+  <data name="AssetReportRemark" xml:space="preserve">
+    <value>已盘资产中（不含盘亏），在用资产{0}个，借用资产{1}个，闲置资产{2}个，闲置率{3} %。</value>
+  </data>
+  <data name="AssetStatus" xml:space="preserve">
+    <value>资产状态</value>
+  </data>
+  <data name="AssetUsage" xml:space="preserve">
+    <value>2、资产使用情况</value>
+  </data>
+  <data name="Borrow" xml:space="preserve">
+    <value>借用</value>
+  </data>
+  <data name="Category" xml:space="preserve">
+    <value>分类</value>
+  </data>
+  <data name="CategoryAmount" xml:space="preserve">
+    <value>数量</value>
+  </data>
+  <data name="CategoryRate" xml:space="preserve">
+    <value>占比</value>
+  </data>
+  <data name="CategoryTable" xml:space="preserve">
+    <value>1、分类汇总表</value>
+  </data>
+  <data name="CreateDate" xml:space="preserve">
+    <value>创建时间</value>
+  </data>
+  <data name="Creator" xml:space="preserve">
+    <value>创建人</value>
+  </data>
+  <data name="CurrentArea" xml:space="preserve">
+    <value>当前区域</value>
+  </data>
+  <data name="InventoryDate" xml:space="preserve">
+    <value>盘点时间</value>
+  </data>
+  <data name="InventoryMan" xml:space="preserve">
+    <value>盘点人</value>
+  </data>
+  <data name="InventoryNum" xml:space="preserve">
+    <value>盘点单号</value>
+  </data>
+  <data name="InventoryOrderStatus" xml:space="preserve">
+    <value>盘点单状态</value>
+  </data>
+  <data name="InventoryRange" xml:space="preserve">
+    <value>盘点范围：</value>
+  </data>
+  <data name="InventoryReportRemark" xml:space="preserve">
+    <value>盘点范围内共有资产{0}个，其中已盘资产{1}个；盘亏资产{2}个，盘盈资产{3}个。</value>
+  </data>
+  <data name="InventoryResult" xml:space="preserve">
+    <value>3、盘点结果</value>
+  </data>
+  <data name="InventoryStatus" xml:space="preserve">
+    <value>盘点状态</value>
+  </data>
+  <data name="NotDownloadPermission" xml:space="preserve">
+    <value>没有下载权限</value>
+  </data>
+  <data name="PlanInventoryDate" xml:space="preserve">
+    <value>计划盘点时间</value>
+  </data>
+  <data name="PurchaseWay" xml:space="preserve">
+    <value>购置方式</value>
+  </data>
+  <data name="RangeArea" xml:space="preserve">
+    <value>盘点范围区域：</value>
+  </data>
+  <data name="RangeDepartment" xml:space="preserve">
+    <value>盘点范围部门：</value>
+  </data>
+  <data name="RangeOrganization" xml:space="preserve">
+    <value>盘点范围公司：</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>合计</value>
+  </data>
+  <data name="DataRow" xml:space="preserve">
+    <value>第{0}行数据</value>
+  </data>
+  <data name="FormatErrorPurchaseDate" xml:space="preserve">
+    <value>购入日期格式错误</value>
+  </data>
+  <data name="MustAssetCode" xml:space="preserve">
+    <value>资产编码必填</value>
+  </data>
+  <data name="MustAssetName" xml:space="preserve">
+    <value>资产名称必填</value>
+  </data>
+  <data name="MustCategoryCode" xml:space="preserve">
+    <value>资产分类编号必填</value>
+  </data>
+  <data name="MustExistSameTime" xml:space="preserve">
+    <value>使用公司、使用部门和使用人必须同时存在</value>
+  </data>
+  <data name="MustOwnedDepartmentCode" xml:space="preserve">
+    <value>所属部门编码必填</value>
+  </data>
+  <data name="MustOwnedOrganizationCode" xml:space="preserve">
+    <value>所属公司信用代码必填</value>
+  </data>
+  <data name="MustPurchaseDate" xml:space="preserve">
+    <value>购入日期必填</value>
+  </data>
+  <data name="MustRegisterAreaCode" xml:space="preserve">
+    <value>登记区域编码必填</value>
+  </data>
+  <data name="MustDepartmentCode" xml:space="preserve">
+    <value>部门编号必填</value>
+  </data>
+  <data name="MustDepartmentName" xml:space="preserve">
+    <value>部门名称必填</value>
+  </data>
+  <data name="MustLoginName" xml:space="preserve">
+    <value>登录名必填</value>
+  </data>
+  <data name="MustOrganizationCode" xml:space="preserve">
+    <value>公司信用代码必填</value>
+  </data>
+  <data name="MustOrganizationName" xml:space="preserve">
+    <value>公司名称必填</value>
+  </data>
+  <data name="MustStaffCode" xml:space="preserve">
+    <value>员工编码必填</value>
+  </data>
+  <data name="MustStaffName" xml:space="preserve">
+    <value>员工名称必填</value>
+  </data>
+  <data name="MustUserCode" xml:space="preserve">
+    <value>用户编码必填</value>
+  </data>
+  <data name="WorkflowType_Using" xml:space="preserve">
+    <value>流程类型正在使用中</value>
+  </data>
+  <data name="InventoryEnd_Area" xml:space="preserve">
+    <value>盘点后区域</value>
+  </data>
+  <data name="InventoryEnd_Department" xml:space="preserve">
+    <value>盘点后使用部门</value>
+  </data>
+  <data name="InventoryEnd_Organization" xml:space="preserve">
+    <value>盘点后使用公司</value>
+  </data>
+  <data name="InventoryEnd_User" xml:space="preserve">
+    <value>盘点后使用人</value>
+  </data>
+  <data name="NoBuyAuthorization" xml:space="preserve">
+    <value>权限不存在</value>
+  </data>
+  <data name="Token_Refresh_Failed" xml:space="preserve">
+    <value>刷新Token失败</value>
+  </data>
+  <data name="RepeatModifyAsset" xml:space="preserve">
+    <value>该资产正在变更，资产编码为{0}，变更单号为{1}</value>
+  </data>
+  <data name="NodeHasDeleted" xml:space="preserve">
+    <value>节点已被删除，无法更新</value>
+  </data>
+  <data name="InvalidToken" xml:space="preserve">
+    <value>无效的Token</value>
+  </data>
+  <data name="TemplateLost" xml:space="preserve">
+    <value>模板文件丢失</value>
+  </data>
+  <data name="Dict_NoExist" xml:space="preserve">
+    <value>不存在字典项</value>
+  </data>
+</root>

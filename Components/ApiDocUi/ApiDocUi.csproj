@@ -1,0 +1,119 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile></DocumentationFile>
+    <DefineConstants>TRACE;DEBUG;NETSTANDARD;NETSTANDARD2_0;NET461</DefineConstants>
+    <NoWarn>1701;1702;1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Browser\dist\css\print.css" />
+    <None Remove="Browser\dist\css\reset.css" />
+    <None Remove="Browser\dist\css\screen.css" />
+    <None Remove="Browser\dist\css\style.css" />
+    <None Remove="Browser\dist\css\typography.css" />
+    <None Remove="Browser\dist\fonts\droid-sans-v6-latin-700.eot" />
+    <None Remove="Browser\dist\fonts\droid-sans-v6-latin-700.svg" />
+    <None Remove="Browser\dist\fonts\droid-sans-v6-latin-700.ttf" />
+    <None Remove="Browser\dist\fonts\droid-sans-v6-latin-700.woff" />
+    <None Remove="Browser\dist\fonts\droid-sans-v6-latin-700.woff2" />
+    <None Remove="Browser\dist\fonts\droid-sans-v6-latin-regular.eot" />
+    <None Remove="Browser\dist\fonts\droid-sans-v6-latin-regular.svg" />
+    <None Remove="Browser\dist\fonts\droid-sans-v6-latin-regular.ttf" />
+    <None Remove="Browser\dist\fonts\droid-sans-v6-latin-regular.woff" />
+    <None Remove="Browser\dist\fonts\droid-sans-v6-latin-regular.woff2" />
+    <None Remove="Browser\dist\images\explorer_icons.png" />
+    <None Remove="Browser\dist\images\favicon-16x16.png" />
+    <None Remove="Browser\dist\images\favicon-32x32.png" />
+    <None Remove="Browser\dist\images\favicon.ico" />
+    <None Remove="Browser\dist\images\logo_small.png" />
+    <None Remove="Browser\dist\images\pet_store_api.png" />
+    <None Remove="Browser\dist\images\throbber.gif" />
+    <None Remove="Browser\dist\images\wordnik_api.png" />
+    <None Remove="Browser\dist\index.html" />
+    <None Remove="Browser\dist\json\dev.json" />
+    <None Remove="Browser\dist\json\petstore.json" />
+    <None Remove="Browser\dist\json\petstore_full.json" />
+    <None Remove="Browser\dist\json\petstore_simple.json" />
+    <None Remove="Browser\dist\json\uber.json" />
+    <None Remove="Browser\dist\lang\translator.js" />
+    <None Remove="Browser\dist\lib\backbone-min.js" />
+    <None Remove="Browser\dist\lib\handlebars-2.0.0.js" />
+    <None Remove="Browser\dist\lib\highlight.7.3.pack.js" />
+    <None Remove="Browser\dist\lib\jquery-1.8.0.min.js" />
+    <None Remove="Browser\dist\lib\jquery.ba-bbq.min.js" />
+    <None Remove="Browser\dist\lib\jquery.slideto.min.js" />
+    <None Remove="Browser\dist\lib\jquery.wiggle.min.js" />
+    <None Remove="Browser\dist\lib\marked.js" />
+    <None Remove="Browser\dist\lib\swagger-custom.js" />
+    <None Remove="Browser\dist\lib\swagger-oauth.js" />
+    <None Remove="Browser\dist\lib\underscore-min.js" />
+    <None Remove="Browser\dist\lib\underscore-min.map" />
+    <None Remove="Browser\dist\swagger-ui-ext.js" />
+    <None Remove="Browser\dist\swagger-ui.js" />
+    <None Remove="Browser\dist\swagger-ui.min.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Browser\dist\css\print.css" />
+    <EmbeddedResource Include="Browser\dist\css\reset.css" />
+    <EmbeddedResource Include="Browser\dist\css\screen.css" />
+    <EmbeddedResource Include="Browser\dist\css\style.css" />
+    <EmbeddedResource Include="Browser\dist\css\typography.css" />
+    <EmbeddedResource Include="Browser\dist\fonts\droid-sans-v6-latin-700.eot" />
+    <EmbeddedResource Include="Browser\dist\fonts\droid-sans-v6-latin-700.svg" />
+    <EmbeddedResource Include="Browser\dist\fonts\droid-sans-v6-latin-700.ttf" />
+    <EmbeddedResource Include="Browser\dist\fonts\droid-sans-v6-latin-700.woff" />
+    <EmbeddedResource Include="Browser\dist\fonts\droid-sans-v6-latin-700.woff2" />
+    <EmbeddedResource Include="Browser\dist\fonts\droid-sans-v6-latin-regular.eot" />
+    <EmbeddedResource Include="Browser\dist\fonts\droid-sans-v6-latin-regular.svg" />
+    <EmbeddedResource Include="Browser\dist\fonts\droid-sans-v6-latin-regular.ttf" />
+    <EmbeddedResource Include="Browser\dist\fonts\droid-sans-v6-latin-regular.woff" />
+    <EmbeddedResource Include="Browser\dist\fonts\droid-sans-v6-latin-regular.woff2" />
+    <EmbeddedResource Include="Browser\dist\images\explorer_icons.png" />
+    <EmbeddedResource Include="Browser\dist\images\favicon-16x16.png" />
+    <EmbeddedResource Include="Browser\dist\images\favicon-32x32.png" />
+    <EmbeddedResource Include="Browser\dist\images\favicon.ico" />
+    <EmbeddedResource Include="Browser\dist\images\logo_small.png" />
+    <EmbeddedResource Include="Browser\dist\images\pet_store_api.png" />
+    <EmbeddedResource Include="Browser\dist\images\throbber.gif" />
+    <EmbeddedResource Include="Browser\dist\images\wordnik_api.png" />
+    <EmbeddedResource Include="Browser\dist\index.html" />
+    <EmbeddedResource Include="Browser\dist\json\dev.json" />
+    <EmbeddedResource Include="Browser\dist\json\petstore.json" />
+    <EmbeddedResource Include="Browser\dist\json\petstore_full.json" />
+    <EmbeddedResource Include="Browser\dist\json\petstore_simple.json" />
+    <EmbeddedResource Include="Browser\dist\json\uber.json" />
+    <EmbeddedResource Include="Browser\dist\lang\translator.js" />
+    <EmbeddedResource Include="Browser\dist\lib\backbone-min.js" />
+    <EmbeddedResource Include="Browser\dist\lib\handlebars-2.0.0.js" />
+    <EmbeddedResource Include="Browser\dist\lib\highlight.7.3.pack.js" />
+    <EmbeddedResource Include="Browser\dist\lib\jquery-1.8.0.min.js" />
+    <EmbeddedResource Include="Browser\dist\lib\jquery.ba-bbq.min.js" />
+    <EmbeddedResource Include="Browser\dist\lib\jquery.slideto.min.js" />
+    <EmbeddedResource Include="Browser\dist\lib\jquery.wiggle.min.js" />
+    <EmbeddedResource Include="Browser\dist\lib\marked.js" />
+    <EmbeddedResource Include="Browser\dist\lib\swagger-custom.js" />
+    <EmbeddedResource Include="Browser\dist\lib\swagger-oauth.js" />
+    <EmbeddedResource Include="Browser\dist\lib\underscore-min.js" />
+    <EmbeddedResource Include="Browser\dist\lib\underscore-min.map" />
+    <EmbeddedResource Include="Browser\dist\swagger-ui-ext.js" />
+    <EmbeddedResource Include="Browser\dist\swagger-ui.js" />
+    <EmbeddedResource Include="Browser\dist\swagger-ui.min.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="2.1.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="3.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="3.0.0" />
+    <PackageReference Include="WebHdfs.Extensions.FileProviders" Version="0.3.1" />
+  </ItemGroup>
+
+</Project>

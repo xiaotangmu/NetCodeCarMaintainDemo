@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Business\**" />
+    <Compile Remove="Hostel\**" />
+    <EmbeddedResource Remove="Business\**" />
+    <EmbeddedResource Remove="Hostel\**" />
+    <None Remove="Business\**" />
+    <None Remove="Hostel\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="System\LoginLogDAO.cs" />
+    <Compile Remove="System\OperationLogDAO.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Components\Localization\Localization.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\DataAccess\DataAccess.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\ORM\ORM.csproj" />
+    <ProjectReference Include="..\..\Interface\Interface.csproj" />
+    <ProjectReference Include="..\DataModel\ViewModel.csproj" />
+    <ProjectReference Include="..\Entity\DateModel.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Base\" />
+  </ItemGroup>
+
+</Project>
