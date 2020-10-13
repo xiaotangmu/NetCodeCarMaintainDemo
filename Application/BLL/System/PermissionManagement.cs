@@ -64,7 +64,7 @@ namespace BLL.System
             permission.PARENT_CODE = model.ParentCode;
             permission.TYPE = ((int)PermissionType.AUTHORIZATION).ToString();
             permission.SORT_NUM = model.SortNumber;
-            permission.CREATE_TIME = DateTime.Now;
+            permission.OCD = DateTime.Now;
             string result = string.Empty;
             try
             {
@@ -82,7 +82,7 @@ namespace BLL.System
             UpdateModel update = new UpdateModel();
             update.SetCollection.Add(T_SYSTEM_PERMISSION.FIELD_NAME, model.PermissionName);
             update.SetCollection.Add(T_SYSTEM_PERMISSION.FIELD_SORT_NUM, model.SortNumber);
-            update.SetCollection.Add(T_SYSTEM_PERMISSION.FIELD_UPDATE_TIME, DateTime.Now);
+            update.SetCollection.Add(T_SYSTEM_PERMISSION.FIELD_LUD, DateTime.Now);
             update.WhereCollection.Add(T_SYSTEM_PERMISSION.FIELD_CODE, model.PermissionCode);
             return await _permissionDAO.EditAsync(update);
         }

@@ -19,15 +19,17 @@ namespace Entity
             set { _id = value; }
         }
 
-        public static readonly string FIELD_CREATE_TIME = "create_time";
+        public static readonly string FIELD_OCD = "ocd";
         /// <summary>
+        /// 创建时间
         /// </summary>
-        public DateTime CREATE_TIME { get; set; } = DateTime.Now;
+        public DateTime OCD { get; set; } = DateTime.Now;
 
-        public static readonly string FIELD_UPDATE_TIME = "update_time";
+        public static readonly string FIELD_LUD = "lud";
         /// <summary>
+        /// 最后更新时间
         /// </summary>
-        public DateTime UPDATE_TIME { get; set; } = DateTime.Now;
+        public DateTime LUD { get; set; } = DateTime.Now;
 
         public BaseEntity()
         {

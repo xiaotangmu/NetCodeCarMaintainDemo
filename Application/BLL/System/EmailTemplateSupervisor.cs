@@ -27,11 +27,11 @@ namespace BLL.System
                 CC_NAME = viewModel.CCUser,
                 CODE = viewModel.TemplateCode,
                 CONTENT = viewModel.Content,
-                CREATE_TIME = DateTime.Now,
+                OCD = DateTime.Now,
                 NAME = viewModel.TemplateName,
                 SUBJECT = viewModel.Subject,
                 TO_NAME = viewModel.ToUser,
-                UPDATE_TIME = DateTime.Now
+                LUD = DateTime.Now
             };
             await VerifyEnitty(entity);
 
@@ -135,7 +135,7 @@ namespace BLL.System
             {
                 setting.Add(T_EMAIL_TEMPLATE.FIELD_NAME, viewModel.TemplateName);
             }
-            setting.Add(T_EMAIL_TEMPLATE.FIELD_UPDATE_TIME, DateTime.Now);
+            setting.Add(T_EMAIL_TEMPLATE.FIELD_LUD, DateTime.Now);
             Dictionary<string, object> where = new Dictionary<string, object>();
             if (string.IsNullOrEmpty(viewModel.TemplateCode))
             {

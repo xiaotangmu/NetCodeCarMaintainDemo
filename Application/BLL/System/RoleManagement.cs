@@ -93,7 +93,7 @@ namespace BLL.System
             entity.CODE = role.RoleCode;
             entity.NAME = role.RoleName;
             entity.ISUSE = ((int)Judge.YES).ToString();
-            entity.CREATE_TIME = DateTime.Now;
+            entity.OCD = DateTime.Now;
             string result = string.Empty;
             try
             {
@@ -237,7 +237,7 @@ namespace BLL.System
             T_SYSTEM_ROLE_PERMISSION role_permission = new T_SYSTEM_ROLE_PERMISSION();
             role_permission.ROLE_CODE = role.CODE;
             role_permission.PERMISSION_CODE = permission.CODE;
-            permission.CREATE_TIME = DateTime.Now;
+            permission.OCD = DateTime.Now;
 
             return await _rolePermissionDAO.InsertAsync(role_permission, transaction);
         }

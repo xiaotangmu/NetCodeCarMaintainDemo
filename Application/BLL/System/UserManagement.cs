@@ -35,7 +35,7 @@ namespace BLL.System
             {
                 ACCOUNT = data?.Account,
                 NAME = data.Name,
-                CREATE_TIME = DateTime.Now,
+                OCD = DateTime.Now,
             };
             string result = string.Empty;
             try

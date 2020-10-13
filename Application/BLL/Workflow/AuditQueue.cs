@@ -101,7 +101,7 @@ namespace BLL.Workflow
         {
             UpdateModel statusUpdate = new UpdateModel();
             statusUpdate.SetCollection.Add(AUDIT_QUEUE.FIELD_CHECK_STATUS, ((int)auditStatus).ToString());
-            statusUpdate.SetCollection.Add(AUDIT_QUEUE.FIELD_UPDATE_TIME, DateTime.Now);
+            statusUpdate.SetCollection.Add(AUDIT_QUEUE.FIELD_LUD, DateTime.Now);
             statusUpdate.SetCollection.Add(AUDIT_QUEUE.FIELD_MODIFY_USER, userInfo.Name);
             statusUpdate.SetCollection.Add(AUDIT_QUEUE.FIELD_APPLY_USER, userInfo.Name);
             statusUpdate.SetCollection.Add(AUDIT_QUEUE.FIELD_APPLY_TIME, DateTime.Now);
@@ -137,7 +137,7 @@ namespace BLL.Workflow
             statusUpdate.SetCollection.Add(AUDIT_QUEUE.FIELD_LAST_OPERATE_TIME, DateTime.Now);
             statusUpdate.SetCollection.Add(AUDIT_QUEUE.FIELD_APPLY_TIME, DateTime.Now);
             statusUpdate.SetCollection.Add(AUDIT_QUEUE.FIELD_APPLY_USER, currentUser.Name);
-            statusUpdate.SetCollection.Add(AUDIT_QUEUE.FIELD_UPDATE_TIME, DateTime.Now);
+            statusUpdate.SetCollection.Add(AUDIT_QUEUE.FIELD_LUD, DateTime.Now);
             statusUpdate.SetCollection.Add(AUDIT_QUEUE.FIELD_MODIFY_USER, currentUser.Name);
 
             statusUpdate.WhereCollection.Add(AUDIT_QUEUE.FIELD_ORDER_NUMBER, model.OrderNumber);
@@ -163,7 +163,7 @@ namespace BLL.Workflow
             }
             statusUpdate.SetCollection.Add(AUDIT_QUEUE.FIELD_LAST_OPERATE_ID, currentUser.Name);
             statusUpdate.SetCollection.Add(AUDIT_QUEUE.FIELD_LAST_OPERATE_TIME, DateTime.Now);
-            statusUpdate.SetCollection.Add(AUDIT_QUEUE.FIELD_UPDATE_TIME, DateTime.Now);
+            statusUpdate.SetCollection.Add(AUDIT_QUEUE.FIELD_LUD, DateTime.Now);
             statusUpdate.SetCollection.Add(AUDIT_QUEUE.FIELD_MODIFY_USER, currentUser.Name);
 
             statusUpdate.WhereCollection.Add(AUDIT_QUEUE.FIELD_ORDER_NUMBER, model.OrderNumber);

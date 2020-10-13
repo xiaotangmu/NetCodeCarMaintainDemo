@@ -56,7 +56,7 @@ namespace BLL.Workflow
         {
             UpdateModel update = new UpdateModel();
             update.SetCollection.Add(AUDIT_QUEUE.FIELD_CHECK_STATUS, ((int)AuditStatus.WAITTING).ToString());
-            update.SetCollection.Add(AUDIT_QUEUE.FIELD_UPDATE_TIME, DateTime.Now);
+            update.SetCollection.Add(AUDIT_QUEUE.FIELD_LUD, DateTime.Now);
             update.SetCollection.Add(AUDIT_QUEUE.FIELD_MODIFY_USER, userInfo.Name);
             update.WhereCollection.Add(AUDIT_QUEUE.FIELD_ORDER_NUMBER, keyModel.OrderNumber);
             update.WhereCollection.Add(AUDIT_QUEUE.FIELD_ORDER_TYPE, ((int)keyModel.Type).ToString());

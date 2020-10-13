@@ -38,7 +38,7 @@ namespace BLL.System
             resource.TYPE = ((int)ResourceType.MENU).ToString();
             resource.URL = model.Url;
             resource.SORT_NUM = model.SortNumber;
-            resource.CREATE_TIME = DateTime.Now;
+            resource.OCD = DateTime.Now;
             string result = string.Empty;
             try
             {
@@ -60,7 +60,7 @@ namespace BLL.System
                 NAME = model.MenuName,
                 SORT_NUM = model.SortNumber,
                 URL = model.Url,
-                UPDATE_TIME = DateTime.Now
+                LUD = DateTime.Now
             });
         }
 
@@ -73,7 +73,7 @@ namespace BLL.System
             resource.TYPE = ((int)ResourceType.API).ToString();
             resource.URL = model.Url;
             resource.SORT_NUM = model.SortNumber;
-            resource.CREATE_TIME = DateTime.Now;
+            resource.OCD = DateTime.Now;
             return await _resourceDAO.InsertAsync(resource);
         }
 
@@ -86,7 +86,7 @@ namespace BLL.System
                 NAME = model.ResourceName,
                 SORT_NUM = model.SortNumber,
                 URL = model.Url,
-                UPDATE_TIME = DateTime.Now
+                LUD = DateTime.Now
             });
         }
 
@@ -132,7 +132,7 @@ namespace BLL.System
             update.SetCollection.Add(T_SYSTEM_RESOURCE.FIELD_NAME, resource.NAME);
             update.SetCollection.Add(T_SYSTEM_RESOURCE.FIELD_SORT_NUM, (int)resource.SORT_NUM);
             update.SetCollection.Add(T_SYSTEM_RESOURCE.FIELD_URL, resource.URL);
-            update.SetCollection.Add(T_SYSTEM_RESOURCE.FIELD_UPDATE_TIME, resource.UPDATE_TIME);
+            update.SetCollection.Add(T_SYSTEM_RESOURCE.FIELD_LUD, resource.LUD);
             update.WhereCollection.Add(T_SYSTEM_RESOURCE.FIELD_CODE, resource.CODE);
             update.WhereCollection.Add(T_SYSTEM_RESOURCE.FIELD_TYPE, resource.TYPE);
             return await _resourceDAO.EditAsync(update);

@@ -75,8 +75,8 @@ namespace BLL.System
                 {
                     CONFIG_CODE = property.Name,
                     CONFIG_VALUE = property.GetValue(viewModel).ToString(),
-                    CREATE_TIME = DateTime.Now,
-                    UPDATE_TIME = DateTime.Now
+                    OCD = DateTime.Now,
+                    LUD = DateTime.Now
                 };
                 string result = await _systemConfigurationRepository.AddAsync(config, transaction);
                 if (string.IsNullOrEmpty(result))

@@ -30,7 +30,7 @@ namespace DAO.System
         public async Task<IEnumerable<T_SYSTEM_USER>> GetValidUserGroup()
         {
             var predicateIsUse = Predicates.Field<T_SYSTEM_USER>(user => user.ISUSE, Operator.Eq, ((int)Judge.YES).ToString());
-            var predicateSort = Predicates.Sort<T_SYSTEM_USER>(user => user.CREATE_TIME, true);
+            var predicateSort = Predicates.Sort<T_SYSTEM_USER>(user => user.OCD, true);
             return await Repository.GetListAsync<T_SYSTEM_USER>(predicateIsUse, new[] { predicateSort });
         }
 

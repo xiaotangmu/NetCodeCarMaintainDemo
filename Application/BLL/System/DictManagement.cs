@@ -120,7 +120,7 @@ namespace BLL.System
                 dict.ISLEAF = ((int)Judge.YES).ToString();
             }
             dict.ISUSE = ((int)Judge.YES).ToString();
-            dict.CREATE_TIME = DateTime.Now;
+            dict.OCD = DateTime.Now;
             return dict;
         }
 

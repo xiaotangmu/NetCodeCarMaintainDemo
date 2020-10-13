@@ -67,7 +67,7 @@ namespace Interface.System
 
         public async Task<IEnumerable<T>> GetPageAsync<T>(BaseSearchModel model, CurrentUserInfo userInfo = null, IAppendSqlSearchConditionProvider dataProvider = null) where T : BaseEntity
         {
-            var predicateSort = Predicates.Sort<T_SYSTEM_ROLE>(exp => exp.CREATE_TIME);
+            var predicateSort = Predicates.Sort<T_SYSTEM_ROLE>(exp => exp.OCD);
             return await Repository.GetPageListAsync<T_SYSTEM_ROLE>(model.PageIndex, model.PageSize, null, new[] { predicateSort }) as IEnumerable<T>;
         }
 

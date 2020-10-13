@@ -41,7 +41,7 @@ namespace BLL.Workflow
             //log.CURRENT_NODE_STATUS = ((int)auditModel.CurrentStatus).ToString();
             log.OPERATION_USER = userInfo.Name;
             log.OPERATION_TIME = DateTime.Now;
-            log.CREATE_TIME = DateTime.Now;
+            log.OCD = DateTime.Now;
             string id = await _auditLogDAO.Add(log, transaction);
             if (string.IsNullOrEmpty(id))
             {

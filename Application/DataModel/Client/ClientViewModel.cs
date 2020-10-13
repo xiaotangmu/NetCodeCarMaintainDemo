@@ -5,14 +5,25 @@ using System.Text;
 
 namespace ViewModel.Client
 {
-    public class ClientViewModel
+    public class ClientAddModel
     {
-        public string company { get; set; }
-        public string address { get; set; }
-        public string phone { get; set; }
-        public string email { get; set; }
-        public string type { get; set; }
-        public string description { get; set; }
+        public string Company { get; set; }
+        public string Contact { get; set; }
+        public string Address { get; set; }
+        public string Phone { get; set; }
+        public string Email { get; set; }
+        public string Type { get; set; }
+        public string Description { get; set; }
+    }
+
+    public class ClientViewModel : ClientAddModel
+    {
+        public string id { get; set; }
+
+        public ClientViewModel(): base()
+        {
+
+        }
     }
 
     public class ClientListWithPagingViewModel
@@ -24,8 +35,12 @@ namespace ViewModel.Client
 
     public class ClientListSearchViewModel : BaseSearchModel
     {
-        public ClientListSearchViewModel() :  base()
-        {
-        }
+
+    }
+
+    public class DeleteClientModel
+    {
+        public string id;
+        public string Company;
     }
 }

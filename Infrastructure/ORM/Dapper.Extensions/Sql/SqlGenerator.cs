@@ -148,7 +148,7 @@ namespace DapperExtensions.Sql
             var columnNames = columns.Select(p => GetColumnName(classMap, p, false));
             var parameters = columns.Select(p => Configuration.Dialect.ParameterPrefix + p.Name);
 
-            string sql = string.Format("INSERT INTO {0} ({1}) VALUES ({2})",
+            string sql = string.Format("INSERT INTO {0} ({1}) VALUES ({2});",
                                        GetTableName(classMap),
                                        columnNames.AppendStrings(),
                                        parameters.AppendStrings());

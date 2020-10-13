@@ -1,7 +1,12 @@
 ﻿using DapperExtensions;
+using DataModel;
+using DataModel.System;
 using DateModel;
 using DateModel.Client;
+using Entity;
+using Interface;
 using Interface.Client;
+using ORM;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -15,7 +20,9 @@ namespace DAO.Client
     {
         public ClientDao() : base() { }
 
-        public async Task<string> AddAsync(CMS_CLIENT application, IDbTransaction transaction = null)
+        public ClientDao(IDataRepository repository) : base(repository) { }
+
+        public async Task<string> InsertAsync(CMS_CLIENT application, IDbTransaction transaction = null)
         {
             return await Repository.InsertAsync(application, transaction);
         }
@@ -26,14 +33,15 @@ namespace DAO.Client
             Repository.DbSession.Connection.Dispose();
         }
 
-        public Task<bool> DeleteAsync(string addressCode, IDbTransaction transaction = null)
+        public async Task<bool> DeleteAsync(string id, IDbTransaction transaction = null)
         {
-            throw new NotImplementedException();
+            var predicate = Predicates.Field<CMS_CLIENT>(exp => exp.ID, Operator.Eq, id);
+            return await Repository.DeleteAsync<CMS_CLIENT>(predicate, transaction) > 0 ? true : false;
         }
 
         public async Task<bool> EditAsync(CMS_CLIENT application, IDbTransaction transaction = null)
         {
-            return await Repository.UpdateAsync(application, transaction);
+            return await Repository.UpdateAsync(application, transaction);  // 字段全部更新包括创建时间
         }
 
         public async Task<bool> EditAsync(Dictionary<string, object> setting, Dictionary<string, object> where, IDbTransaction transaction = null)
@@ -41,64 +49,104 @@ namespace DAO.Client
             return await Repository.UpdateAsync<CMS_CLIENT>(setting, where, transaction);
         }
 
+        public async Task<bool> EditAsyncBySQL(CMS_CLIENT data, IDbTransaction transaction = null)
+        {
+            string sql = @"UPDATE CMS_CLIENT
+                            SET COMPANY = @Company,
+	                            ADDRESS = @Address,
+	                            PHONE = @Phone,
+	                            CONTACT = @Contact,
+	                            EMAIL = @Email,
+	                            TYPE = @Type,
+	                            DESCRIPTION = @Description,
+                                LUD = @LUD
+                            where ID = @id";
+            var queryParams = new
+            {
+                Company = data?.COMPANY,
+                Address = data?.ADDRESS,
+                Phone = data?.PHONE,
+                Contact = data?.CONTACT,
+                Email = data?.EMAIL,
+                Type = data?.TYPE,
+                Description = data?.DESCRIPTION,
+                LUD = data?.LUD,
+                id = data?.ID
+            };
+            return await Repository.ExecuteAsync(sql, queryParams) > 0 ? true : false;
+        }
+
         public async Task<ClientListWithPagingViewModel> GetClientGroupWithPaging(ClientListSearchViewModel searchModel)
         {
-            string sql = @"SELECT newStudent.PRE_ROOM_INDEX as RoomIndex,room.ROOM_TYPE as RoomType,room.ROOM_STATE as RoomState,newStudent.PRE_BED as Bed,bed.BED_STATE as BedState,
-                                student.MOBILE_NO as ContactMobile,
-                                student.FULL_NAME as FullName,student.CHINESE_NAME as ChineseName,
-                                student.STUDENT_CODE as StudentCode,student.APPLICATION_CODE as ApplicationCode,student.SPECIAL_TYPE as StudentSpecialType,
-								newStudent.GENDER as Gender,newStudent.SPECIAL_REQUIREMENT as OtherRequirement,newStudent.ROOM_TYPE as RoomTypeRequirement,
-								newStudent.ROOMMATE_TYPE as RoomMateRequirement,newStudent.FIRST_NAME as FirstName,newStudent.LAST_NAME as LastName,
-                                newStudent.NATION_CODE as NationCode,newStudent.MOBILE as Mobile,newStudent.EMAIL as Email,newStudent.ORIGINAL_SCHOOL as OriginalSchool,
-                                newStudent.ARRIVAL_DATE as ArrivalDate,newStudent.ARRIVAL_DATE as ArrivalDate,newStudent.MEET_ADDRESS as MeetAddress,newStudent.MEET_SERVICE as MeetService,
-                                newStudent.PLAN_ARRIVAL_TIME as PlanArrivalTime,newStudent.ROOMMATE_TYPE as SelectedRoomMateType,newStudent.ROOM_TYPE as SelectedRoomType,newStudent.DEPARTURE_PORT as DeparturePort,
-                                newStudent.DEPARTURE_DATE as DepartureDate,newStudent.DEPARTURE_TIME as DepartureTime,newStudent.FLIGHT_NUMBER as FlightNumber,
-                                newStudent.update_time as ApplyTime
-                                    FROM
-								(SELECT * FROM t_new_student_application WHERE IS_OVER='0' {0}) as newStudent
-									JOIN
-								(SELECT HOSTEL_ROOM,HOSTEL_BED,FULL_NAME,CHINESE_NAME,GENDER,STUDENT_CODE,APPLICATION_CODE,MOBILE_NO,SPECIAL_TYPE FROM T_STUDENT WHERE 1=1 ) as student
-									ON newStudent.APPLICATION_CODE=student.APPLICATION_CODE
-                                    LEFT JOIN 
-                                (SELECT ROOM_INDEX,ROOM_TYPE,ROOM_STATE FROM T_ROOM WHERE IS_USE='1') as room
-                                    ON room.ROOM_INDEX = newStudent.PRE_ROOM_INDEX
-								    LEFT JOIN
-								(SELECT BED_CODE,BED_STATE,ROOM_INDEX FROM T_BED WHERE IS_USE='1') as bed
-								    ON newStudent.PRE_ROOM_INDEX=bed.ROOM_INDEX AND newStudent.PRE_BED=bed.BED_CODE";
-            string studentWhere = BuildStudentWhere(searchModel);
-            return await Repository.GetPageAsync<ClientViewModel>(searchModel.PageIndex, searchModel.PageSize, string.Format(sql, studentWhere), " ORDER BY ApplyTime");
+            ClientListWithPagingViewModel viewModel = new ClientListWithPagingViewModel();
+            viewModel.TotalCount = await GetCountAsync(searchModel);
+            if (viewModel.TotalCount <= 0)
+            {
+                return viewModel;
+            }
+            viewModel.Items = await BuildViewModelItems(searchModel);
+            return viewModel;
+        }
 
+        private async Task<IEnumerable<ClientViewModel>> BuildViewModelItems(ClientListSearchViewModel searchModel)
+        {
+            var predicateGroup = Predicates.Group(GroupOperator.And);
+            predicateGroup.Predicates = new List<IPredicate>();
+            //if (!string.IsNullOrEmpty(searchModel?.PageIndex + ""))
+            //{
+            //    var predicateLikeAccount = Predicates.Field<CMS_CLIENT>(exp => exp.ACCOUNT, Operator.Like, "%" + searchModel.Account + "%");
+            //    predicateGroup.Predicates.Add(predicateLikeAccount);
+            //}
+            var predicateSort = Predicates.Sort<CMS_CLIENT>(exp => exp.ID);
+            //IEnumerable<ClientViewModel> roomGroup = await Repository.GetPageListAsync<CMS_CLIENT>(searchModel.PageIndex, searchModel.PageSize, predicateGroup, new[] { predicateSort }) as IEnumerable<ClientViewModel>;
+            var roomGroup = await Repository.GetPageListAsync<CMS_CLIENT>(searchModel.PageIndex, searchModel.PageSize, predicateGroup, new[] { predicateSort });
+            List<ClientViewModel> list = new List<ClientViewModel>();
+            if (roomGroup == null)
+            {
+                return list;
+            }
+            else
+            {
+                foreach (var c in roomGroup)
+                {
+                    list.Add(TableEntityToViewModel(c));
+                }
+            }
+            return list;
+        }
+
+        public ClientViewModel TableEntityToViewModel(CMS_CLIENT entity)
+        {
+            if (entity == null)
+            {
+                return new ClientViewModel();
+            }
+            else
+            {
+                return new ClientViewModel
+                {
+                    id = entity?.ID,
+                    Company = entity?.COMPANY,
+                    Address = entity?.ADDRESS,
+                    Description = entity?.DESCRIPTION,
+                    Email = entity?.EMAIL,
+                    Phone = entity?.PHONE,
+                    Type = entity?.TYPE
+                };
+            }
         }
 
         public async Task<int> GetCountAsync(ClientListSearchViewModel searchModel)
         {
-            string sql = @"SELECT COUNT(*)
-                                    FROM CMS_CLIENT";
-            string studentWhere = BuildStudentWhere(searchModel);
-            return await Repository.CountAsync(string.Format(sql, studentWhere));
-        }
-
-        private string BuildStudentWhere(ClientListSearchViewModel searchModel)
-        {
-            StringBuilder studentWhere = new StringBuilder();
-            //if (!string.IsNullOrEmpty(searchModel.Name))
+            //UserSearchModel searchCondition = model as UserSearchModel;
+            var predicateGroup = Predicates.Group(GroupOperator.And);
+            predicateGroup.Predicates = new List<IPredicate>();
+            //if (!string.IsNullOrEmpty(searchModel?.Account))
             //{
-            //    studentWhere.AppendFormat(" AND full_name like '%{0}%'", searchModel.Name);
-            //    studentWhere.AppendFormat(" OR chinese_name like '%{0}%'", searchModel.Name);
+            //    var predicateLikeAccount = Predicates.Field<T_SYSTEM_USER>(exp => exp.ACCOUNT, Operator.Like, "%" + searchCondition.Account + "%");
+            //    predicateGroup.Predicates.Add(predicateLikeAccount);
             //}
-            //if (!string.IsNullOrEmpty(searchModel.ApplicationCode))
-            //{
-            //    studentWhere.AppendFormat(" AND application_code like '%{0}%'", searchModel.ApplicationCode);
-            //}
-            //if (!string.IsNullOrEmpty(searchModel.RoomIndex))
-            //{
-            //    studentWhere.AppendFormat(" AND pre_room_index like '%{0}%'", searchModel.RoomIndex);
-            //}
-            //if (!string.IsNullOrEmpty(searchModel.ContactMobile))
-            //{
-            //    studentWhere.AppendFormat(" AND mobile like '%{0}%'", searchModel.ContactMobile);
-            //}
-            return studentWhere.ToString();
+            return await Repository.CountAsync<CMS_CLIENT>(predicateGroup);
         }
 
         public async Task<IEnumerable<CMS_CLIENT>> GetGroupAsync()
@@ -106,10 +154,11 @@ namespace DAO.Client
             return await Repository.GetListAsync<CMS_CLIENT>();
         }
 
-        public async Task<bool> IsExist(CMS_CLIENT application)
+        public async Task<bool> IsExist(string company)
         {
-            var predicateApplicationCode = Predicates.Field<CMS_CLIENT>(exp => exp.COMPANY, Operator.Eq, application.COMPANY);
+            var predicateApplicationCode = Predicates.Field<CMS_CLIENT>(exp => exp.COMPANY, Operator.Eq, company);
             return await Repository.CountAsync<CMS_CLIENT>(predicateApplicationCode) > 0 ? true : false;
         }
+
     }
 }

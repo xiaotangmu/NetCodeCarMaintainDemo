@@ -9,19 +9,21 @@ using ViewModel.Client;
 
 namespace Interface.Client
 {
-    public interface IClientRepository: IBaseRepository
+    public interface IClientRepository : IBaseRepository
     {
-        Task<string> AddAsync(CMS_CLIENT application, IDbTransaction transaction = null);
+        Task<string> InsertAsync(CMS_CLIENT application, IDbTransaction transaction = null);
 
         Task<bool> EditAsync(Dictionary<string, object> setting, Dictionary<string, object> where, IDbTransaction transaction = null);
 
         Task<bool> EditAsync(CMS_CLIENT application, IDbTransaction transaction = null);
 
-        Task<bool> DeleteAsync(string addressCode, IDbTransaction transaction = null);
+        Task<bool> EditAsyncBySQL(CMS_CLIENT data, IDbTransaction transaction = null);
+
+        Task<bool> DeleteAsync(string id, IDbTransaction transaction = null);
 
         Task<IEnumerable<CMS_CLIENT>> GetGroupAsync();
 
-        Task<bool> IsExist(CMS_CLIENT application);
+        Task<bool> IsExist(string company);
 
         Task<ClientListWithPagingViewModel> GetClientGroupWithPaging(ClientListSearchViewModel viewModel);
 
