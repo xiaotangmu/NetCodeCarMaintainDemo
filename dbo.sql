@@ -12,7 +12,7 @@
  Target Server Version : 14001000
  File Encoding         : 65001
 
- Date: 12/10/2020 17:12:05
+ Date: 13/10/2020 17:14:14
 */
 
 
@@ -24,25 +24,22 @@ IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[CM
 GO
 
 CREATE TABLE [dbo].[CMS_CLIENT] (
-  [ID] int  IDENTITY(1,1) NOT NULL,
   [COMPANY] varchar(30) COLLATE Chinese_PRC_CI_AS  NULL,
   [ADDRESS] varchar(1024) COLLATE Chinese_PRC_CI_AS  NULL,
   [PHONE] varchar(20) COLLATE Chinese_PRC_CI_AS  NULL,
   [CONTACT] varchar(30) COLLATE Chinese_PRC_CI_AS  NULL,
   [EMAIL] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
   [TYPE] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
-  [DESCRIPTION] varchar(1024) COLLATE Chinese_PRC_CI_AS  NULL
+  [DESCRIPTION] varchar(1024) COLLATE Chinese_PRC_CI_AS  NULL,
+  [OCU] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
+  [OCD] datetime  NULL,
+  [LUC] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
+  [LUD] datetime  NULL,
+  [ID] nvarchar(100) COLLATE Chinese_PRC_CI_AS  NOT NULL
 )
 GO
 
 ALTER TABLE [dbo].[CMS_CLIENT] SET (LOCK_ESCALATION = TABLE)
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'主键',
-'SCHEMA', N'dbo',
-'TABLE', N'CMS_CLIENT',
-'COLUMN', N'ID'
 GO
 
 EXEC sp_addextendedproperty
@@ -98,10 +95,10 @@ GO
 -- ----------------------------
 -- Records of CMS_CLIENT
 -- ----------------------------
-SET IDENTITY_INSERT [dbo].[CMS_CLIENT] ON
+INSERT INTO [dbo].[CMS_CLIENT] ([COMPANY], [ADDRESS], [PHONE], [CONTACT], [EMAIL], [TYPE], [DESCRIPTION], [OCU], [OCD], [LUC], [LUD], [ID]) VALUES (N'xiao', N'dsf', N'dd', NULL, N'dd', N'dd', N'xiao', NULL, N'2020-10-13 16:08:46.050', NULL, N'2020-10-13 16:53:38.847', N'a52232aea81d4b37bed1006fccd76557')
 GO
 
-SET IDENTITY_INSERT [dbo].[CMS_CLIENT] OFF
+INSERT INTO [dbo].[CMS_CLIENT] ([COMPANY], [ADDRESS], [PHONE], [CONTACT], [EMAIL], [TYPE], [DESCRIPTION], [OCU], [OCD], [LUC], [LUD], [ID]) VALUES (N'xx', N'dd', N'fdf', N'dfs', N'ee', N'ee', N'dfs', NULL, N'2020-10-13 14:47:23.747', NULL, N'2020-10-13 14:47:23.747', N'c9b6cfd49d024ba583418f4dd41a059a')
 GO
 
 
@@ -829,16 +826,9 @@ GO
 
 
 -- ----------------------------
--- Auto increment value for CMS_CLIENT
--- ----------------------------
-DBCC CHECKIDENT ('[dbo].[CMS_CLIENT]', RESEED, 1)
-GO
-
-
--- ----------------------------
 -- Primary Key structure for table CMS_CLIENT
 -- ----------------------------
-ALTER TABLE [dbo].[CMS_CLIENT] ADD CONSTRAINT [PK__mms_comp__3213E83F15CBBA15] PRIMARY KEY CLUSTERED ([ID])
+ALTER TABLE [dbo].[CMS_CLIENT] ADD CONSTRAINT [PK__CMS_CLIE__3214EC27BB95052F] PRIMARY KEY CLUSTERED ([ID])
 WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
 ON [PRIMARY]
 GO
