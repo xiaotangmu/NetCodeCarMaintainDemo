@@ -76,7 +76,7 @@ namespace DAO.Client
             return await Repository.ExecuteAsync(sql, queryParams) > 0 ? true : false;
         }
 
-        public async Task<ClientListWithPagingViewModel> GetClientGroupWithPaging(ClientListSearchViewModel searchModel)
+        public async Task<ClientListWithPagingViewModel> GetClientGroupWithPaging(BaseSearchModel searchModel)
         {
             ClientListWithPagingViewModel viewModel = new ClientListWithPagingViewModel();
             viewModel.TotalCount = await GetCountAsync(searchModel);
@@ -88,7 +88,7 @@ namespace DAO.Client
             return viewModel;
         }
 
-        private async Task<IEnumerable<ClientViewModel>> BuildViewModelItems(ClientListSearchViewModel searchModel)
+        private async Task<IEnumerable<ClientViewModel>> BuildViewModelItems(BaseSearchModel searchModel)
         {
             var predicateGroup = Predicates.Group(GroupOperator.And);
             predicateGroup.Predicates = new List<IPredicate>();
@@ -136,7 +136,7 @@ namespace DAO.Client
             }
         }
 
-        public async Task<int> GetCountAsync(ClientListSearchViewModel searchModel)
+        public async Task<int> GetCountAsync(BaseSearchModel searchModel)
         {
             //UserSearchModel searchCondition = model as UserSearchModel;
             var predicateGroup = Predicates.Group(GroupOperator.And);

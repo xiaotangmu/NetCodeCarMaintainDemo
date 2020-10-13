@@ -1,4 +1,5 @@
-﻿using DateModel;
+﻿using DataModel;
+using DateModel;
 using DateModel.Client;
 using System;
 using System.Collections.Generic;
@@ -25,7 +26,7 @@ namespace Interface.Client
 
         Task<bool> IsExist(string company);
 
-        Task<ClientListWithPagingViewModel> GetClientGroupWithPaging(ClientListSearchViewModel viewModel);
+        Task<ClientListWithPagingViewModel> GetClientGroupWithPaging(BaseSearchModel viewModel);
 
         Task<int> GetCountAsync(ClientListSearchViewModel searchModel);
     }

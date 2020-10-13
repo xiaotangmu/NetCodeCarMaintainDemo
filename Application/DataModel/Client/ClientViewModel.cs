@@ -33,9 +33,12 @@ namespace ViewModel.Client
         public IEnumerable<ClientViewModel> Items { get; set; } = new List<ClientViewModel>();
     }
 
+    /// <summary>
+    /// 带条件分页查询的model，不用带条件的分页直接用BaseSearchModel
+    /// </summary>
     public class ClientListSearchViewModel : BaseSearchModel
     {
-
+        public string SearchStr { get; set; }
     }
 
     public class DeleteClientModel

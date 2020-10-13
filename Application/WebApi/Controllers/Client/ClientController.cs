@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DataModel;
 using Localization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -24,12 +25,6 @@ namespace WebApi.Controllers.Client
         public ClientController(IClientSupervisor clientSupervisor)
         {
             _clientSupervisor = clientSupervisor;
-        }
-
-        [HttpGet]
-        public string test()
-        {
-            return "Hello";
         }
 
         /// <summary>
@@ -61,7 +56,7 @@ namespace WebApi.Controllers.Client
         /// <param name="SearchModel">搜索模型</param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> GetUserGroupWithPaging([FromQuery] ClientListSearchViewModel SearchModel)
+        public async Task<IActionResult> GetClientListWithPaging([FromQuery] BaseSearchModel SearchModel)
         {
             return await ResponseResult(async () =>
             {
@@ -115,20 +110,37 @@ namespace WebApi.Controllers.Client
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> getAll()
+        public async Task<IActionResult> GetAll()
         {
             return await ResponseResult(async () =>
             {
-                bool result = await _clientSupervisor.UpdateClientBySQL(model);
-                if (result)
-                {
-                    await LogOperation(await Localizer.GetValueAsync("更新用戶：") + model.Company + "; id:" + model.id);
-                }
-                else
-                {
-                    throw new Exception(await Localizer.GetValueAsync("刪除失敗"));
-                }
-                return result;
+                return await _clientSupervisor.GetAll();
+            });
+        }
+    
+        /// <summary>
+        /// 条件模糊查询客户信息，分页
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> GetClientListPageBySearch(ClientListSearchViewModel model)
+        {
+            return await ResponseResult(async () =>
+            {
+                return await _clientSupervisor.GetClientListPageBySearch(model);
+            });
+        }
+
+        /// <summary>
+        /// 条件模糊查询，不分页
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> GetClientListBySearch(string SearchStr)
+        {
+            return await ResponseResult(async () =>
+            {
+                return await _clientSupervisor.GetClientListBySearch(SearchStr);
             });
         }
     }

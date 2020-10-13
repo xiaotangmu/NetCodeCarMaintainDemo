@@ -1,5 +1,6 @@
 ﻿using DAO;
 using DAO.Client;
+using DataModel;
 using DateModel.Client;
 using Interface;
 using Interface.Client;
@@ -66,7 +67,7 @@ namespace BLL.Client
             }
         }
 
-        public Task<ClientListWithPagingViewModel> QueryPageAsync(ClientListSearchViewModel model)
+        public Task<ClientListWithPagingViewModel> QueryPageAsync(BaseSearchModel model)
         {
             return _clientDAO.GetClientGroupWithPaging(model);
         }
@@ -111,5 +112,23 @@ namespace BLL.Client
             return client;
         }
 
+        /// <summary>
+        /// 获取所有，不分页
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IEnumerable<ClientViewModel>> GetAll()
+        {
+            return await _clientDAO.GetGroupAsync();
+        }
+
+        public Task<IEnumerable<ClientViewModel>> GetClientListBySearch(string searchStr)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ClientListWithPagingViewModel> GetClientListPageBySearch(ClientListSearchViewModel model)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
