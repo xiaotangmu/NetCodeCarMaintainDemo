@@ -95,6 +95,59 @@ namespace WebApi.Controllers.Catalog
                 return result;
             });
         }
+        /// <summary>
+        /// 批量添加
+        /// </summary>
+        /// <param name="models"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<IActionResult> AddBatch(IEnumerable<Catalog1AddModel> models)
+        {
+            return await ResponseResult(async () =>
+            {
+                bool result = await _catalog1Supervisor.AddBatch(models);
+                if (result)
+                {
+                    foreach (var model in models)
+                    {
+                        // 添加二级分类：一级分类id ：一级分类名
+                        await LogOperation(await Localizer.GetValueAsync("添加一级分类：") + model.CatalogName);
+                    }
+                }
+                else
+                {
+                    throw new Exception(await Localizer.GetValueAsync("批量添加一级分类失败"));
+                }
+                return result;
+            });
+        }
+
+        /// <summary>
+        /// 批量删除
+        /// </summary>
+        /// <param name="models"></param>
+        /// <returns></returns>
+        [HttpDelete]
+        public async Task<IActionResult> DeletBatch(IEnumerable<Catalog1Model> models)
+        {
+            return await ResponseResult(async () =>
+            {
+                bool result = await _catalog1Supervisor.DeleteBatch(models);
+                if (result)
+                {
+                    foreach (var model in models)
+                    {
+                        // 批量删除一级分类：一级分类id ：分类名
+                        await LogOperation(await Localizer.GetValueAsync("删除一级分类：") + model.Id + " : " + model.CatalogName);
+                    }
+                }
+                else
+                {
+                    throw new Exception(await Localizer.GetValueAsync("批量删除一级分类失败"));
+                }
+                return result;
+            });
+        }
 
     }
 }

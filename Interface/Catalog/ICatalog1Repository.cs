@@ -14,5 +14,7 @@ namespace Interface.Catalog
         Task<bool> UpdateAsync(BMMS_CATALOG1 entity, IDbTransaction transaction = null);
         Task<bool> DeleteAsync(BMMS_CATALOG1 entity, IDbTransaction transaction = null);
         Task<IEnumerable<Catalog1Model>> SelectAllAsync();
+        Task<bool> InsertBatchAsync(IEnumerable<BMMS_CATALOG1> entities, IDbTransaction transaction = null);
+        Task<bool> DeleteBatch(IEnumerable<string> ids, IDbTransaction transaction);
     }
 }

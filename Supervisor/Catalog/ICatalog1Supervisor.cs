@@ -12,5 +12,7 @@ namespace Supervisor.Catalog
         Task<bool> Update(Catalog1Model model);
         Task<IEnumerable<Catalog1Model>> GetAll();
         Task<string> Add(Catalog1AddModel model);
+        Task<bool> AddBatch(IEnumerable<Catalog1AddModel> models);
+        Task<bool> DeleteBatch(IEnumerable<Catalog1Model> models);
     }
 }

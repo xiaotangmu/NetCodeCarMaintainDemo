@@ -95,5 +95,24 @@ namespace DAO.Catalog
             Repository.DbSession.Connection.Close();
             Repository.DbSession.Connection.Dispose();
         }
+
+        public async Task<bool> InsertBatchAsync(IEnumerable<BMMS_CATALOG1> entityList, IDbTransaction transaction = null)
+        {
+            return await Repository.InsertBatchAsync<BMMS_CATALOG1>(entityList, transaction);
+        }
+
+        public async Task<bool> DeleteBatch(IEnumerable<string> ids, IDbTransaction transaction)
+        {
+            foreach (var id in ids)
+            {
+                string sql = @"delete from BMMS_CATALOG1 where ID = @Id";
+                bool result = await Repository.ExecuteAsync(sql, new { Id = id }, transaction) > 0 ? true : false;
+                if (!result)
+                {
+                    throw new Exception("删除属性失败");
+                }
+            }
+            return true;
+        }
     }
 }

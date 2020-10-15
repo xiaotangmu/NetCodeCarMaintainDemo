@@ -21,7 +21,8 @@ namespace BLL.Catalog
         public Catalog2Supervisor(ICatalog2Repository catalog2Repository = null, IAttrRepository attrDao = null)
         {
             _catalog2Dao = InitDAO<Catalog2Dao>(catalog2Repository) as ICatalog2Repository;
-            _attrDao = InitDAO<AttrDao>(attrDao) as IAttrRepository;
+            //_attrDao = InitDAO<AttrDao>(attrDao) as IAttrRepository;
+            _attrDao = new AttrDao(_catalog2Dao.Repository);
         }
 
         /// <summary>
@@ -39,8 +40,8 @@ namespace BLL.Catalog
             return await _catalog2Dao.Repository.DbSession.TransactionHandle(async (transaction) =>
             {
                 // 先删除其属性
-                await DeleteAttrListByCatalog(id);
-                return await _catalog2Dao.Delete(id);
+                await DeleteAttrListByCatalog(id, transaction);
+                return await _catalog2Dao.Delete(id, transaction);
             });
         }
 
