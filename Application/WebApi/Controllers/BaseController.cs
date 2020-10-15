@@ -143,41 +143,5 @@ namespace WebApi.Controllers
             //});
         }
 
-        /// <summary>
-        /// 字符串返回值判断
-        /// </summary>
-        /// <param name="identity">鉴别数据</param>
-        /// <param name="tipTitle">提示名称</param>
-        /// <param name="tipData">提示数据</param>
-        /// <param name="failTip">失败提示</param>
-        public async Task ResponseAddLogStr(string identity, string tipTitle, string tipData, string failTip)
-        {
-            if (!string.IsNullOrEmpty(identity))
-            {
-                await LogOperation(await Localizer.GetValueAsync(tipTitle + ": ") + tipData);
-            }
-            else
-            {
-                throw new Exception(await Localizer.GetValueAsync(failTip));
-            }
-        }
-        /// <summary>
-        /// bool返回值判断
-        /// </summary>
-        /// <param name="identity">鉴别数据</param>
-        /// <param name="tipTitle">提示名称</param>
-        /// <param name="tipData">提示数据</param>
-        /// <param name="failTip">失败提示</param>
-        public async Task ResponseAddLogBool(bool identity, string tipTitle, string tipData, string failTip)
-        {
-            if (identity)
-            {
-                await LogOperation(await Localizer.GetValueAsync(tipTitle + ": ") + tipData);
-            }
-            else
-            {
-                throw new Exception(await Localizer.GetValueAsync(failTip));
-            }
-        }
     }
 }

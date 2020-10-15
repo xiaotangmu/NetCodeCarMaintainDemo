@@ -56,7 +56,6 @@ namespace BLL.Catalog
             return new BMMS_CATALOG1
             {
                 CATALOG_NAME = model?.CatalogName,
-                DESCRIPTION = model?.Description
             };
         }
         /// <summary>

@@ -20,7 +20,7 @@ namespace DateModel.Catalog
         /// 一级分类id
         /// </summary>
         public static readonly string FIELD_PARENT_ID = "parent_id";
-        public int PARENT_ID { get; set; }
+        public string PARENT_ID { get; set; }
 
     }
 }

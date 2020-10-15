@@ -41,7 +41,7 @@ namespace WebApi.Controllers.Catalog
                 }
                 else
                 {
-                    throw new Exception(await Localizer.GetValueAsync("添加分类"));
+                    throw new Exception(await Localizer.GetValueAsync("添加失败"));
                 }
                 return result;
             });
@@ -95,5 +95,6 @@ namespace WebApi.Controllers.Catalog
                 return result;
             });
         }
+
     }
 }

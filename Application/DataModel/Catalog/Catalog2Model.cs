@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ViewModel.Catalog
 {
-    public class Catalog2Model : Catalog1AddModel
+    public class Catalog2Model : Catalog2AddModel
     {
         public string Id { get; set; }
     }

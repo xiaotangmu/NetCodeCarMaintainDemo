@@ -71,7 +71,6 @@ namespace DAO.Catalog
             var paramsData = new
             {
                 CatalogName = entity.CATALOG_NAME,
-                Description = entity.DESCRIPTION,
                 LUD = entity.LUD,
                 ID = entity.ID
             };
@@ -88,7 +87,6 @@ namespace DAO.Catalog
             return new Catalog1Model
             {
                 CatalogName = entity?.CATALOG_NAME,
-                Description = entity?.DESCRIPTION,
                 Id = entity?.ID
             };
         }

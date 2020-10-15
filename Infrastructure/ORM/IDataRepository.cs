@@ -26,7 +26,6 @@ namespace ORM
         IEnumerable<TReturn> GetGroup<TFirst, TSecond, TReturn>(string sql, Func<TFirst, TSecond, TReturn> map,
             dynamic param = null, bool buffered = true,
             string splitOn = "Id", int? commandTimeout = null);
-
         Task<IEnumerable<TReturn>> GetGroupAsync<TFirst, TSecond, TReturn>(string sql, Func<TFirst, TSecond, TReturn> map, dynamic param = null,
             bool buffered = true, string splitOn = "Id", int? commandTimeout = null);
 
