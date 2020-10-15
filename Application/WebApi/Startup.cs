@@ -1,5 +1,6 @@
 ﻿using ApiDocUi.Filters;
 using Autofac;
+using BLL.Catalog;
 using BLL.Client;
 using BLL.Maintain;
 using BLL.Sku;
@@ -15,6 +16,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Supervisor.Catalog;
 using Supervisor.Client;
 using Supervisor.Maintain;
 using Supervisor.Sku;
@@ -176,6 +178,9 @@ namespace WebApi
             services.AddScoped<IEntrySupervisor, EntrySupervisor>();
             services.AddScoped<IOutSupervisor, OutSupervisor>();
             services.AddScoped<ICheckSupervisor, CheckSupervisor>();
+            services.AddScoped<IAttrSupervisor, AttrSupervisor>();
+            services.AddScoped<ICatalog1Supervisor, Catalog1Supervisor>();
+            services.AddScoped<ICatalog2Supervisor, Catalog2Supervisor>();
 
             services.AddScoped<IDictSupervisor, DictManagement>();
             services.AddScoped<IPermissionSupervisor, PermissionManagement>();

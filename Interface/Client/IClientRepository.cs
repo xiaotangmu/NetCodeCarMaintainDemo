@@ -22,12 +22,15 @@ namespace Interface.Client
 
         Task<bool> DeleteAsync(string id, IDbTransaction transaction = null);
 
-        Task<IEnumerable<CMS_CLIENT>> GetGroupAsync();
+        Task<IEnumerable<ClientViewModel>> GetAllAsync();
 
         Task<bool> IsExist(string company);
 
         Task<ClientListWithPagingViewModel> GetClientGroupWithPaging(BaseSearchModel viewModel);
 
         Task<int> GetCountAsync(ClientListSearchViewModel searchModel);
+
+        Task<ClientListWithPagingViewModel> GetClientGroupWithPagingBySearch(ClientListSearchViewModel model);
+        Task<IEnumerable<ClientViewModel>> GetClientGroupBySearch(string searchStr);
     }
 }

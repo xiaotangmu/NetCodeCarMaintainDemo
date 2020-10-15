@@ -58,6 +58,7 @@ namespace WebApi.Controllers.Client
         [HttpGet]
         public async Task<IActionResult> GetClientListWithPaging([FromQuery] BaseSearchModel SearchModel)
         {
+
             return await ResponseResult(async () =>
             {
                 return await _clientSupervisor.QueryPageAsync(SearchModel);
@@ -72,7 +73,7 @@ namespace WebApi.Controllers.Client
                 bool result = await _clientSupervisor.DeleteClient(model.id);
                 if (result)
                 {
-                    await LogOperation(await Localizer.GetValueAsync("刪除用戶：") + model.Company);
+                    await LogOperation(await Localizer.GetValueAsync("刪除客户：") + model.Company);
                 }
                 else
                 {
@@ -123,7 +124,7 @@ namespace WebApi.Controllers.Client
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> GetClientListPageBySearch(ClientListSearchViewModel model)
+        public async Task<IActionResult> GetClientListPageBySearch([FromQuery] ClientListSearchViewModel model)
         {
             return await ResponseResult(async () =>
             {

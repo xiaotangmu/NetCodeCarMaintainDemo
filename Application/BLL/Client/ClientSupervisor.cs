@@ -103,6 +103,7 @@ namespace BLL.Client
             {
                 COMPANY = data?.Company,
                 ADDRESS = data?.Address,
+                CONTACT = data?.Contact,
                 PHONE = data?.Phone,
                 EMAIL = data?.Email,
                 TYPE = data?.Type,
@@ -118,17 +119,27 @@ namespace BLL.Client
         /// <returns></returns>
         public async Task<IEnumerable<ClientViewModel>> GetAll()
         {
-            return await _clientDAO.GetGroupAsync();
+            return await _clientDAO.GetAllAsync();
         }
 
+        /// <summary>
+        /// 条件查询，不分页
+        /// </summary>
+        /// <param name="searchStr"></param>
+        /// <returns></returns>
         public Task<IEnumerable<ClientViewModel>> GetClientListBySearch(string searchStr)
         {
-            throw new NotImplementedException();
+            return _clientDAO.GetClientGroupBySearch(searchStr);
         }
 
+        /// <summary>
+        /// 条件查询，分页
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public Task<ClientListWithPagingViewModel> GetClientListPageBySearch(ClientListSearchViewModel model)
         {
-            throw new NotImplementedException();
+            return _clientDAO.GetClientGroupWithPagingBySearch(model);
         }
     }
 }
