@@ -6,12 +6,12 @@ namespace ViewModel.Catalog
 {
     public class AttrModel: AttrAddModel
     {
-        public string Id;
+        public string Id { get; set; }
     }
 
     public class AttrAddModel
     {
-        public string AttrName;
-        public string CatalogId;
+        public string AttrName { get; set; }
+        public string CatalogId { get; set; }
     }
 }

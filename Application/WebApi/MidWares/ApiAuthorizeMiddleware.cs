@@ -9,6 +9,7 @@ using WebApi.Models.Results;
 using BLL.System;
 using Microsoft.Extensions.Configuration;
 using WebApi.Utils.Filters;
+using ViewModel.Common;
 
 namespace WebApi.MidWares
 {

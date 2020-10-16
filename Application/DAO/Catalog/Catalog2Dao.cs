@@ -17,9 +17,15 @@ namespace DAO.Catalog
         public Catalog2Dao() { }
         public Catalog2Dao(IDataRepository repository) : base(repository) { }
 
-        public async Task<bool> Delete(string id, IDbTransaction tran = null)
+        public async Task<bool> Delete(string id, IDbTransaction transaction = null)
         {
-            return await Repository.DeleteAsync<BMMS_CATALOG2>(id, tran) > 0 ? true : false;
+            string sql = @"delete from BMMS_CATALOG2 where ID = @Id";
+            bool result = await Repository.ExecuteAsync(sql, new { Id = id }, transaction) > 0 ? true : false;
+            if (!result)
+            {
+                throw new Exception("属性并不存在");
+            }
+            return true;
         }
 
         public void Dispose()
@@ -35,7 +41,7 @@ namespace DAO.Catalog
 
         public async Task<IEnumerable<Catalog2Model>> SelectListByCatalog1Id(string catalog1Id)
         {
-            var predicateIsUse = Predicates.Field<BMMS_CATALOG2>(item => item.PARENT_ID, Operator.Eq,catalog1Id);
+            var predicateIsUse = Predicates.Field<BMMS_CATALOG2>(item => item.PARENT_ID, Operator.Eq, catalog1Id);
             var predicateSort = Predicates.Sort<BMMS_CATALOG2>(item => item.OCD, true);
             IEnumerable<BMMS_CATALOG2> entityList = await Repository.GetListAsync<BMMS_CATALOG2>(predicateIsUse, new[] { predicateSort });
             return EntityListToModelList(entityList);

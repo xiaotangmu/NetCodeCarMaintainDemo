@@ -8,7 +8,7 @@ namespace Supervisor.Catalog
 {
     public interface ICatalog1Supervisor
     {
-        Task<bool> Delete(Catalog1Model model);
+        Task<bool> Delete(string Id);
         Task<bool> Update(Catalog1Model model);
         Task<IEnumerable<Catalog1Model>> GetAll();
         Task<string> Add(Catalog1AddModel model);

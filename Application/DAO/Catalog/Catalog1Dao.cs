@@ -21,9 +21,15 @@ namespace DAO.Catalog
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public async Task<bool> DeleteAsync(BMMS_CATALOG1 entity, IDbTransaction tran = null)
+        public async Task<bool> DeleteAsync(string id, IDbTransaction transaction = null)
         {
-            return await Repository.DeleteAsync<BMMS_CATALOG1>(entity.ID, tran) > 0? true : false;
+            string sql = @"delete from BMMS_CATALOG1 where ID = @Id";
+            bool result = await Repository.ExecuteAsync(sql, new { Id = id }, transaction) > 0 ? true : false;
+            if (!result)
+            {
+                throw new Exception("删除失败");
+            }
+            return result;
         }
 
         /// <summary>
@@ -31,10 +37,6 @@ namespace DAO.Catalog
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        //public async Task<string> InsertAsync(BMMS_CATALOG1 application, IDbTransaction transaction = null)
-        //{
-        //    return await Repository.InsertAsync(application, transaction);
-        //}
         public async Task<string> InsertAsync(BMMS_CATALOG1 application, IDbTransaction transaction = null)
         {
             return await Repository.InsertAsync(application, transaction);
@@ -46,7 +48,7 @@ namespace DAO.Catalog
         /// <returns></returns>
         public async Task<IEnumerable<Catalog1Model>> SelectAllAsync()
         {
-            string sql = "select * from BMMS_CATALOG1";
+            string sql = "select * from BMMS_CATALOG1 where 1=1";
             IEnumerable<BMMS_CATALOG1> entityList = await Repository.GetGroupAsync<BMMS_CATALOG1>(sql);
             List<Catalog1Model> modelList = new List<Catalog1Model>();
             foreach(var entity in entityList)
@@ -65,7 +67,6 @@ namespace DAO.Catalog
         {
             string sql = @"update BMMS_CATALOG1
                            set CATALOG_NAME = @CatalogName,
-                                DESCRIPTION = @Description,
                                 LUD = @LUD
                             where ID = @ID";
             var paramsData = new
@@ -109,7 +110,7 @@ namespace DAO.Catalog
                 bool result = await Repository.ExecuteAsync(sql, new { Id = id }, transaction) > 0 ? true : false;
                 if (!result)
                 {
-                    throw new Exception("删除属性失败");
+                    throw new Exception("删除失败");
                 }
             }
             return true;

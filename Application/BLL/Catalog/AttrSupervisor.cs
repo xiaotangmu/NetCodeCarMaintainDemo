@@ -5,9 +5,12 @@ using Supervisor.Catalog;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ViewModel.Catalog;
+using ViewModel.Common;
+using ViewModel.CustomException;
 
 namespace BLL.Catalog
 {
@@ -24,6 +27,8 @@ namespace BLL.Catalog
 
         public async Task<string> Add(AttrAddModel model)
         {
+            // 判断是否已经存在
+            await IsExistThrowException(model);
             return await _attrDao.Add(ModelToEntityNoId(model));
         }
 
@@ -120,10 +125,67 @@ namespace BLL.Catalog
         /// <returns></returns>
         public async Task<bool> AddBatch(IEnumerable<AttrAddModel> models)
         {
+            // 判断数据是否重复
+            IsExistSameWithInputThrowException(models);
+            // 判断是否存在
+            foreach (var model in models)
+            {
+                await IsExistThrowException(model);
+            }
+            // 插入数据
             return await _attrDao.Repository.DbSession.TransactionHandle(async (transaction) =>
             {
                 return await _attrDao.InsertBatch(ModelListToEntityListNoId(models), transaction);
             });
+        }
+
+        /// <summary>
+        /// 判断是否有相同数据
+        /// </summary>
+        /// <returns></returns>
+        public async Task<bool> IsExist(AttrAddModel model)
+        {
+            // 判断是否已经存在该分类
+            IEnumerable<AttrModel> models = await _attrDao.SelectListByCatalogId(model.CatalogId);
+            foreach (var item in models)
+            {
+                if (item.AttrName.Equals(model.AttrName))
+                {
+                    return true;    // 存在相同数据
+                }
+            }
+            return false;   // 没有相同数据
+        }
+
+        /// <summary>
+        /// 存在相同数据时抛出异常
+        /// </summary>
+        /// <returns></returns>
+        public async Task IsExistThrowException(AttrAddModel model)
+        {
+            bool exist = await IsExist(model);
+            if (exist)
+            {
+                throw new MyServiceException(MsgCode.SameData, "存在相同数据");
+            }
+        }
+        /// <summary>
+        /// 判断 models 中是否有重复数据
+        /// </summary>
+        /// <param name="models"></param>
+        /// <returns></returns>
+        public void IsExistSameWithInputThrowException(IEnumerable<AttrAddModel> models)
+        {
+            HashSet<string> hs = new HashSet<string>();
+            // 判断数据是否重复
+            foreach (var model in models)
+            {
+                hs.Add(model.AttrName.Trim());
+            }
+            if (!hs.Count().Equals(models.Count()))
+            {
+                throw new MyServiceException(MsgCode.SameData, "提交的数据有重");
+            }
         }
     }
 }

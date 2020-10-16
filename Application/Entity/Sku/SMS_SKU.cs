@@ -84,5 +84,11 @@ namespace DateModel.Sku
         /// </summary>
         public static readonly string FIELD_OLD_PARTID = "old_partId";
         public string OLD_PARTID { get; set; }
+
+        /// <summary>
+        /// 所属分类
+        /// </summary>
+        public static readonly string FIELD_CATALOG2_ID = "catalog2_id";
+        public string CATALOG2_ID { get; set; }
     }
 }

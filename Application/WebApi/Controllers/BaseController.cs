@@ -8,6 +8,7 @@ using System;
 using Microsoft.AspNetCore.Http;
 using WebApi.Utils.Filters;
 using ViewModel.CustomException;
+using ViewModel.Common;
 
 namespace WebApi.Controllers
 {
@@ -104,6 +105,12 @@ namespace WebApi.Controllers
                 result.data = default;
                 result.code = MsgCode.Success;
                 result.message = info.Message;
+            }
+            catch (MyServiceException e)
+            {
+                result.data = default;
+                result.code = e.Code;
+                result.message = e.Message;
             }
             catch (Exception ex)
             {

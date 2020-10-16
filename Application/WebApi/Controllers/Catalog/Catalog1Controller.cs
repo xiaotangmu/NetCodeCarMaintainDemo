@@ -20,7 +20,7 @@ namespace WebApi.Controllers.Catalog
     {
         private ICatalog1Supervisor _catalog1Supervisor;
 
-        public Catalog1Controller (ICatalog1Supervisor catalog1Supervisor)
+        public Catalog1Controller (ICatalog1Supervisor catalog1Supervisor) : base()
         {
             _catalog1Supervisor = catalog1Supervisor;
         }
@@ -60,6 +60,11 @@ namespace WebApi.Controllers.Catalog
             });
         }
 
+        /// <summary>
+        /// 更新
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> Update(Catalog1Model model)
         {
@@ -78,12 +83,17 @@ namespace WebApi.Controllers.Catalog
             });
         }
 
+        /// <summary>
+        /// 删除分类及其子分类
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpDelete]
         public async Task<IActionResult> Delete(Catalog1Model model)
         {
             return await ResponseResult(async () =>
             {
-                bool result = await _catalog1Supervisor.Delete(model);
+                bool result = await _catalog1Supervisor.Delete(model.Id);
                 if (result)
                 {
                     await LogOperation(await Localizer.GetValueAsync("删除一级分类：") + model.CatalogName);

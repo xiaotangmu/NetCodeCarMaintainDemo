@@ -157,12 +157,12 @@ namespace WebApi.Controllers.Catalog
         }
 
         /// <summary>
-        /// 删除分类下所有属性
+        /// 删除一级分类下所有子分类及其属性
         /// </summary>
         /// <param name="CatalogId"></param>
         /// <returns></returns>
         [HttpDelete]
-        public async Task<ActionResult> DeleteByCatalogId(string Catalog1Id)
+        public async Task<ActionResult> DeleteByCatalog1Id(string Catalog1Id)
         {
             return await ResponseResult(async () =>
             {
