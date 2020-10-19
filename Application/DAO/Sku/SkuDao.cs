@@ -58,31 +58,33 @@ namespace DAO.Sku
             //return EntityListToModelList(entities);
 
 
-            using (IDbConnection conn = (SqlConnection)Repository.DbSession.Connection)
-            {
-                string sql = "SELECT a.*,c.*,e.* FROM t_operator a left join t_operator_group b on a.id = b.operatorid left join t_group c on c.id=b.groupid " +
-                        "left join t_operator_rights d on a.id = d.operatorid left join t_rights e on e.id = d.rightid";
-                var lookup = new Dictionary<string, SkuModel>();
-                object p = await Repository.QueryAsync<SkuModel, SkuAttr, SkuModel>(sql, (o, g) =>
-                {
-                    SkuModel tmp;
-                    if (!lookup.TryGetValue(o.Id, out tmp))
-                    {
-                        tmp = o;
-                        lookup.Add(o.Id, tmp);
-                    }
-                    SkuAttr tmpG = tmp.attrList.Find(f => f.AttrId == g.AttrId);
-                    if (tmpG == null)
-                    {
-                        tmpG = g;
-                        tmp.attrList.Add(tmpG);
-                    }
+            //using (IDbConnection conn = (SqlConnection)Repository.DbSession.Connection)
+            //{
+            //    string sql = "SELECT a.*,c.*,e.* FROM t_operator a left join t_operator_group b on a.id = b.operatorid left join t_group c on c.id=b.groupid " +
+            //            "left join t_operator_rights d on a.id = d.operatorid left join t_rights e on e.id = d.rightid";
+            //    var lookup = new Dictionary<string, SkuModel>();
+            //    object p = await Repository.QueryAsync<SkuModel, SkuAttr, SkuModel>(sql, (o, g) =>
+            //    {
+            //        SkuModel tmp;
+            //        if (!lookup.TryGetValue(o.Id, out tmp))
+            //        {
+            //            tmp = o;
+            //            lookup.Add(o.Id, tmp);
+            //        }
+            //        SkuAttr tmpG = tmp.attrList.Find(f => f.AttrId == g.AttrId);
+            //        if (tmpG == null)
+            //        {
+            //            tmpG = g;
+            //            tmp.attrList.Add(tmpG);
+            //        }
 
-                    return o;
-                },
-                splitOn: "id");
-                return lookup.Values.ToList();
-            }
+            //        return o;
+            //    },
+            //    splitOn: "id");
+            //    return lookup.Values.ToList();
+            //}
+
+            return null;
         }
 
         public Task<IEnumerable<SkuModel>> SelectListBySearch(string searchStr)

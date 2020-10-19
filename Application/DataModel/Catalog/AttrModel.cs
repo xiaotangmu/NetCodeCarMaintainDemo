@@ -14,4 +14,5 @@ namespace ViewModel.Catalog
         public string AttrName { get; set; }
         public string CatalogId { get; set; }
     }
+
 }

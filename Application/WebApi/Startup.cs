@@ -4,6 +4,7 @@ using BLL.Catalog;
 using BLL.Client;
 using BLL.Maintain;
 using BLL.Sku;
+using BLL.Spu;
 using BLL.System;
 using DataModel.System;
 using Localization;
@@ -20,6 +21,7 @@ using Supervisor.Catalog;
 using Supervisor.Client;
 using Supervisor.Maintain;
 using Supervisor.Sku;
+using Supervisor.Spu;
 using Supervisor.System;
 using Swashbuckle.AspNetCore.Swagger;
 using System.Collections.Generic;
@@ -181,6 +183,7 @@ namespace WebApi
             services.AddScoped<IAttrSupervisor, AttrSupervisor>();
             services.AddScoped<ICatalog1Supervisor, Catalog1Supervisor>();
             services.AddScoped<ICatalog2Supervisor, Catalog2Supervisor>();
+            services.AddScoped<ISpuSupervisor, SpuSupervisor>();
 
             services.AddScoped<IDictSupervisor, DictManagement>();
             services.AddScoped<IPermissionSupervisor, PermissionManagement>();

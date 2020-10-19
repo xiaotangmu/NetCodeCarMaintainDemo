@@ -26,15 +26,6 @@ namespace BLL.Client
 
         public async Task<string> AddClient(ClientAddModel data)
         {
-            //CMS_CLIENT client = new CMS_CLIENT
-            //{
-            //    COMPANY = data?.company,
-            //    ADDRESS = data?.address,
-            //    PHONE = data?.phone,
-            //    EMAIL = data?.email,
-            //    TYPE = data?.type,
-            //    DESCRIPTION = data?.description
-            //};
             CMS_CLIENT client = ModelToTableEntity(data);
             string result = string.Empty;
             try

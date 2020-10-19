@@ -137,7 +137,7 @@ namespace DAO.Client
 
         public async Task<IEnumerable<ClientViewModel>> GetAllAsync()
         {
-            List<CMS_CLIENT> datas = (await Repository.GetListAsync<CMS_CLIENT>()).AsList();
+            IEnumerable<CMS_CLIENT> datas = await Repository.GetListAsync<CMS_CLIENT>();
             return EntitysToModels(datas);
         }
 
