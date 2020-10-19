@@ -162,7 +162,7 @@ namespace BLL.Spu
             // 1. 删除属性值
             await _spuDao.DeleteSpuAttrValueBySpuId(SpuId, transaction);
             // 2. 删除属性
-            await _spuDao.DeleteSpuAttrValueBySpuId(SpuId, transaction);
+            await _spuDao.DeleteSpuAttrBySpuId(SpuId, transaction);
         }
         /// <summary>
         /// 判断是否已经存在产品，存在抛出异常

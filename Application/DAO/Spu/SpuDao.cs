@@ -36,7 +36,8 @@ namespace DAO.Spu
 
         public async Task<bool> Delete(string id, IDbTransaction transaction = null)
         {
-            return await Repository.DeleteAsync<PMS_SPU>(id, transaction) > 0 ? true : false;
+            string sql = @"delete from PMS_SPU where ID  = @SpuId";
+            return await Repository.ExecuteAsync(sql, new { SpuId = id }, transaction) > 0 ? true : false;
         }
 
         /// <summary>
@@ -45,7 +46,7 @@ namespace DAO.Spu
         /// <param name="SpuId"></param>
         /// <param name="transaction"></param>
         /// <returns></returns>
-        public async Task<bool> DeleteSpuAttrBySpuId(string SpuId, IDbTransaction transaction = null)
+        public async Task<bool> DeleteSpuAttrValueBySpuId(string SpuId, IDbTransaction transaction = null)
         {
             string sql = @"delete from PMS_SPU_ATTR_VALUE where ID in 
                             (select pasv.ID from PMS_SPU_ATTR_VALUE pasv
@@ -61,7 +62,7 @@ namespace DAO.Spu
         /// <param name="SpuId"></param>
         /// <param name="transaction"></param>
         /// <returns></returns>
-        public async Task<bool> DeleteSpuAttrValueBySpuId(string SpuId, IDbTransaction transaction = null)
+        public async Task<bool> DeleteSpuAttrBySpuId(string SpuId, IDbTransaction transaction = null)
         {
             string sql = @"delete from PMS_SPU_ATTR where ID in 
                         (select psa.ID from PMS_SPU_ATTR psa 
@@ -87,19 +88,57 @@ namespace DAO.Spu
 
         public async Task<IEnumerable<SpuModel>> SelectSpuListWithPaging(SpuPageSearchModel model)
         {
-            string sql = "select * from PMS_SPU where ";
-            if (!string.IsNullOrEmpty(model.Catalog2Id))
-            {
-                sql += "CATALOG2_ID = @Catalog2Id And";
-            }
-            if (!string.IsNullOrEmpty(model.ProductName))
-            {
-                sql += " PRODUCT_NAME = @ProductName And";
-            }
+            #region 错误注意
+            //string sql = "select * from PMS_SPU where ";
+            //if (!string.IsNullOrEmpty(model.Catalog2Id))
+            //{
+            //    sql += "CATALOG2_ID = @Catalog2Id And";
+            //}
+            //if (!string.IsNullOrEmpty(model.ProductName))
+            //{
+            //    sql += " PRODUCT_NAME = @ProductName And";
+            //}
             // 去除多余And
-            sql = sql.Substring(0, sql.Length - 3);
-            IEnumerable<PMS_SPU> entityList = await Repository.GetPageAsync<PMS_SPU>(model.PageIndex, model.PageSize, sql, "order by OCD desc",
-                new { Catalog2Id= model.Catalog2Id, ProductName= model.ProductName });
+            //sql = sql.Substring(0, sql.Length - 3);
+            //IEnumerable<PMS_SPU> entityList = await Repository.GetPageAsync<PMS_SPU>(model.PageIndex, model.PageSize, sql, "order by OCD desc",
+            //    model, null);
+            //return EntityListToModelList(entityList);
+            // 必须声明标量变量 \"@Catalog2Id\"。\r\n在 FETCH 语句中选项 next 的用法无效。", 方法有问题
+            #endregion
+            
+            string catalog2Id = model.Catalog2Id == null? "" : model.Catalog2Id.Trim();
+            string productName = model.ProductName == null ? "" : model.ProductName.Trim();
+
+            var pField1 = Predicates.Field<PMS_SPU>(item => item.CATALOG2_ID, Operator.Eq, catalog2Id);
+            var pField2 = Predicates.Field<PMS_SPU>(item => item.PRODUCT_NAME, Operator.Like, '%' + productName + '%');
+            var pSort = Predicates.Sort<PMS_SPU>(item => item.OCD, false);
+            
+            var pGroup4 = Predicates.Group(GroupOperator.And, new[] { pField1, pField2 });
+            IEnumerable<PMS_SPU> entityList = null;
+            bool res = false;
+            #region 判断用哪种pGroud
+            if (!string.IsNullOrEmpty(catalog2Id) && !string.IsNullOrEmpty(productName))
+            {
+                var pGroup = Predicates.Group(GroupOperator.And, new[] { pField1, pField2 });
+                entityList = await Repository.GetPageListAsync<PMS_SPU>(model.PageIndex, model.PageSize, pGroup, new[] { pSort });
+                res = true;
+            }
+            if (!res && !string.IsNullOrEmpty(catalog2Id)){
+                var pGroup = Predicates.Group(GroupOperator.And, new[] { pField1 });
+                entityList = await Repository.GetPageListAsync<PMS_SPU>(model.PageIndex, model.PageSize, pGroup, new[] { pSort });
+                res = true;
+            }
+            if (!res && !string.IsNullOrEmpty(productName))
+            {
+                var pGroup = Predicates.Group(GroupOperator.And, new[] { pField2 });
+                entityList = await Repository.GetPageListAsync<PMS_SPU>(model.PageIndex, model.PageSize, pGroup, new[] { pSort });
+                res = true;
+            }
+            if (!res)
+            {
+                entityList = await Repository.GetPageListAsync<PMS_SPU>(model.PageIndex, model.PageSize, null, new[] { pSort });
+            }
+            #endregion
             return EntityListToModelList(entityList);
         }
 
@@ -111,7 +150,8 @@ namespace DAO.Spu
                             DESCRIPTION = @DESCRIPTION, 
                             LUD = @LUD
                         where ID = @ID";
-            return await Repository.ExecuteAsync(sql, new { entity }, transaction) > 0 ? true : false;
+            return await Repository.ExecuteAsync(sql, 
+                entity, transaction) > 0 ? true : false;
         }
 
         public SpuModel EntityToModel(PMS_SPU entity)

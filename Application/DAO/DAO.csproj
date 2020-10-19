@@ -31,8 +31,4 @@
     <Folder Include="Base\" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Dapper" Version="2.0.35" />
-  </ItemGroup>
-
 </Project>
