@@ -23,5 +23,7 @@ namespace Interface
         Task<bool> Update(PMS_SPU entity, IDbTransaction transaction = null);
         Task<IEnumerable<SpuAttrModel>> SelectAttrBySpuId(string SpuId);
         Task<IEnumerable<SpuAttrValueModel>> SelectAttrValueBySpuAttrId(string SpuAttrId);
+        Task<IEnumerable<SpuModel>> GetAll();
+        Task<IEnumerable<SpuModel>> GetListByCatalog2Id(string catalog2Id);
     }
 }

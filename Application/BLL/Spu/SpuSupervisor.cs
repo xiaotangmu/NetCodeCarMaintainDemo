@@ -279,5 +279,21 @@ namespace BLL.Spu
             entity.ID = model.Id;
             return entity;
         }
+
+        public async Task<IEnumerable<SpuModel>> GetAll()
+        {
+            IEnumerable<SpuModel> modelList = await _spuDao.GetAll();
+            // 放入属性和属性值
+            await GetSpuAttrAndAttrValue(modelList);
+            return modelList;
+        }
+
+        public async Task<IEnumerable<SpuModel>> GetListByCatalog2Id(string Catalog2Id)
+        {
+            IEnumerable<SpuModel> modelList = await _spuDao.GetListByCatalog2Id(Catalog2Id);
+            // 放入属性和属性值
+            await GetSpuAttrAndAttrValue(modelList);
+            return modelList;
+        }
     }
 }

@@ -39,7 +39,8 @@ namespace DAO.Sku
         /// <returns></returns>
         public async Task<bool> Delete(string id, IDbTransaction transaction = null)
         {
-            return await Repository.DeleteAsync<SMS_SKU>(id, transaction) > 0 ? true : false;
+            string sql = @"delete from SMS_SKU where ID = @id";
+            return await Repository.ExecuteAsync(sql, new { id }, transaction) > 0 ? true : false;
         }
 
         public void Dispose()
@@ -161,12 +162,19 @@ namespace DAO.Sku
 
         public async Task<IEnumerable<SkuModel>> GetSameSku(SkuAddModel model)
         {
-            var pF1 = Predicates.Field<SMS_SKU>(obj => obj.SPU_ID, Operator.Eq, model.SpuId);
-            var pF2 = Predicates.Field<SMS_SKU>(obj => obj.BRAND, Operator.Eq, model.Brand);
-            var pF3 = Predicates.Field<SMS_SKU>(obj => obj.UNIT, Operator.Eq, model.Unit);
-            var pF4 = Predicates.Field<SMS_SKU>(obj => obj.UNIT, Operator.Eq, model.Unit);
-            var predicateGroup = Predicates.Group(GroupOperator.And, pF1, pF2, pF3, pF4);
-            IEnumerable<SMS_SKU> entityList = await Repository.GetListAsync<SMS_SKU>(predicateGroup);
+            //var pF1 = Predicates.Field<SMS_SKU>(obj => obj.SPU_ID, Operator.Eq, model.SpuId);
+            //var pF2 = Predicates.Field<SMS_SKU>(obj => obj.BRAND, Operator.Eq, model.Brand);
+            //var pF3 = Predicates.Field<SMS_SKU>(obj => obj.UNIT, Operator.Eq, model.Unit);
+            //var pF4 = Predicates.Field<SMS_SKU>(obj => obj.STATUS, Operator.Eq, model.Status);
+            //var predicateGroup = Predicates.Group(GroupOperator.And, pF1, pF2, pF3, pF4);
+            //var pSort = Predicates.Sort<SMS_SKU>(item => item.OCD, false);
+
+            string sql = @"select * from SMS_SKU
+                            where SPU_ID = @SpuId 
+                            and BRAND = @Brand
+                            and UNIT = @Unit
+                            and STATUS = @Status";
+            IEnumerable<SMS_SKU> entityList = await Repository.GetGroupAsync<SMS_SKU>(sql, model);
             return EntityListToModelList(entityList);
         }
 
@@ -202,7 +210,7 @@ namespace DAO.Sku
 
         public async Task<IEnumerable<SkuAttrModel>> SelectAttrBySkuId(string skuId)
         {
-            string sql = @"select ssav.ID Id, bca.ATTR_NAME AttrName, psav.VALUE Value, psav.ID SpuAttrValueId
+            string sql = @"select ssav.ID Id, bca.ATTR_NAME AttrName, psav.VALUE Value, ssav.SPU_ATTR_VALUE_ID SpuAttrValueId
                     from SMS_SKU_ATTR_VALUE ssav
                     LEFT JOIN SMS_SKU ss on ss.ID = ssav.SKU_ID
                     LEFT JOIN PMS_SPU_ATTR_VALUE psav on ssav.SPU_ATTR_VALUE_ID = psav.ID

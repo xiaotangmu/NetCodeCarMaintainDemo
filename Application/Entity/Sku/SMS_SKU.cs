@@ -27,12 +27,6 @@ namespace DateModel.Sku
         public string SPU_ID { get; set; }
 
         /// <summary>
-        /// 库存存放架子
-        /// </summary>
-        public static readonly string FIELD_SELF = "self";
-        public string SELF { get; set; }
-
-        /// <summary>
         /// 品牌
         /// </summary>
         public static readonly string FIELD_BRAND = "brand";

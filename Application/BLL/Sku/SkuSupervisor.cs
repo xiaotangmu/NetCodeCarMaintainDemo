@@ -31,12 +31,12 @@ namespace BLL.Sku
         /// <returns></returns>
         public async Task<string> Add(SkuAddModel model)
         {
+            // 判断属性值和地址是否重复
+            IsAttrOrAddressRepeatedThrowException(model.attrList, model.addressList);
+            // 判断sku 是否已经存在
+            await IsExistSkuThrowException(model);
             return await _skuDao.Repository.DbSession.TransactionHandle(async (transaction) =>
             {
-                // 判断属性值和地址是否重复
-                IsAttrOrAddressRepeatedThrowException(model.attrList, model.addressList);
-                // 判断sku 是否已经存在
-                await IsExistSkuThrowException(model);
                 // 添加sku
                 string skuId = await _skuDao.Insert(ModelToEntityNoId(model), transaction);
                 // 添加属性值
@@ -176,17 +176,17 @@ namespace BLL.Sku
         /// <returns></returns>
         public async Task<bool> Update(SkuModel model)
         {
+            // 判断是否已经存在
+            await IsExistSkuThrowException(model, model.Id);
             return await _skuDao.Repository.DbSession.TransactionHandle(async (transaction) =>
             {
-                // 判断是否已经存在
-                await IsExistSkuThrowException(model, model.Id);
                 // 全删属性值
                 await DeleteAttrValueBySkuId(model.Id, transaction);
                 await DeleteAddressBySkuId(model.Id, transaction);
 
                 // 添加属性值
-                await AddSpuAttrValue(model.attrList, model.SpuId, transaction);
-                int total = await AddSpuAddressAndCountQuantity(model.addressList, model.SpuId, transaction);
+                await AddSpuAttrValue(model.attrList, model.Id, transaction);
+                int total = await AddSpuAddressAndCountQuantity(model.addressList, model.Id, transaction);
                 model.TotalCount = total;
                 // 更新库存表
                 return await _skuDao.Update(ModelToEntity(model), transaction);
@@ -220,12 +220,12 @@ namespace BLL.Sku
         /// 删除Sku属性值
         /// </summary>
         /// <returns></returns>
-        public async Task DeleteAttrValueBySkuId(string SkuId, IDbTransaction transaction)
+        public async Task DeleteAttrValueBySkuId(string SkuId, IDbTransaction transaction = null)
         {
             // 1. 删除属性值
             await _skuDao.DeleteSkuAttrValueBySkuId(SkuId, transaction);
         }
-        public async Task DeleteAddressBySkuId(string SkuId, IDbTransaction transaction)
+        public async Task DeleteAddressBySkuId(string SkuId, IDbTransaction transaction = null)
         {
             // 1. 删除位置
             await _skuDao.DeleteSkuAddressBySkuId(SkuId, transaction);
@@ -257,9 +257,9 @@ namespace BLL.Sku
                 {
                     continue;
                 }
-                IEnumerable<SkuAttrModel> attrList = await _skuDao.SelectAttrBySkuId(model.SpuId);
-                
-                if(attrList == null && model.attrList == null)
+                IEnumerable<SkuAttrModel> attrList = await _skuDao.SelectAttrBySkuId(sku.Id);
+
+                if (attrList == null && model.attrList == null)
                 {
                     throw new MyServiceException(MsgCode.SameData, "该数据已存在");
                 }
@@ -359,7 +359,8 @@ namespace BLL.Sku
                 TYPE = model?.Type,
                 STATUS = (int)model?.Status,
                 OLD_PARTID = model?.OldPartId,
-                CATALOG2_ID = model?.Catalog2Id
+                CATALOG2_ID = model?.Catalog2Id,
+                SPU_ID = model?.SpuId
             };
         }
         /// <summary>

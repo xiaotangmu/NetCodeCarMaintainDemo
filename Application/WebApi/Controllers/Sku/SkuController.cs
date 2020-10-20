@@ -60,18 +60,18 @@ namespace WebApi.Controllers.Sku
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpDelete]
-        public async Task<IActionResult> Delete(SkuModel model)
+        public async Task<IActionResult> Delete(string SkuId, string SkuName)
         {
             return await ResponseResult(async () =>
             {
-                if (string.IsNullOrWhiteSpace(model.Id))
+                if (string.IsNullOrWhiteSpace(SkuId))
                 {
                     throw new Exception(("数据异常"));
                 }
-                bool result = await _skuSupervisor.Delete(model.Id);
-                if (!result)
+                bool result = await _skuSupervisor.Delete(SkuId);
+                if (result)
                 {
-                    await LogOperation(await Localizer.GetValueAsync("删除库存：") + model.SkuName);
+                    await LogOperation(await Localizer.GetValueAsync("删除库存：") + SkuName);
                 }
                 else
                 {
@@ -82,7 +82,7 @@ namespace WebApi.Controllers.Sku
         }
 
         /// <summary>
-        /// 更新库存
+        /// 更新库存, 只更新库存属性, 不更新库存名等（Spu关联）
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
@@ -96,7 +96,7 @@ namespace WebApi.Controllers.Sku
                     throw new Exception(("数据异常"));
                 }
                 bool result = await _skuSupervisor.Update(model);
-                if (!result)
+                if (result)
                 {
                     await LogOperation(await Localizer.GetValueAsync("更新库存：") + model.SkuName);
                 }

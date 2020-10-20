@@ -85,66 +85,75 @@ namespace DAO.Spu
 
         public async Task<SpuListWithPagingModel> SelectAllWithPaging(BaseSearchModel model)
         {
-            var pSort = Predicates.Sort<PMS_SPU>(item => item.OCD, false);
-            long count = 0;
-            IEnumerable<PMS_SPU> entityList = await Repository.GetPageList<PMS_SPU>(model.PageIndex, model.PageSize, out count,null, new[] { pSort });
-            return EntityListToModelList(entityList);
+            string sql = "select * from PMS_SPU where 1 = 1";
+            SpuListWithPagingModel pageModel = new SpuListWithPagingModel();
+            string countSql = "select count(1) from PMS_SPU where 1 = 1";
+            pageModel.TotalCount = await Repository.CountAsync(countSql);
+            IEnumerable<PMS_SPU> entityList = await Repository.GetPageAsync<PMS_SPU>(model.PageIndex, model.PageSize, sql, " order by ss.OCD Desc");
+            pageModel.Items = EntityListToModelList(entityList);
+            return pageModel;
         }
 
-        public async Task<IEnumerable<SpuModel>> SelectSpuListWithPaging(SpuPageSearchModel model)
+        public async Task<SpuListWithPagingModel> SelectSpuListWithPaging(SpuPageSearchModel model)
         {
-            #region 错误注意
-            //string sql = "select * from PMS_SPU where ";
-            //if (!string.IsNullOrEmpty(model.Catalog2Id))
-            //{
-            //    sql += "CATALOG2_ID = @Catalog2Id And";
-            //}
-            //if (!string.IsNullOrEmpty(model.ProductName))
-            //{
-            //    sql += " PRODUCT_NAME = @ProductName And";
-            //}
+            SpuListWithPagingModel pageModel = new SpuListWithPagingModel();
+            #region 注意拼接字符串不要用@传参
+            string sql = "select * from PMS_SPU where ";
+            if (!string.IsNullOrEmpty(model.Catalog2Id))
+            {
+                sql += "CATALOG2_ID = '{0}' And";
+            }
+            if (!string.IsNullOrEmpty(model.ProductName))
+            {
+                sql += " PRODUCT_NAME like '%' + '{1}' + '%' And";
+            }
+            sql = string.Format(sql, model.Catalog2Id, model.ProductName);
             // 去除多余And
-            //sql = sql.Substring(0, sql.Length - 3);
-            //IEnumerable<PMS_SPU> entityList = await Repository.GetPageAsync<PMS_SPU>(model.PageIndex, model.PageSize, sql, "order by OCD desc",
-            //    model, null);
-            //return EntityListToModelList(entityList);
-            // 必须声明标量变量 \"@Catalog2Id\"。\r\n在 FETCH 语句中选项 next 的用法无效。", 方法有问题
-            #endregion
-            
-            string catalog2Id = model.Catalog2Id == null? "" : model.Catalog2Id.Trim();
-            string productName = model.ProductName == null ? "" : model.ProductName.Trim();
+            sql = sql.Substring(0, sql.Length - 3);
 
-            var pField1 = Predicates.Field<PMS_SPU>(item => item.CATALOG2_ID, Operator.Eq, catalog2Id);
-            var pField2 = Predicates.Field<PMS_SPU>(item => item.PRODUCT_NAME, Operator.Like, '%' + productName + '%');
-            var pSort = Predicates.Sort<PMS_SPU>(item => item.OCD, false);
-            
-            var pGroup4 = Predicates.Group(GroupOperator.And, new[] { pField1, pField2 });
-            IEnumerable<PMS_SPU> entityList = null;
-            bool res = false;
-            #region 判断用哪种pGroud
-            if (!string.IsNullOrEmpty(catalog2Id) && !string.IsNullOrEmpty(productName))
-            {
-                var pGroup = Predicates.Group(GroupOperator.And, new[] { pField1, pField2 });
-                entityList = await Repository.GetPageListAsync<PMS_SPU>(model.PageIndex, model.PageSize, pGroup, new[] { pSort });
-                res = true;
-            }
-            if (!res && !string.IsNullOrEmpty(catalog2Id)){
-                var pGroup = Predicates.Group(GroupOperator.And, new[] { pField1 });
-                entityList = await Repository.GetPageListAsync<PMS_SPU>(model.PageIndex, model.PageSize, pGroup, new[] { pSort });
-                res = true;
-            }
-            if (!res && !string.IsNullOrEmpty(productName))
-            {
-                var pGroup = Predicates.Group(GroupOperator.And, new[] { pField2 });
-                entityList = await Repository.GetPageListAsync<PMS_SPU>(model.PageIndex, model.PageSize, pGroup, new[] { pSort });
-                res = true;
-            }
-            if (!res)
-            {
-                entityList = await Repository.GetPageListAsync<PMS_SPU>(model.PageIndex, model.PageSize, null, new[] { pSort });
-            }
+            string countSql = "Select Count(1) from (" + sql + ") as temp";
+            pageModel.TotalCount = await Repository.CountAsync(countSql);
+
+            IEnumerable<PMS_SPU> entityList = await Repository.GetPageAsync<PMS_SPU>(model.PageIndex, model.PageSize, sql, "order by OCD desc",
+                model, null);
+            pageModel.Items = EntityListToModelList(entityList);
+            return pageModel;
             #endregion
-            return EntityListToModelList(entityList);
+
+            //string catalog2Id = model.Catalog2Id == null? "" : model.Catalog2Id.Trim();
+            //string productName = model.ProductName == null ? "" : model.ProductName.Trim();
+
+            //var pField1 = Predicates.Field<PMS_SPU>(item => item.CATALOG2_ID, Operator.Eq, catalog2Id);
+            //var pField2 = Predicates.Field<PMS_SPU>(item => item.PRODUCT_NAME, Operator.Like, '%' + productName + '%');
+            //var pSort = Predicates.Sort<PMS_SPU>(item => item.OCD, false);
+            
+            //var pGroup4 = Predicates.Group(GroupOperator.And, new[] { pField1, pField2 });
+            //IEnumerable<PMS_SPU> entityList = null;
+            //bool res = false;
+            //#region 判断用哪种pGroud
+            //if (!string.IsNullOrEmpty(catalog2Id) && !string.IsNullOrEmpty(productName))
+            //{
+            //    var pGroup = Predicates.Group(GroupOperator.And, new[] { pField1, pField2 });
+            //    entityList = await Repository.GetPageListAsync<PMS_SPU>(model.PageIndex, model.PageSize, pGroup, new[] { pSort });
+            //    res = true;
+            //}
+            //if (!res && !string.IsNullOrEmpty(catalog2Id)){
+            //    var pGroup = Predicates.Group(GroupOperator.And, new[] { pField1 });
+            //    entityList = await Repository.GetPageListAsync<PMS_SPU>(model.PageIndex, model.PageSize, pGroup, new[] { pSort });
+            //    res = true;
+            //}
+            //if (!res && !string.IsNullOrEmpty(productName))
+            //{
+            //    var pGroup = Predicates.Group(GroupOperator.And, new[] { pField2 });
+            //    entityList = await Repository.GetPageListAsync<PMS_SPU>(model.PageIndex, model.PageSize, pGroup, new[] { pSort });
+            //    res = true;
+            //}
+            //if (!res)
+            //{
+            //    entityList = await Repository.GetPageListAsync<PMS_SPU>(model.PageIndex, model.PageSize, null, new[] { pSort });
+            //}
+            //#endregion
+            //return EntityListToModelList(entityList);
         }
 
         public async Task<bool> Update(PMS_SPU entity, IDbTransaction transaction = null)
@@ -195,6 +204,22 @@ namespace DAO.Spu
                 LEFT JOIN PMS_SPU_ATTR psa on psa.ID = psav.SPU_ATTR_ID 
                 where psa.ID = @SpuAttrId";
             return await Repository.GetGroupAsync<SpuAttrValueModel>(sql, new { SpuAttrId });
+        }
+
+        public async Task<IEnumerable<SpuModel>> GetAll()
+        {
+            var pSort = Predicates.Sort<PMS_SPU>(item => item.OCD, false);
+            IEnumerable<PMS_SPU> entityList = await Repository.GetListAsync<PMS_SPU>(null, new[] { pSort });
+            return EntityListToModelList(entityList);
+        }
+
+        public async Task<IEnumerable<SpuModel>> GetListByCatalog2Id(string catalog2Id)
+        {
+            var pField = Predicates.Field<PMS_SPU>(item => item.CATALOG2_ID, Operator.Eq, catalog2Id);
+            var pGroup = Predicates.Group(GroupOperator.And, new[] { pField });
+            var pSort = Predicates.Sort<PMS_SPU>(item => item.OCD, false);
+            IEnumerable<PMS_SPU> entityList = await Repository.GetListAsync<PMS_SPU>(pGroup, new[] { pSort });
+            return EntityListToModelList(entityList);
         }
     }
 }

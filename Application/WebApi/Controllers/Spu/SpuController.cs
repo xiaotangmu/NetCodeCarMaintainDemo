@@ -117,6 +117,10 @@ namespace WebApi.Controllers.Spu
         {
             return await ResponseResult(async () =>
             {
+                if (model.PageIndex < 0 || model.PageSize < 0)
+                {
+                    throw new Exception(("数据异常"));
+                }
                 return await _spuSupervisor.GetSpuListWithPaging(model);
             });
         }
@@ -131,7 +135,42 @@ namespace WebApi.Controllers.Spu
         {
             return await ResponseResult(async () =>
             {
+                if (model.PageIndex < 0 || model.PageSize < 0)
+                {
+                    throw new Exception(("数据异常"));
+                }
                 return await _spuSupervisor.GetAllWithPaging(model);
+            });
+        }
+
+        /// <summary>
+        /// 获取全部spu 不分页
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            return await ResponseResult(async () =>
+            {
+                return await _spuSupervisor.GetAll();
+            });
+        }
+
+        /// <summary>
+        /// 获取分类下的spu 不分页
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> GetListByCatalog2Id(string Catalog2Id)
+        {
+            return await ResponseResult(async () =>
+            {
+                if (string.IsNullOrWhiteSpace(Catalog2Id))
+                {
+                    throw new Exception(("数据异常"));
+                }
+                return await _spuSupervisor.GetListByCatalog2Id(Catalog2Id);
             });
         }
     }
