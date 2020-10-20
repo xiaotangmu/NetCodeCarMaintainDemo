@@ -37,6 +37,10 @@ namespace WebApi.Controllers.Sku
         {
             return await ResponseResult(async () =>
             {
+                if (string.IsNullOrWhiteSpace(model.Catalog2Id) || string.IsNullOrWhiteSpace(model.SpuId))
+                {
+                    throw new Exception(("数据异常"));
+                }
                 string result = await _skuSupervisor.Add(model);
                 if (!string.IsNullOrEmpty(result))
                 {
@@ -60,6 +64,10 @@ namespace WebApi.Controllers.Sku
         {
             return await ResponseResult(async () =>
             {
+                if (string.IsNullOrWhiteSpace(model.Id))
+                {
+                    throw new Exception(("数据异常"));
+                }
                 bool result = await _skuSupervisor.Delete(model.Id);
                 if (!result)
                 {
@@ -83,6 +91,10 @@ namespace WebApi.Controllers.Sku
         {
             return await ResponseResult(async () =>
             {
+                if (string.IsNullOrWhiteSpace(model.Id))
+                {
+                    throw new Exception(("数据异常"));
+                }
                 bool result = await _skuSupervisor.Update(model);
                 if (!result)
                 {
@@ -120,6 +132,10 @@ namespace WebApi.Controllers.Sku
         {
             return await ResponseResult(async () =>
             {
+                if ( model.PageIndex < 1 || model.PageIndex < 1)
+                {
+                    throw new Exception(("提交的数据有误"));
+                }
                 return await _skuSupervisor.GetListPageBySearch(model);
             });
         }
@@ -133,6 +149,10 @@ namespace WebApi.Controllers.Sku
         {
             return await ResponseResult(async () =>
             {
+                if ( model.PageIndex < 1 || model.PageIndex < 1)
+                {
+                    throw new Exception(("提交的数据有误"));
+                }
                 return await _skuSupervisor.GetListPage(model);
             });
         }

@@ -1,4 +1,5 @@
 ﻿using Entity;
+using System;
 
 namespace DateModel.Sku
 {
@@ -20,10 +21,10 @@ namespace DateModel.Sku
         public string SKU_NAME { get; set; }
 
         /// <summary>
-        /// 库存存放房间号
+        /// 关联spu
         /// </summary>
-        public static readonly string FIELD_ROOM = "room";
-        public string ROOM { get; set; }
+        public static readonly string FIELD_SPU_ID = "spu_id";
+        public string SPU_ID { get; set; }
 
         /// <summary>
         /// 库存存放架子
@@ -52,8 +53,8 @@ namespace DateModel.Sku
         /// <summary>
         /// 数量
         /// </summary>
-        public static readonly string FIELD_QUANTITY = "quantity";
-        public int QUANTITY { get; set; }
+        public static readonly string FIELD_TOTAL_COUNT = "total_count";
+        public int TOTAL_COUNT { get; set; }
 
         /// <summary>
         /// 警报值
@@ -90,5 +91,51 @@ namespace DateModel.Sku
         /// </summary>
         public static readonly string FIELD_CATALOG2_ID = "catalog2_id";
         public string CATALOG2_ID { get; set; }
+    }
+
+    public class SMS_SKU_ADDRESS
+    {
+        /// <summary>
+        /// 表ID
+        /// </summary>
+        private string _id;
+
+        /// <summary>
+        /// 表ID
+        /// </summary>
+        public string ID
+        {
+            get { return _id; }
+            set { _id = value; }
+        }
+
+        public SMS_SKU_ADDRESS()
+        {
+            _id = Guid.NewGuid().ToString().Replace("-", "");
+        }
+
+        /// <summary>
+        /// 管理库存
+        /// </summary>
+        public static readonly string FIELD_SKU_ID = "sku_id";
+        public string SKU_ID { get; set; }
+
+        /// <summary>
+        /// 房间号
+        /// </summary>
+        public static readonly string FIELD_ROOM = "room";
+        public string ROOM { get; set; }
+
+        /// <summary>
+        /// 货架号
+        /// </summary>
+        public static readonly string FIELD_SELF = "self";
+        public string SELF { get; set; }
+
+        /// <summary>
+        /// 数量
+        /// </summary>
+        public static readonly string FIELD_QUANTITY = "quantity";
+        public int QUANTITY { get; set; }
     }
 }

@@ -33,14 +33,18 @@ namespace WebApi.Controllers.Client
         /// <param name="Data"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> AddClient(ClientAddModel Data)
+        public async Task<IActionResult> AddClient(ClientAddModel model)
         {
             return await ResponseResult(async () =>
             {
-                string result = await _clientSupervisor.AddClient(Data);
+                if (string.IsNullOrWhiteSpace(model.Company))
+                {
+                    throw new Exception(("数据异常"));
+                }
+                string result = await _clientSupervisor.AddClient(model);
                 if (!string.IsNullOrEmpty(result))
                 {
-                    await LogOperation(await Localizer.GetValueAsync("CreateClient") + Data.Company);
+                    await LogOperation(await Localizer.GetValueAsync("CreateClient") + model.Company);
                 }
                 else
                 {
@@ -70,6 +74,10 @@ namespace WebApi.Controllers.Client
         {
             return await ResponseResult(async () =>
             {
+                if (string.IsNullOrWhiteSpace(model.id))
+                {
+                    throw new Exception(("数据异常"));
+                }
                 bool result = await _clientSupervisor.DeleteClient(model.id);
                 if (result)
                 {
@@ -93,6 +101,10 @@ namespace WebApi.Controllers.Client
         {
             return await ResponseResult(async () =>
             {
+                if (string.IsNullOrWhiteSpace(model.id))
+                {
+                    throw new Exception(("数据异常"));
+                }
                 bool result = await _clientSupervisor.UpdateClientBySQL(model);
                 if (result)
                 {
@@ -128,6 +140,10 @@ namespace WebApi.Controllers.Client
         {
             return await ResponseResult(async () =>
             {
+                if (model.PageIndex < 1 || model.PageSize < 1)
+                {
+                    throw new Exception(("数据异常"));
+                }
                 return await _clientSupervisor.GetClientListPageBySearch(model);
             });
         }

@@ -27,13 +27,10 @@ namespace ViewModel.Sku
         /// </summary>
         public DateTime LUD { get; set; }
 
-        /// <summary>
-        /// 库存属性值
-        /// </summary>
-        public List<SkuAttr> attrList { get; set; }
     }
     public class SkuAddModel
     {
+        public string SpuId { get; set; }
         /// <summary>
         /// 编号
         /// </summary>
@@ -42,14 +39,7 @@ namespace ViewModel.Sku
         /// 库存名
         /// </summary>
         public string SkuName { get; set; }
-        /// <summary>
-        /// 房号
-        /// </summary>
-        public string Room { get; set; }
-        /// <summary>
-        /// 架子号
-        /// </summary>
-        public string Self { get; set; }
+
         /// <summary>
         /// 库存品牌
         /// </summary>
@@ -63,9 +53,9 @@ namespace ViewModel.Sku
         /// </summary>
         public string Unit { get; set; }
         /// <summary>
-        /// 数量
+        /// 总数量
         /// </summary>
-        public int Quantity { get; set; }
+        public int TotalCount { get; set; }
         /// <summary>
         /// 警报值
         /// </summary>
@@ -90,6 +80,14 @@ namespace ViewModel.Sku
         /// 所属分类
         /// </summary>
         public string Catalog2Id { get; set; }
+
+        /// <summary>
+        /// 库存属性值
+        /// </summary>
+        public IEnumerable<SkuAttrModel> attrList = new List<SkuAttrModel>();
+
+        public IEnumerable<SkuAddressModel> addressList = new List<SkuAddressModel>();
+
     }
 
     public class SkuListWithPagingViewModel
@@ -105,6 +103,8 @@ namespace ViewModel.Sku
     public class SkuListSearchModel : BaseSearchModel
     {
         public string SearchStr { get; set; }
+
+        public string Catalog2Id { get; set; }
     }
 
     public class DeleteSkuModel
@@ -116,10 +116,21 @@ namespace ViewModel.Sku
     /// <summary>
     /// 库存属性值
     /// </summary>
-    public class SkuAttr
+    public class SkuAttrModel
     {
-        public string AttrId { get; set; }
+        public string Id { get; set; }
+        public string SpuAttrValueId { get; set; }
         public string AttrName { get; set; }
         public string Value { get; set; }
     }
+
+    public class SkuAddressModel
+    {
+        public string Id { get; set; }
+        public string SpuId { get; set; }
+        public string Room { get; set; }
+        public string Self { get; set; }
+        public int Quantity { get; set; }
+    }
+
 }

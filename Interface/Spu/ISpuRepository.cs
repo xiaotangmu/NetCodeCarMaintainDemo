@@ -18,8 +18,8 @@ namespace Interface
         Task<bool> DeleteSpuAttrValueBySpuId(string id, IDbTransaction transaction = null);
         Task<bool> DeleteSpuAttrBySpuId(string id, IDbTransaction transaction = null);
         Task<bool> Delete(string id, IDbTransaction transaction = null);
-        Task<IEnumerable<SpuModel>> SelectAllWithPaging(BaseSearchModel model);
-        Task<IEnumerable<SpuModel>> SelectSpuListWithPaging(SpuPageSearchModel model);
+        Task<SpuListWithPagingModel> SelectAllWithPaging(BaseSearchModel model);
+        Task<SpuListWithPagingModel> SelectSpuListWithPaging(SpuPageSearchModel model);
         Task<bool> Update(PMS_SPU entity, IDbTransaction transaction = null);
         Task<IEnumerable<SpuAttrModel>> SelectAttrBySpuId(string SpuId);
         Task<IEnumerable<SpuAttrValueModel>> SelectAttrValueBySpuAttrId(string SpuAttrId);

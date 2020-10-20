@@ -34,6 +34,10 @@ namespace WebApi.Controllers.Catalog
         {
             return await ResponseResult(async () =>
             {
+                if (string.IsNullOrWhiteSpace(model.CatalogName))
+                {
+                    throw new Exception(("数据异常"));
+                }
                 string result = await _catalog1Supervisor.Add(model);
                 if (!string.IsNullOrEmpty(result))
                 {
@@ -70,6 +74,10 @@ namespace WebApi.Controllers.Catalog
         {
             return await ResponseResult(async () =>
             {
+                if (string.IsNullOrWhiteSpace(model.Id) || string.IsNullOrWhiteSpace(model.CatalogName))
+                {
+                    throw new Exception(("数据异常"));
+                }
                 bool result =  await _catalog1Supervisor.Update(model);
                 if (result)
                 {
@@ -93,6 +101,10 @@ namespace WebApi.Controllers.Catalog
         {
             return await ResponseResult(async () =>
             {
+                if (string.IsNullOrWhiteSpace(model.Id) )
+                {
+                    throw new Exception(("数据异常"));
+                }
                 bool result = await _catalog1Supervisor.Delete(model.Id);
                 if (result)
                 {

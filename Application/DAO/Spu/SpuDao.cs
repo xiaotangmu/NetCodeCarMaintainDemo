@@ -18,7 +18,11 @@ namespace DAO.Spu
         public SpuDao() {  }
 
         public SpuDao(IDataRepository repository) : base(repository) { }
-
+        public void Dispose()
+        {
+            Repository.DbSession.Connection.Close();
+            Repository.DbSession.Connection.Dispose();
+        }
         public async Task<string> Add(PMS_SPU pMS_SPU, IDbTransaction transaction = null)
         {
             return await Repository.InsertAsync<PMS_SPU>(pMS_SPU, transaction);
@@ -79,10 +83,11 @@ namespace DAO.Spu
             return await Repository.CountAsync<PMS_SPU>(predicateGroup) > 0 ? true : false;
         }
 
-        public async Task<IEnumerable<SpuModel>> SelectAllWithPaging(BaseSearchModel model)
+        public async Task<SpuListWithPagingModel> SelectAllWithPaging(BaseSearchModel model)
         {
             var pSort = Predicates.Sort<PMS_SPU>(item => item.OCD, false);
-            IEnumerable<PMS_SPU> entityList = await Repository.GetPageListAsync<PMS_SPU>(model.PageIndex, model.PageSize, null, new[] { pSort });
+            long count = 0;
+            IEnumerable<PMS_SPU> entityList = await Repository.GetPageList<PMS_SPU>(model.PageIndex, model.PageSize, out count,null, new[] { pSort });
             return EntityListToModelList(entityList);
         }
 

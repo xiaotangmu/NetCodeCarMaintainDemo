@@ -15,8 +15,8 @@ namespace Supervisor.Sku
         Task<bool> Delete(string id);
         Task<bool> Update(SkuModel model);
         Task<IEnumerable<SkuModel>> GetListBySearch(string searchStr);
-        Task<IEnumerable<SkuModel>> GetListPageBySearch(SkuListSearchModel model);
-        Task<IEnumerable<SkuModel>> GetListPage(BaseSearchModel model);
+        Task<SkuListWithPagingViewModel> GetListPageBySearch(SkuListSearchModel model);
+        Task<SkuListWithPagingViewModel> GetListPage(BaseSearchModel model);
         Task<IEnumerable<SkuModel>> GetAll();
     }
 }

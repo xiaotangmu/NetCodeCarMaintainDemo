@@ -12,7 +12,9 @@ namespace Supervisor.Spu
         Task<string> Add(SpuAddModel model);
         Task<bool> Delete(string id);
         Task<bool> Update(SpuModel model);
-        Task<IEnumerable<SpuModel>> GetSpuListWithPaging(SpuPageSearchModel model);
-        Task<IEnumerable<SpuModel>> GetAllWithPaging(BaseSearchModel model);
+        Task<SpuListWithPagingModel> GetSpuListWithPaging(SpuPageSearchModel model);
+        Task<SpuListWithPagingModel> GetAllWithPaging(BaseSearchModel model);
+        Task<IEnumerable<SpuModel>> GetAll();
+        Task<IEnumerable<SpuModel>> GetListByCatalog2Id(string Catalog2Id);
     }
 }

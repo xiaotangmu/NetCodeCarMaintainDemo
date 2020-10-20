@@ -34,6 +34,10 @@ namespace WebApi.Controllers.Catalog
         {
             return await ResponseResult(async () =>
             {
+                if (string.IsNullOrWhiteSpace(model.AttrName))
+                {
+                    throw new Exception(("数据异常"));
+                }
                 string result = await _attrSupervisor.Add(model);
                 if (!string.IsNullOrEmpty(result))
                 {

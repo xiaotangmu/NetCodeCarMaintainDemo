@@ -12,11 +12,18 @@ namespace Interface.Sku
     public interface ISkuRepository : IBaseRepository
     {
         Task<bool> Update(SMS_SKU sMS_SKU, IDbTransaction transaction = null);
-        Task<IEnumerable<SkuModel>> SelectListPageBySearch(SkuListSearchModel model);
-        Task<IEnumerable<SkuModel>> SelectListPage(BaseSearchModel model);
+        Task<SkuListWithPagingViewModel> SelectListPageBySearch(SkuListSearchModel model);
+        Task<SkuListWithPagingViewModel> SelectListPage(BaseSearchModel model);
         Task<IEnumerable<SkuModel>> SelectListBySearch(string searchStr);
         Task<IEnumerable<SkuModel>> SelectAll();
         Task<bool> Delete(string id, IDbTransaction transaction = null);
         Task<string> Insert(SMS_SKU sMS_SKU, IDbTransaction transaction = null);
+        Task<string> AddAttrValue(SMS_SKU_ATTR_VALUE sMS_SKU_ATTR_VALUE, IDbTransaction transaction);
+        Task<string> AddAdress(SMS_SKU_ADDRESS sMS_SKU_ADDRESS, IDbTransaction transaction);
+        Task<bool> DeleteSkuAttrValueBySkuId(string skuId, IDbTransaction transaction);
+        Task<bool> DeleteSkuAddressBySkuId(string skuId, IDbTransaction transaction);
+        Task<IEnumerable<SkuModel>> GetSameSku(SkuAddModel model);
+        Task<IEnumerable<SkuAttrModel>> SelectAttrBySkuId(string skuId);
+        Task<IEnumerable<SkuAddressModel>> SelectAddressBySkuId(string skuId);
     }
 }

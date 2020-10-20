@@ -108,6 +108,12 @@ namespace ViewModel.Common
         [Description("数据已更新")]
         Data_Updated = 100003,
 
+        /// <summary>
+        /// 提交的数据有误
+        /// </summary>
+        [Description("提交的数据有误")]
+        Data_Failure = 100004,
+
         #endregion
     }
 }

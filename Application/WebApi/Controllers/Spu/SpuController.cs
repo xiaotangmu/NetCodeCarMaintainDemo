@@ -36,6 +36,10 @@ namespace WebApi.Controllers.Spu
         {
             return await ResponseResult(async () =>
             {
+                if (string.IsNullOrWhiteSpace(model.Catalog2Id) || string.IsNullOrWhiteSpace(model.ProductName))
+                {
+                    throw new Exception(("数据异常"));
+                }
                 string result = await _spuSupervisor.Add(model);
                 if (!string.IsNullOrEmpty(result))
                 {
@@ -58,6 +62,10 @@ namespace WebApi.Controllers.Spu
         {
             return await ResponseResult(async () =>
             {
+                if (string.IsNullOrWhiteSpace(Id))
+                {
+                    throw new Exception(("数据异常"));
+                }
                 bool result = await _spuSupervisor.Delete(Id);
                 if (result)
                 {
@@ -81,6 +89,11 @@ namespace WebApi.Controllers.Spu
         {
             return await ResponseResult(async () =>
             {
+                if (string.IsNullOrWhiteSpace(model.Catalog2Id) || string.IsNullOrWhiteSpace(model.ProductName) 
+                    || string.IsNullOrWhiteSpace(model.Id))
+                {
+                    throw new Exception(("数据异常"));
+                }
                 bool result = await _spuSupervisor.Update(model);
                 if (result)
                 {

@@ -7,11 +7,23 @@ namespace DateModel.Sku
     public class SMS_SKU_ATTR_VALUE
     {
         /// <summary>
-        /// 属性编号
+        /// 表ID
         /// </summary>
-        public static readonly string FIELD_ATTR_NO = "sku_no";
-        public string SKU_NO { get; set; }
+        private string _id;
 
+        /// <summary>
+        /// 表ID
+        /// </summary>
+        public string ID
+        {
+            get { return _id; }
+            set { _id = value; }
+        }
+
+        public SMS_SKU_ATTR_VALUE()
+        {
+            _id = Guid.NewGuid().ToString().Replace("-", "");
+        }
         /// <summary>
         /// 库存编号
         /// </summary>
@@ -19,9 +31,9 @@ namespace DateModel.Sku
         public string SKU_ID { get; set; }
 
         /// <summary>
-        /// 属性值
+        /// 关联属性值
         /// </summary>
-        public static readonly string FIELD_VALUE = "value";
-        public string VALUE { get; set; }
+        public static readonly string FIELD_SPU_ATTR_VALUE_ID = "spu_attr_value_id";
+        public string SPU_ATTR_VALUE_ID { get; set; }
     }
 }

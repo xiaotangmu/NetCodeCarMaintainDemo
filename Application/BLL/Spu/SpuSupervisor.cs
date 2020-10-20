@@ -57,18 +57,14 @@ namespace BLL.Spu
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<SpuModel>> GetAllWithPaging(BaseSearchModel model)
+        public async Task<SpuListWithPagingModel> GetAllWithPaging(BaseSearchModel model)
         {
-            // 1. 判断条件是否为空
-            if(string.IsNullOrEmpty(model.PageIndex + "") || string.IsNullOrEmpty(model.PageSize + ""))
-            {
-                throw new MyServiceException(MsgCode.Failure, "条件不足");
-            }
             // 2. 搜索
-            IEnumerable<SpuModel> modelList = await _spuDao.SelectAllWithPaging(model);
+            SpuListWithPagingModel pageModel = await _spuDao.SelectAllWithPaging(model);
+            IEnumerable<SpuModel> modelList = pageModel.Items;
             // 放入属性和属性值
             await GetSpuAttrAndAttrValue(modelList);
-            return modelList;
+            return pageModel;
         }
 
         /// <summary>
@@ -76,23 +72,19 @@ namespace BLL.Spu
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<SpuModel>> GetSpuListWithPaging(SpuPageSearchModel model)
+        public async Task<SpuListWithPagingModel> GetSpuListWithPaging(SpuPageSearchModel model)
         {
-            // 1. 判断搜索条件是否为空
-            if (string.IsNullOrEmpty(model.PageIndex + "") || string.IsNullOrEmpty(model.PageSize + ""))
-            {
-                throw new MyServiceException(MsgCode.Failure, "条件不足");
-            }
             // 查询条件没有，查询所有
             if (string.IsNullOrEmpty(model.ProductName) && string.IsNullOrEmpty(model.Catalog2Id))
             {
                 return await GetAllWithPaging(model);
             }
             // 2. 搜索
-            IEnumerable<SpuModel> modelList = await _spuDao.SelectSpuListWithPaging(model);
+            SpuListWithPagingModel pageModel = await _spuDao.SelectSpuListWithPaging(model);
+            IEnumerable<SpuModel> modelList = pageModel.Items;
             // 放入属性和属性值
             await GetSpuAttrAndAttrValue(modelList);
-            return modelList;
+            return pageModel;
         }
 
         public async Task<bool> Update(SpuModel model)

@@ -12,7 +12,7 @@
  Target Server Version : 14001000
  File Encoding         : 65001
 
- Date: 19/10/2020 17:15:21
+ Date: 20/10/2020 17:17:12
 */
 
 
@@ -624,6 +624,9 @@ GO
 INSERT INTO [dbo].[PMS_SPU] ([ID], [CATALOG2_ID], [SPU_NO], [PRODUCT_NAME], [DESCRIPTION], [OCU], [OCD], [LUC], [LUD]) VALUES (N'd7ed3c8162cb41bb87073530891717e5', N'string2', NULL, N'string2', N'string', NULL, N'10 19 2020  4:48PM', NULL, N'10 19 2020  4:48PM')
 GO
 
+INSERT INTO [dbo].[PMS_SPU] ([ID], [CATALOG2_ID], [SPU_NO], [PRODUCT_NAME], [DESCRIPTION], [OCU], [OCD], [LUC], [LUD]) VALUES (N'df28ab9c0fb5413db5436e69dac9d00c', N'string', NULL, N'你好吗', N'string', NULL, N'10 20 2020  9:09AM', NULL, N'10 20 2020  9:09AM')
+GO
+
 
 -- ----------------------------
 -- Table structure for PMS_SPU_ATTR
@@ -647,6 +650,9 @@ GO
 -- Records of PMS_SPU_ATTR
 -- ----------------------------
 INSERT INTO [dbo].[PMS_SPU_ATTR] ([ID], [ATTR_ID], [SPU_ID]) VALUES (N'1', N'9f1d47e2cbbc477db6c1e4ecbbb862ba', N'23477d9ce1144e80a18662b4886c6a1e')
+GO
+
+INSERT INTO [dbo].[PMS_SPU_ATTR] ([ID], [ATTR_ID], [SPU_ID]) VALUES (N'1bc92de23a50488c82099d85bc2fbdcf', N'string', N'df28ab9c0fb5413db5436e69dac9d00c')
 GO
 
 INSERT INTO [dbo].[PMS_SPU_ATTR] ([ID], [ATTR_ID], [SPU_ID]) VALUES (N'43bd668189094108bffc3af7640a6c7a', N'df6afd21adc541e08c15711ca3afe15d', N'3d5cae2ab2914ab9ab8a1ac308e6ed0d')
@@ -681,6 +687,9 @@ INSERT INTO [dbo].[PMS_SPU_ATTR_VALUE] ([ID], [SPU_ATTR_ID], [VALUE]) VALUES (N'
 GO
 
 INSERT INTO [dbo].[PMS_SPU_ATTR_VALUE] ([ID], [SPU_ATTR_ID], [VALUE]) VALUES (N'5f6786704aad4f59bfd73ce9cf068078', N'43bd668189094108bffc3af7640a6c7a', N'string')
+GO
+
+INSERT INTO [dbo].[PMS_SPU_ATTR_VALUE] ([ID], [SPU_ATTR_ID], [VALUE]) VALUES (N'6d376bdf512e4ae8b35ac529e1b17df3', N'1bc92de23a50488c82099d85bc2fbdcf', N'string')
 GO
 
 
@@ -872,19 +881,18 @@ GO
 
 CREATE TABLE [dbo].[SMS_SKU] (
   [ID] varchar(50) COLLATE Chinese_PRC_CI_AS  NOT NULL,
-  [SKU_NO] varchar(1) COLLATE Chinese_PRC_CI_AS  NULL,
+  [SKU_NO] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
   [SKU_NAME] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
-  [ROOM] varchar(20) COLLATE Chinese_PRC_CI_AS  NULL,
-  [SELF] varchar(20) COLLATE Chinese_PRC_CI_AS  NULL,
+  [SPU_ID] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
   [BRAND] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
   [PRICE] decimal(2)  NULL,
   [UNIT] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
-  [QUANTITY] int  NULL,
+  [TOTAL_COUNT] int  NULL,
   [ALARM] int  NULL,
   [DESCRIPTION] varchar(1024) COLLATE Chinese_PRC_CI_AS  NULL,
   [TYPE] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
   [STATUS] int  NULL,
-  [OLD_PARTID] varchar(1) COLLATE Chinese_PRC_CI_AS  NULL,
+  [OLD_PARTID] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
   [CATALOG2_ID] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
   [OCU] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
   [OCD] datetime  NULL,
@@ -911,24 +919,17 @@ EXEC sp_addextendedproperty
 GO
 
 EXEC sp_addextendedproperty
-'MS_Description', N'库存名',
+'MS_Description', N'库存名(冗余，方便 操作)',
 'SCHEMA', N'dbo',
 'TABLE', N'SMS_SKU',
 'COLUMN', N'SKU_NAME'
 GO
 
 EXEC sp_addextendedproperty
-'MS_Description', N'所处房间号',
+'MS_Description', N'关联SPU',
 'SCHEMA', N'dbo',
 'TABLE', N'SMS_SKU',
-'COLUMN', N'ROOM'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'所处架子',
-'SCHEMA', N'dbo',
-'TABLE', N'SMS_SKU',
-'COLUMN', N'SELF'
+'COLUMN', N'SPU_ID'
 GO
 
 EXEC sp_addextendedproperty
@@ -953,10 +954,10 @@ EXEC sp_addextendedproperty
 GO
 
 EXEC sp_addextendedproperty
-'MS_Description', N'数量',
+'MS_Description', N'总数量',
 'SCHEMA', N'dbo',
 'TABLE', N'SMS_SKU',
-'COLUMN', N'QUANTITY'
+'COLUMN', N'TOTAL_COUNT'
 GO
 
 EXEC sp_addextendedproperty
@@ -1033,6 +1034,12 @@ GO
 -- ----------------------------
 -- Records of SMS_SKU
 -- ----------------------------
+INSERT INTO [dbo].[SMS_SKU] ([ID], [SKU_NO], [SKU_NAME], [SPU_ID], [BRAND], [PRICE], [UNIT], [TOTAL_COUNT], [ALARM], [DESCRIPTION], [TYPE], [STATUS], [OLD_PARTID], [CATALOG2_ID], [OCU], [OCD], [LUC], [LUD]) VALUES (N'1', N'no', N'name', N'spu', N'brand', N'22', N'unit', N'33', N'3', N'descr', N'type', N'0', N'oldpart', N'cata', NULL, N'2020-10-20 16:05:04.000', NULL, NULL)
+GO
+
+INSERT INTO [dbo].[SMS_SKU] ([ID], [SKU_NO], [SKU_NAME], [SPU_ID], [BRAND], [PRICE], [UNIT], [TOTAL_COUNT], [ALARM], [DESCRIPTION], [TYPE], [STATUS], [OLD_PARTID], [CATALOG2_ID], [OCU], [OCD], [LUC], [LUD]) VALUES (N'2', N'no', N'string3', N'd7ed3c8162cb41bb87073530891717e5', N'brand', N'22', N'unit', N'33', N'3', N'descr', N'type', N'0', N'oldpart', N'cata', NULL, N'2020-10-24 16:05:09.000', NULL, NULL)
+GO
+
 
 -- ----------------------------
 -- Table structure for SMS_SKU_ADDRESS
@@ -1045,17 +1052,35 @@ CREATE TABLE [dbo].[SMS_SKU_ADDRESS] (
   [ID] varchar(50) COLLATE Chinese_PRC_CI_AS  NOT NULL,
   [SKU_ID] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
   [ROOM] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
-  [SELF] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL
+  [SELF] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
+  [QUANTITY] int  NULL
 )
 GO
 
 ALTER TABLE [dbo].[SMS_SKU_ADDRESS] SET (LOCK_ESCALATION = TABLE)
 GO
 
+EXEC sp_addextendedproperty
+'MS_Description', N'关联sku',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_SKU_ADDRESS',
+'COLUMN', N'SKU_ID'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'数量',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_SKU_ADDRESS',
+'COLUMN', N'QUANTITY'
+GO
+
 
 -- ----------------------------
 -- Records of SMS_SKU_ADDRESS
 -- ----------------------------
+INSERT INTO [dbo].[SMS_SKU_ADDRESS] ([ID], [SKU_ID], [ROOM], [SELF], [QUANTITY]) VALUES (N'1', N'2', N'd', N'd', N'3')
+GO
+
 
 -- ----------------------------
 -- Table structure for SMS_SKU_ATTR_VALUE
@@ -1092,6 +1117,9 @@ GO
 -- ----------------------------
 -- Records of SMS_SKU_ATTR_VALUE
 -- ----------------------------
+INSERT INTO [dbo].[SMS_SKU_ATTR_VALUE] ([SKU_ID], [SPU_ATTR_VALUE_ID], [ID]) VALUES (N'2', N'5f6786704aad4f59bfd73ce9cf068078', N'1')
+GO
+
 
 -- ----------------------------
 -- Table structure for SMS_SKU_LOG

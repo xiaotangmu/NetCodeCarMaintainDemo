@@ -39,4 +39,11 @@ namespace ViewModel.Spu
         public string Id;
         public string Value;
     }
+
+    public class SpuListWithPagingModel
+    {
+        public int TotalCount { get; set; }
+
+        public IEnumerable<SpuModel> Items { get; set; } = new List<SpuModel>();
+    }
 }

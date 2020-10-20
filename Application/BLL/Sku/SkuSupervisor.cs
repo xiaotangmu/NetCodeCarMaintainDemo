@@ -2,11 +2,16 @@
 using DataModel;
 using DateModel.Sku;
 using Interface.Sku;
+using NPOI.SS.Formula;
 using Supervisor.Sku;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ViewModel.Common;
+using ViewModel.CustomException;
 using ViewModel.Sku;
 
 namespace BLL.Sku
@@ -28,10 +33,21 @@ namespace BLL.Sku
         {
             return await _skuDao.Repository.DbSession.TransactionHandle(async (transaction) =>
             {
+                // 判断属性值和地址是否重复
+                IsAttrOrAddressRepeatedThrowException(model.attrList, model.addressList);
+                // 判断sku 是否已经存在
+                await IsExistSkuThrowException(model);
+                // 添加sku
+                string skuId = await _skuDao.Insert(ModelToEntityNoId(model), transaction);
                 // 添加属性值
-
-                // 添加
-                return await _skuDao.Insert(ModelToEntityNoId(model), transaction);
+                await AddSpuAttrValue(model.attrList, skuId, transaction);
+                // 添加位置并统计总数量
+                int count = await AddSpuAddressAndCountQuantity(model.addressList, skuId, transaction);
+                if(!count.Equals(model.TotalCount)) // 不更新，交由前端修改
+                {
+                    throw new MyServiceException(MsgCode.Data_Failure, "提交的数据有误，总数不一");
+                }
+                return skuId;
             });
         }
 
@@ -45,7 +61,9 @@ namespace BLL.Sku
             return await _skuDao.Repository.DbSession.TransactionHandle(async (transaction) =>
             {
                 // 删除属性值
-
+                await DeleteAttrValueBySkuId(id, transaction);
+                // 删除地址
+                await DeleteAddressBySkuId(id, transaction);
                 // 删除库存
                 return await _skuDao.Delete(id, transaction);
             });
@@ -58,7 +76,13 @@ namespace BLL.Sku
         /// <returns></returns>
         public async Task<IEnumerable<SkuModel>> GetAll()
         {
-            return await _skuDao.SelectAll();
+            // 搜索
+            IEnumerable<SkuModel> modelList = await _skuDao.SelectAll();
+            // 放入属性值
+            await GetSkuAttrList(modelList);
+            // 放入地址
+            await GetSkuAddressList(modelList);
+            return modelList;
         }
 
         /// <summary>
@@ -68,7 +92,18 @@ namespace BLL.Sku
         /// <returns></returns>
         public async Task<IEnumerable<SkuModel>> GetListBySearch(string searchStr)
         {
-            return await _skuDao.SelectListBySearch(searchStr);
+            // 查询条件没有，查询所有
+            if (string.IsNullOrEmpty(searchStr))
+            {
+                return await GetAll();
+            }
+            // 2. 搜索
+            IEnumerable<SkuModel> modelList = await _skuDao.SelectListBySearch(searchStr);
+            // 放入属性值
+            await GetSkuAttrList(modelList);
+            // 放入地址
+            await GetSkuAddressList(modelList);
+            return modelList;
         }
 
         /// <summary>
@@ -76,9 +111,16 @@ namespace BLL.Sku
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<SkuModel>> GetListPage(BaseSearchModel model)
+        public async Task<SkuListWithPagingViewModel> GetListPage(BaseSearchModel model)
         {
-            return await _skuDao.SelectListPage(model);
+            // 搜索
+            SkuListWithPagingViewModel pageModel = await _skuDao.SelectListPage(model);
+            IEnumerable<SkuModel> modelList = pageModel.Items;
+            // 放入属性值
+            await GetSkuAttrList(modelList);
+            // 放入地址
+            await GetSkuAddressList(modelList);
+            return pageModel;
         }
 
         /// <summary>
@@ -86,11 +128,47 @@ namespace BLL.Sku
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<SkuModel>> GetListPageBySearch(SkuListSearchModel model)
+        public async Task<SkuListWithPagingViewModel> GetListPageBySearch(SkuListSearchModel model)
         {
-            return await _skuDao.SelectListPageBySearch(model);
+            // 搜索
+            SkuListWithPagingViewModel pageModel = await _skuDao.SelectListPageBySearch(model);
+            IEnumerable<SkuModel> modelList = pageModel.Items;
+            // 放入属性值
+            await GetSkuAttrList(modelList);
+            // 放入地址
+            await GetSkuAddressList(modelList);
+            return pageModel;
         }
-
+        /// <summary>
+        /// 获取属性值
+        /// </summary>
+        /// <param name="modelList"></param>
+        /// <returns></returns>
+        public async Task<IEnumerable<SkuModel>> GetSkuAttrList(IEnumerable<SkuModel> modelList)
+        {
+            foreach (var model in modelList)
+            {
+                // 1. 获取属性值
+                IEnumerable<SkuAttrModel> attrList = await _skuDao.SelectAttrBySkuId(model.Id);
+                model.attrList = attrList;
+            }
+            return modelList;
+        }
+        /// <summary>
+        /// 获取地址
+        /// </summary>
+        /// <param name="modelList"></param>
+        /// <returns></returns>
+        public async Task<IEnumerable<SkuModel>> GetSkuAddressList(IEnumerable<SkuModel> modelList)
+        {
+            foreach (var model in modelList)
+            {
+                // 1. 获取地址
+                IEnumerable<SkuAddressModel> addressList = await _skuDao.SelectAddressBySkuId(model.Id);
+                model.addressList = addressList;
+            }
+            return modelList;
+        }
         /// <summary>
         /// 更新
         /// </summary>
@@ -100,15 +178,167 @@ namespace BLL.Sku
         {
             return await _skuDao.Repository.DbSession.TransactionHandle(async (transaction) =>
             {
+                // 判断是否已经存在
+                await IsExistSkuThrowException(model, model.Id);
                 // 全删属性值
+                await DeleteAttrValueBySkuId(model.Id, transaction);
+                await DeleteAddressBySkuId(model.Id, transaction);
 
                 // 添加属性值
-
+                await AddSpuAttrValue(model.attrList, model.SpuId, transaction);
+                int total = await AddSpuAddressAndCountQuantity(model.addressList, model.SpuId, transaction);
+                model.TotalCount = total;
                 // 更新库存表
                 return await _skuDao.Update(ModelToEntity(model), transaction);
             });
         }
 
+        /// <summary>
+        /// 添加属性值
+        /// </summary>
+        /// <returns></returns>
+        public async Task AddSpuAttrValue(IEnumerable<SkuAttrModel> spuAttrModelList, string SpuId, IDbTransaction transaction)
+        {
+            // 添加属性值
+            foreach (var attr in spuAttrModelList)
+            {
+                string SpuAttrId = await _skuDao.AddAttrValue(SkuAttrModelToEntityNoId(attr, SpuId), transaction);
+            }
+        }
+        public async Task<int> AddSpuAddressAndCountQuantity(IEnumerable<SkuAddressModel> skuAddressModelList, string SpuId, IDbTransaction transaction)
+        {
+            int count = 0;
+            // 添加属性值
+            foreach (var address in skuAddressModelList)
+            {
+                string SpuAttrId = await _skuDao.AddAdress(SkuAddressModelToEntityNoId(address, SpuId), transaction);
+                count += address.Quantity;
+            }
+            return count;
+        }
+        /// <summary>
+        /// 删除Sku属性值
+        /// </summary>
+        /// <returns></returns>
+        public async Task DeleteAttrValueBySkuId(string SkuId, IDbTransaction transaction)
+        {
+            // 1. 删除属性值
+            await _skuDao.DeleteSkuAttrValueBySkuId(SkuId, transaction);
+        }
+        public async Task DeleteAddressBySkuId(string SkuId, IDbTransaction transaction)
+        {
+            // 1. 删除位置
+            await _skuDao.DeleteSkuAddressBySkuId(SkuId, transaction);
+        }
+        /// <summary>
+        /// 判断是否已经存在sku，存在抛出异常
+        /// </summary>
+        /// <param name="model"></param>
+        public async Task IsExistSkuThrowException(SkuAddModel model, string skuId = null)
+        {
+            // 1. 判断sku 名，品牌，单位是否相同
+            IEnumerable<SkuModel> modelList = await _skuDao.GetSameSku(model);
+            if(modelList == null || modelList.Count() == 0)
+            {
+                return;
+            }
+            List<string> list1 = new List<string>();
+            foreach(var attr in model.attrList)
+            {
+                list1.Add(attr.SpuAttrValueId);
+            }
+            list1.Sort();
+
+            // 2. 判断sku 规格是否相同
+            foreach (var sku in modelList)
+            {
+                // 过滤本身
+                if(skuId != null && sku.Id.Equals(skuId))
+                {
+                    continue;
+                }
+                IEnumerable<SkuAttrModel> attrList = await _skuDao.SelectAttrBySkuId(model.SpuId);
+                
+                if(attrList == null && model.attrList == null)
+                {
+                    throw new MyServiceException(MsgCode.SameData, "该数据已存在");
+                }
+                if(attrList != null && attrList.Count().Equals(model.attrList.Count()))
+                {
+                    List<string> list2 = new List<string>();
+                    foreach(var attr in attrList)
+                    {
+                        list2.Add(attr.SpuAttrValueId);
+                    }
+                    // 数量相同，进一步判断值
+                    list2.Sort();
+                    if (list1.SequenceEqual(list2))
+                    {
+                        throw new MyServiceException(MsgCode.SameData, "该数据已存在");
+                    }
+                }
+            }
+        }
+        /// <summary>
+        /// 判断属性和属性值是否重复，重复抛出异常
+        /// </summary>
+        /// <param name="spuAttrModelList"></param>
+        public void IsAttrOrAddressRepeatedThrowException(IEnumerable<SkuAttrModel> attrlList, IEnumerable<SkuAddressModel> addresslList)
+        {
+            // 1. 判断属性值是否重复
+            if (attrlList != null && attrlList.Count() > 0)
+            {
+                
+                HashSet<string> attrSet = new HashSet<string>();
+                foreach (var attr in attrlList)
+                {
+
+                    if (!string.IsNullOrEmpty(attr.SpuAttrValueId))
+                    {
+                        attrSet.Add(attr.SpuAttrValueId);
+                    }
+                }
+                if (!attrSet.Count().Equals(attrlList.Count()))
+                {
+                    throw new MyServiceException(MsgCode.Duplicate_Name, "属性重复");
+                }
+            }
+            // 2. 判断位置是否重复
+            if (addresslList != null && addresslList.Count() > 0)
+            {
+                HashSet<string> attrSet = new HashSet<string>();
+                for (int i = 0; i < addresslList.Count(); i++)
+                {
+                    for (int j = i + 1; j < addresslList.Count(); j++)
+                    {
+                        SkuAddressModel address1 = addresslList.ToList()[i];
+                        SkuAddressModel address2 = addresslList.ToList()[j];
+                        if(address1.Room.Equals(address2.Room) && address1.Self.Equals(address2.Self))
+                        {
+                            throw new MyServiceException(MsgCode.Duplicate_Name, "位置重复，请先合并再操作");
+                        }
+                    }
+                }
+            }
+        }
+        public SMS_SKU_ADDRESS SkuAddressModelToEntityNoId(SkuAddressModel model = null, string SkuId = null)
+        {
+            return new SMS_SKU_ADDRESS
+            {
+                SKU_ID = SkuId,
+                ROOM = model?.Room,
+                SELF = model?.Self,
+                QUANTITY = (int)model?.Quantity
+            };
+        }
+        public SMS_SKU_ATTR_VALUE SkuAttrModelToEntityNoId(SkuAttrModel model = null, string SkuId = null)
+        {
+            return new SMS_SKU_ATTR_VALUE
+            {
+                SKU_ID = SkuId,
+                SPU_ATTR_VALUE_ID = model?.SpuAttrValueId
+            };
+        }
         /// <summary>
         /// 将model 转换为表 entity，没有ID
         /// </summary>
@@ -120,12 +350,10 @@ namespace BLL.Sku
             {
                 SKU_NO = model?.SkuNo,
                 SKU_NAME = model?.SkuName,
-                ROOM = model?.Room,
-                SELF = model?.Self,
                 BRAND = model?.Brand,
                 PRICE = (decimal)model?.Price,
                 UNIT = model?.Unit,
-                QUANTITY = (int)model?.Quantity,
+                TOTAL_COUNT = (int)model?.TotalCount,
                 ALARM = (int)model?.Alarm,
                 DESCRIPTION = model?.Description,
                 TYPE = model?.Type,
