@@ -12,7 +12,7 @@
  Target Server Version : 14001000
  File Encoding         : 65001
 
- Date: 20/10/2020 17:17:12
+ Date: 21/10/2020 17:10:44
 */
 
 
@@ -754,64 +754,66 @@ GO
 
 
 -- ----------------------------
--- Table structure for sms_entry
+-- Table structure for SMS_ENTRY
 -- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sms_entry]') AND type IN ('U'))
-	DROP TABLE [dbo].[sms_entry]
+IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[SMS_ENTRY]') AND type IN ('U'))
+	DROP TABLE [dbo].[SMS_ENTRY]
 GO
 
-CREATE TABLE [dbo].[sms_entry] (
-  [id] int  IDENTITY(1,1) NOT NULL,
-  [EntryNo] varchar(30) COLLATE Chinese_PRC_CI_AS  NULL,
-  [Operator] varchar(20) COLLATE Chinese_PRC_CI_AS  NULL,
-  [EntryDate] date  NULL,
-  [TotalPrice] decimal(18)  NULL
+CREATE TABLE [dbo].[SMS_ENTRY] (
+  [ID] varchar(1) COLLATE Chinese_PRC_CI_AS  NOT NULL,
+  [ENTRY_NO] varchar(1) COLLATE Chinese_PRC_CI_AS  NULL,
+  [OPERATOR] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
+  [TOTAL_PRICE] decimal(18)  NULL,
+  [ENTRY_DATE] datetime  NULL,
+  [BATCH] int DEFAULT ((1)) NULL,
+  [SUPPLIER_ID] varchar(1) COLLATE Chinese_PRC_CI_AS  NULL,
+  [DESCRIPTION] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL
 )
 GO
 
-ALTER TABLE [dbo].[sms_entry] SET (LOCK_ESCALATION = TABLE)
+ALTER TABLE [dbo].[SMS_ENTRY] SET (LOCK_ESCALATION = TABLE)
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'入库编号',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_ENTRY',
+'COLUMN', N'ENTRY_NO'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'操作员',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_ENTRY',
+'COLUMN', N'OPERATOR'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'批次',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_ENTRY',
+'COLUMN', N'BATCH'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'供应商',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_ENTRY',
+'COLUMN', N'SUPPLIER_ID'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'备注',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_ENTRY',
+'COLUMN', N'DESCRIPTION'
 GO
 
 
 -- ----------------------------
--- Records of sms_entry
+-- Records of SMS_ENTRY
 -- ----------------------------
-SET IDENTITY_INSERT [dbo].[sms_entry] ON
-GO
-
-SET IDENTITY_INSERT [dbo].[sms_entry] OFF
-GO
-
-
--- ----------------------------
--- Table structure for sms_entry_sku
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sms_entry_sku]') AND type IN ('U'))
-	DROP TABLE [dbo].[sms_entry_sku]
-GO
-
-CREATE TABLE [dbo].[sms_entry_sku] (
-  [id] int  IDENTITY(1,1) NOT NULL,
-  [SkuId] int  NULL,
-  [EntryNo] varchar(30) COLLATE Chinese_PRC_CI_AS  NULL,
-  [Number] int  NULL,
-  [Price] decimal(18)  NULL
-)
-GO
-
-ALTER TABLE [dbo].[sms_entry_sku] SET (LOCK_ESCALATION = TABLE)
-GO
-
-
--- ----------------------------
--- Records of sms_entry_sku
--- ----------------------------
-SET IDENTITY_INSERT [dbo].[sms_entry_sku] ON
-GO
-
-SET IDENTITY_INSERT [dbo].[sms_entry_sku] OFF
-GO
-
 
 -- ----------------------------
 -- Table structure for sms_out
@@ -1120,6 +1122,90 @@ GO
 INSERT INTO [dbo].[SMS_SKU_ATTR_VALUE] ([SKU_ID], [SPU_ATTR_VALUE_ID], [ID]) VALUES (N'2', N'5f6786704aad4f59bfd73ce9cf068078', N'1')
 GO
 
+
+-- ----------------------------
+-- Table structure for SMS_SKU_ENTRY
+-- ----------------------------
+IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[SMS_SKU_ENTRY]') AND type IN ('U'))
+	DROP TABLE [dbo].[SMS_SKU_ENTRY]
+GO
+
+CREATE TABLE [dbo].[SMS_SKU_ENTRY] (
+  [ID] varchar(1) COLLATE Chinese_PRC_CI_AS  NOT NULL,
+  [ENTRY_ID] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
+  [SKU_ID] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
+  [QUANTITY] int  NULL,
+  [PRICE] decimal(18)  NULL,
+  [TOTAL_PRICE] decimal(18)  NULL,
+  [STATUS] int DEFAULT ((0)) NULL,
+  [OLD_PARTID] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
+  [ADDRESS_ID] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL
+)
+GO
+
+ALTER TABLE [dbo].[SMS_SKU_ENTRY] SET (LOCK_ESCALATION = TABLE)
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'入库单',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_SKU_ENTRY',
+'COLUMN', N'ENTRY_ID'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'库存',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_SKU_ENTRY',
+'COLUMN', N'SKU_ID'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'数量',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_SKU_ENTRY',
+'COLUMN', N'QUANTITY'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'单价',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_SKU_ENTRY',
+'COLUMN', N'PRICE'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'总价',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_SKU_ENTRY',
+'COLUMN', N'TOTAL_PRICE'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'0为新，1为旧',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_SKU_ENTRY',
+'COLUMN', N'STATUS'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'如果是旧，绑定旧来源',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_SKU_ENTRY',
+'COLUMN', N'OLD_PARTID'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'地址',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_SKU_ENTRY',
+'COLUMN', N'ADDRESS_ID'
+GO
+
+
+-- ----------------------------
+-- Records of SMS_SKU_ENTRY
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for SMS_SKU_LOG
@@ -1550,32 +1636,9 @@ GO
 
 
 -- ----------------------------
--- Auto increment value for sms_entry
+-- Primary Key structure for table SMS_ENTRY
 -- ----------------------------
-DBCC CHECKIDENT ('[dbo].[sms_entry]', RESEED, 1)
-GO
-
-
--- ----------------------------
--- Primary Key structure for table sms_entry
--- ----------------------------
-ALTER TABLE [dbo].[sms_entry] ADD CONSTRAINT [PK__sms_entr__3213E83F940188C9] PRIMARY KEY CLUSTERED ([id])
-WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
-ON [PRIMARY]
-GO
-
-
--- ----------------------------
--- Auto increment value for sms_entry_sku
--- ----------------------------
-DBCC CHECKIDENT ('[dbo].[sms_entry_sku]', RESEED, 1)
-GO
-
-
--- ----------------------------
--- Primary Key structure for table sms_entry_sku
--- ----------------------------
-ALTER TABLE [dbo].[sms_entry_sku] ADD CONSTRAINT [PK__sms_entr__3213E83F0EB344A9] PRIMARY KEY CLUSTERED ([id])
+ALTER TABLE [dbo].[SMS_ENTRY] ADD CONSTRAINT [PK__SMS_ENTR__3214EC271E1266E2] PRIMARY KEY CLUSTERED ([ID])
 WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
 ON [PRIMARY]
 GO
@@ -1635,6 +1698,15 @@ GO
 -- Primary Key structure for table SMS_SKU_ATTR_VALUE
 -- ----------------------------
 ALTER TABLE [dbo].[SMS_SKU_ATTR_VALUE] ADD CONSTRAINT [PK__SMS_SKU___D458EB85DA171CE7] PRIMARY KEY CLUSTERED ([SKU_ID])
+WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
+ON [PRIMARY]
+GO
+
+
+-- ----------------------------
+-- Primary Key structure for table SMS_SKU_ENTRY
+-- ----------------------------
+ALTER TABLE [dbo].[SMS_SKU_ENTRY] ADD CONSTRAINT [PK__SMS_SKU___3214EC27BC47317A] PRIMARY KEY CLUSTERED ([ID])
 WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
 ON [PRIMARY]
 GO
