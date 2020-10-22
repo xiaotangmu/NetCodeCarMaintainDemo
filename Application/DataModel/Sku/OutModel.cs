@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ViewModel.Sku
 {
-    public class EntryModel: EntryAddModel
+    public class OutModel : OutAddModel
     {
         public string Id { get; set; }
         /// <summary>
@@ -27,26 +27,24 @@ namespace ViewModel.Sku
 
         public IEnumerable<SkuModel> skuList { get; set; } = new List<SkuModel>();
     }
-
-    public class EntryAddModel
+    public class OutAddModel
     {
         /// <summary>
         /// 操作员
         /// </summary>
         public string Operator { get; set; }
-        public string EntryNo { get; set; }
+        public string OutNo { get; set; }
         public decimal TotalPrice { get; set; }
-        public DateTime EntryDate { get; set; }
+        public DateTime OutDate { get; set; }
         public int Batch { get; set; }
-        public string SupplierId { get; set; }
-        public string SupplierName { get; set; }
+        public string ClientId { get; set; }
+        public string ClientName { get; set; }
         public string Description { get; set; }
-        public IEnumerable<EntrySkuAddModel> entrySkuList { get; set; } = new List<EntrySkuAddModel>(); 
+        public IEnumerable<OutSkuAddModel> outSkuList { get; set; } = new List<OutSkuAddModel>();
     }
-
-    public class EntrySkuAddModel
+    public class OutSkuAddModel
     {
-        public string EntryId { get; set; }
+        public string OutId { get; set; }
         public string SkuId { get; set; }
         public int Quantity { get; set; }
         public decimal Price { get; set; }
@@ -56,14 +54,17 @@ namespace ViewModel.Sku
         /// 状态: 为0新，为1旧
         /// </summary>
         public int Status { get; set; }
-        public string OldPartId { get; set; }
+        /// <summary>
+        /// 是否是工具，0是配件，1是工具
+        /// </summary>
+        public int Tool { get; set; }
     }
-    public class EntryListWithPagingModel
+    public class OutListWithPagingModel
     {
         public int TotalCount { get; set; }
-        public IEnumerable<EntryModel> Items { get; set; } = new List<EntryModel>();
+        public IEnumerable<OutModel> Items { get; set; } = new List<OutModel>();
     }
-    public class EntryPageSearchModel : BaseSearchModel
+    public class OutPageSearchModel : BaseSearchModel
     {
         /// <summary>
         /// 可以搜索：入库单号，库存名，供应商，操作员，

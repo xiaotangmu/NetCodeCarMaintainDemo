@@ -173,6 +173,7 @@ namespace DAO.Sku
                             where SPU_ID = @SpuId 
                             and BRAND = @Brand
                             and UNIT = @Unit
+                            and TOOL = @Tool
                             and STATUS = @Status";
             IEnumerable<SMS_SKU> entityList = await Repository.GetGroupAsync<SMS_SKU>(sql, model);
             return EntityListToModelList(entityList);
@@ -190,7 +191,7 @@ namespace DAO.Sku
                 TotalCount = (int)entity?.TOTAL_COUNT,
                 Alarm = (int)entity?.ALARM,
                 Description = entity?.DESCRIPTION,
-                Type = entity?.TYPE,
+                Tool = (int)entity?.TOOL,
                 Status = (int)entity?.STATUS,
                 OldPartId = entity?.OLD_PARTID,
                 Catalog2Id = entity?.CATALOG2_ID,
@@ -226,6 +227,24 @@ namespace DAO.Sku
                         from SMS_SKU_ADDRESS s
                         where SKU_ID = @skuId";
             return await Repository.GetGroupAsync<SkuAddressModel>(sql, new { skuId });
+        }
+
+        public async Task<SkuModel> GetSkuById(string skuId)
+        {
+            SMS_SKU entity = await Repository.GetByIdAsync<SMS_SKU>(skuId);
+            return EntityToModel(entity);
+        }
+
+        public async Task<bool> UpdateSkuTotalCount(string SkuId, IDbTransaction transaction)
+        {
+            string sql = @"update SMS_SKU
+                    set TOTAL_COUNT = (
+	                    select SUM(ssa.QUANTITY) 
+	                    from SMS_SKU_ADDRESS ssa
+	                    where ssa.SKU_ID = @SkuId
+                    )
+                    where ID = @SkuId";
+            return await Repository.ExecuteAsync(sql, new { SkuId }, transaction) > 1 ? true : false;
         }
     }
 }

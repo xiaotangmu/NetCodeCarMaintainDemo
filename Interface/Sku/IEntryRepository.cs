@@ -12,10 +12,11 @@ namespace Interface.Sku
     {
         Task<bool> IsExistByEntryNo(string entryNo);
         Task<string> Insert(SMS_ENTRY sMS_ENTRY, IDbTransaction transaction);
-        Task AddEntrySku(IEnumerable<EntrySkuModel> entrySkuList, string entryId, IDbTransaction transaction);
-        Task UpdateSkuNum(IEnumerable<EntrySkuModel> entrySkuList, IDbTransaction transaction);
+        Task<string> AddEntrySku(SMS_ENTRY_SKU entity, string entryId, IDbTransaction transaction = null);
+        Task<bool> UpdateAddressSkuNumByAddressId(EntrySkuAddModel model, IDbTransaction transaction);
+        //Task<bool> UpdateSkuTotalCount(string SkuId, IDbTransaction transaction = null);
         Task<IEnumerable<EntryModel>> GetAll();
-        Task<IEnumerable<EntrySkuModel>> GetListEntrySkuByEntryId(string id);
+        Task<IEnumerable<SkuModel>> GetListEntrySkuByEntryId(string id);
         Task<EntryListWithPagingModel> GetEntryPageBySearch(EntryPageSearchModel model);
         Task<bool> UpdateDescriptionByEntryId(string entryId, string description);
     }

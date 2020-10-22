@@ -65,9 +65,9 @@ namespace ViewModel.Sku
         /// </summary>
         public string Description { get; set; }
         /// <summary>
-        /// 规格
+        /// 是否是工具，工具不作库存报警，0为配件，1为工具
         /// </summary>
-        public string Type { get; set; }
+        public int Tool { get; set; }
         /// <summary>
         /// 状态，0为新，1为旧（回收配件）
         /// </summary>

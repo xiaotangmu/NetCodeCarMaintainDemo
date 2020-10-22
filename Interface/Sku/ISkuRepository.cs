@@ -25,5 +25,7 @@ namespace Interface.Sku
         Task<IEnumerable<SkuModel>> GetSameSku(SkuAddModel model);
         Task<IEnumerable<SkuAttrModel>> SelectAttrBySkuId(string skuId);
         Task<IEnumerable<SkuAddressModel>> SelectAddressBySkuId(string skuId);
+        Task<SkuModel> GetSkuById(string skuId);
+        Task<bool> UpdateSkuTotalCount(string SkuId, IDbTransaction transaction);
     }
 }

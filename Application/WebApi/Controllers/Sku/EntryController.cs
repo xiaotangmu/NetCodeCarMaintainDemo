@@ -14,13 +14,14 @@ namespace WebApi.Controllers.Sku
     /// <summary>
     /// 入库管理
     /// </summary>
-    [SwaggerControllerGroup("EntryStock", "入库管理")]
+    [SwaggerControllerGroup("Entry", "入库管理")]
     [Route("[controller]/[action]")]
     [ApiController]
     public class EntryController : BaseController
     {
         private IEntrySupervisor _entrySupervisor;
-        public EntryController(IEntrySupervisor entrySupervisor)
+
+        public EntryController(IEntrySupervisor entrySupervisor) : base()
         {
             _entrySupervisor = entrySupervisor;
         }
@@ -35,16 +36,28 @@ namespace WebApi.Controllers.Sku
         {
             return await ResponseResult(async () =>
             {
-                if (string.IsNullOrWhiteSpace(model.Operator) || string.IsNullOrWhiteSpace(model.SupplierId)
-                    || model.EntryDate == null || model.EntryDate > new DateTime() || model.Batch < 1
-                    || model.entrySkuList == null || model.entrySkuList.Count() < 1)
+                if (string.IsNullOrWhiteSpace(model.Operator) || string.IsNullOrWhiteSpace(model.SupplierId))
                 {
-                    throw new Exception(("数据异常"));
+                    throw new Exception("操作人员或供应商为空");
+                }
+                if (model.EntryDate == null || model.EntryDate > DateTime.Now || model.EntryDate.Year < 1900)
+                {
+                    throw new Exception("入库时间异常");
+                }
+                if(model.Batch < 1)
+                {
+                    throw new Exception("批次异常");
+                }
+                if(model.entrySkuList == null || model.entrySkuList.Count() < 1)
+                {
+                    throw new Exception("添加的库存为空");
                 }
                 string result = await _entrySupervisor.Add(model);
                 if (!string.IsNullOrEmpty(result))
                 {
-                    await LogOperation(await Localizer.GetValueAsync("添加入库单：供应商：") + model.SupplierId);
+                    // 生成入库单号： 入库时间(年月日 + 供应商 + 批次) ： 2019012200101
+                    model.EntryNo = string.Format("{0:yyyyMMdd}", model.EntryDate) + model.SupplierId.PadLeft(3, '0') + model.Batch.ToString().PadLeft(2, '0');
+                    await LogOperation(await Localizer.GetValueAsync("添加入库单：") + model.EntryNo);
                 }
                 else
                 {
@@ -66,14 +79,14 @@ namespace WebApi.Controllers.Sku
                 {
                     throw new Exception(("数据异常"));
                 }
-                bool result = await _entrySupervisor.UpdateDescription(EntryId);
+                bool result = await _entrySupervisor.UpdateDescription(EntryId, Description);
                 if (result)
                 {
                     await LogOperation(await Localizer.GetValueAsync("备注入库单：") + EntryId);
                 }
                 else
                 {
-                    throw new Exception(await Localizer.GetValueAsync("备注入库单"));
+                    throw new Exception(await Localizer.GetValueAsync("备注入库单失败或没有该入库单"));
                 }
                 return result;
             });

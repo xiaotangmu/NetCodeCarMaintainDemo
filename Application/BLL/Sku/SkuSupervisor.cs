@@ -236,7 +236,7 @@ namespace BLL.Sku
         /// <param name="model"></param>
         public async Task IsExistSkuThrowException(SkuAddModel model, string skuId = null)
         {
-            // 1. 判断sku 名，品牌，单位是否相同
+            // 1. 判断sku 名，品牌，单位, 状态，是否工具是否相同
             IEnumerable<SkuModel> modelList = await _skuDao.GetSameSku(model);
             if(modelList == null || modelList.Count() == 0)
             {
@@ -356,7 +356,7 @@ namespace BLL.Sku
                 TOTAL_COUNT = (int)model?.TotalCount,
                 ALARM = (int)model?.Alarm,
                 DESCRIPTION = model?.Description,
-                TYPE = model?.Type,
+                TOOL = (int)model?.Tool,
                 STATUS = (int)model?.Status,
                 OLD_PARTID = model?.OldPartId,
                 CATALOG2_ID = model?.Catalog2Id,

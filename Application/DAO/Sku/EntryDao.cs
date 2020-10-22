@@ -16,9 +16,9 @@ namespace DAO.Sku
 
         public EntryDao(IDataRepository repository) : base(repository) { }
 
-        public Task AddEntrySku(IEnumerable<EntrySkuModel> entrySkuList, string entryId, IDbTransaction transaction)
+        public async Task<string> AddEntrySku(SMS_ENTRY_SKU entity, string entryId, IDbTransaction transaction = null)
         {
-            throw new NotImplementedException();
+            return await Repository.InsertAsync<SMS_ENTRY_SKU>(entity, transaction);
         }
 
         public void Dispose()
@@ -43,29 +43,31 @@ namespace DAO.Sku
                     sn.ENTRY_DATE EntryDate, sn.BATCH Batch, sn.SUPPLIER_ID SupplierId,
                     sn.DESCRIPTION Description, sn.ENTRY_NO EntryNo
                     from SMS_ENTRY sn
-                    left join SMS_SKU_ENTRY sse on sn.ID = sse.ENTRY_ID
+                    left join SMS_ENTRY_SKU sse on sn.ID = sse.ENTRY_ID
                     left join SMS_SKU ss on ss.ID = sse.SKU_ID
                     left join PMS_SPU ps on ss.SPU_ID = ps.ID
                     where ";
-            strSql += (string.IsNullOrWhiteSpace(model.SearchStr)) ? " 1 = 1 " : " ss.OPERATOR like '%' + '{0}' + '%'" + 
-                "Or ss.ENTRY_NO like '%' + '{0}' + '%' OR ps.PRODUCT_NAME like '%' + '{0}' + '%'" + 
-                " Or ss.DESCRIPTION like '%' + '{0}' + '%'";    // 还可查供应商 待定 
+            strSql += (string.IsNullOrWhiteSpace(model.SearchStr)) ? " 1 = 1 " : " (sn.OPERATOR like '%' + '{0}' + '%'" + 
+                "Or sn.ENTRY_NO like '%' + '{0}' + '%' OR ps.PRODUCT_NAME like '%' + '{0}' + '%'" +
+                " Or sn.DESCRIPTION like '%' + '{0}' + '%') ";    // 还可查供应商 待定 
+            strSql += model?.StartTime.Year > 1900 ? " and sn.ENTRY_DATE >= '{1}'": ""; 
+            strSql += model?.EndTime.Year > 1900 ? " and '{2}' >= sn.ENTRY_DATE" : ""; 
             string sql = string.Format(strSql, model.SearchStr);
             EntryListWithPagingModel pageModel = new EntryListWithPagingModel();
             string countSql = "Select Count(1) from (" + sql + ") as temp";
             pageModel.TotalCount = await Repository.CountAsync(countSql);
-            pageModel.Items = await Repository.GetPageAsync<EntryModel>(model.PageIndex, model.PageSize, sql, " order by ss.OCD Desc");
+            pageModel.Items = await Repository.GetPageAsync<EntryModel>(model.PageIndex, model.PageSize, sql, "order by sn.ENTRY_DATE Desc");
             return pageModel;
         }
 
         public async Task<IEnumerable<SkuModel>> GetListEntrySkuByEntryId(string id)
         {
-            // 注意这里的Id 是EntrySku 的Id 不是Sku id
+            // 注意这里输出的Id 是EntrySku 的Id 不是Sku id
             string sql = @"select sse.ID Id, sse.QUANTITY Quantity,
                     sse.PRICE Price, sse.TOTAL_PRICE TotalPrice,
                     ps.PRODUCT_NAME SkuName, ss.BRAND Brand, ss.UNIT Unit,
                     sse.STATUS Status, sse.OLD_PARTID OldPartId, ss.CATALOG2_ID Catalog2Id
-                    from SMS_SKU_ENTRY sse 
+                    from SMS_ENTRY_SKU sse 
                     left join SMS_SKU ss on ss.ID = sse.SKU_ID
                     left join PMS_SPU ps on ss.SPU_ID = ps.ID
                     where sse.ENTRY_ID = @id";
@@ -79,22 +81,41 @@ namespace DAO.Sku
 
         public async Task<bool> IsExistByEntryNo(string entryNo)
         {
-            string sql = "select Count(1) SMS_ENTRY where ENTRY_NO = @entryNo";
-            return await Repository.CountAsync(sql, new { entryNo }) > 0 ? true : false ;
+            string sql = string.Format("select Count(1) from SMS_ENTRY where ENTRY_NO = '{0}'", entryNo);
+            return await Repository.CountAsync(sql) > 0 ? true : false ;
         }
 
         public async Task<bool> UpdateDescriptionByEntryId(string entryId, string description)
         {
-            string sql = "Update SMS_ENTRY set DESCRIPTION = @description where entryId = @entryId";
+            string sql = "Update SMS_ENTRY set DESCRIPTION = @description where ID = @entryId";
             return await Repository.ExecuteAsync(sql, new { entryId, description }) > 0 ? true : false;
         }
 
-        public Task UpdateSkuNum(EntrySkuAddModel model, IDbTransaction transaction)
+        public async Task<bool> UpdateAddressSkuNumByAddressId(EntrySkuAddModel model, IDbTransaction transaction)
         {
-            foreach(var entrySku in entrySkuList)
-            {
-
-            }
+            // 更新具体地址数量
+            string sql = @"update SMS_SKU_ADDRESS
+                    set QUANTITY = (QUANTITY + @Quantity)
+                    where ID = @AddressId";
+            return await Repository.ExecuteAsync(sql, model, transaction) > 1 ? true : false;
         }
+
+        ///// <summary>
+        ///// 更新总库存数据
+        ///// </summary>
+        ///// <param name="SkuId"></param>
+        ///// <param name="transaction"></param>
+        ///// <returns></returns>
+        //public async Task<bool> UpdateSkuTotalCount(string SkuId, IDbTransaction transaction = null)
+        //{
+        //    string sql = @"update SMS_SKU
+        //            set TOTAL_COUNT = (
+	       //             select SUM(ssa.QUANTITY) 
+	       //             from SMS_SKU_ADDRESS ssa
+	       //             where ssa.SKU_ID = @SkuId
+        //            )
+        //            where ID = @SkuId";
+        //    return await Repository.ExecuteAsync(sql, new { SkuId }, transaction) > 1 ? true : false;
+        //}
     }
 }

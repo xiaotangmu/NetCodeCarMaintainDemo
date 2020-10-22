@@ -63,10 +63,10 @@ namespace DateModel.Sku
         public string DESCRIPTION { get; set; }
 
         /// <summary>
-        /// 类型/规格
+        /// 是否是工具，0为配件，1为工具，工具出库不作库存报警
         /// </summary>
         public static readonly string FIELD_TYPE = "type";
-        public string TYPE { get; set; }
+        public int TOOL { get; set; }
 
         /// <summary>
         /// 状态，0为新（默认），1为旧

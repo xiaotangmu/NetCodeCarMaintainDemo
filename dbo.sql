@@ -12,7 +12,7 @@
  Target Server Version : 14001000
  File Encoding         : 65001
 
- Date: 21/10/2020 17:10:44
+ Date: 22/10/2020 16:30:23
 */
 
 
@@ -761,14 +761,18 @@ IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[SM
 GO
 
 CREATE TABLE [dbo].[SMS_ENTRY] (
-  [ID] varchar(1) COLLATE Chinese_PRC_CI_AS  NOT NULL,
-  [ENTRY_NO] varchar(1) COLLATE Chinese_PRC_CI_AS  NULL,
+  [ID] varchar(50) COLLATE Chinese_PRC_CI_AS  NOT NULL,
+  [ENTRY_NO] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
   [OPERATOR] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
   [TOTAL_PRICE] decimal(18)  NULL,
   [ENTRY_DATE] datetime  NULL,
   [BATCH] int DEFAULT ((1)) NULL,
-  [SUPPLIER_ID] varchar(1) COLLATE Chinese_PRC_CI_AS  NULL,
-  [DESCRIPTION] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL
+  [SUPPLIER_ID] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
+  [DESCRIPTION] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
+  [OCU] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
+  [OCD] datetime  NULL,
+  [LUC] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
+  [LUD] datetime  NULL
 )
 GO
 
@@ -814,63 +818,264 @@ GO
 -- ----------------------------
 -- Records of SMS_ENTRY
 -- ----------------------------
-
--- ----------------------------
--- Table structure for sms_out
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sms_out]') AND type IN ('U'))
-	DROP TABLE [dbo].[sms_out]
+INSERT INTO [dbo].[SMS_ENTRY] ([ID], [ENTRY_NO], [OPERATOR], [TOTAL_PRICE], [ENTRY_DATE], [BATCH], [SUPPLIER_ID], [DESCRIPTION], [OCU], [OCD], [LUC], [LUD]) VALUES (N'e5ad99dc4ff34236bbf0986bb588cd44', N'19900302string01', N'string', N'22', N'1990-03-02 00:00:00.000', N'1', N'string', N'string', NULL, N'2020-10-22 11:07:37.660', NULL, N'2020-10-22 11:07:37.660')
 GO
 
-CREATE TABLE [dbo].[sms_out] (
-  [id] int  IDENTITY(1,1) NOT NULL,
-  [OutNo] varchar(30) COLLATE Chinese_PRC_CI_AS  NULL,
-  [Operator] varchar(20) COLLATE Chinese_PRC_CI_AS  NULL,
-  [OutDate] date  NULL,
-  [TotalPrice] decimal(18)  NULL
+
+-- ----------------------------
+-- Table structure for SMS_ENTRY_SKU
+-- ----------------------------
+IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[SMS_ENTRY_SKU]') AND type IN ('U'))
+	DROP TABLE [dbo].[SMS_ENTRY_SKU]
+GO
+
+CREATE TABLE [dbo].[SMS_ENTRY_SKU] (
+  [ID] varchar(50) COLLATE Chinese_PRC_CI_AS  NOT NULL,
+  [ENTRY_ID] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
+  [SKU_ID] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
+  [QUANTITY] int  NULL,
+  [PRICE] decimal(18)  NULL,
+  [TOTAL_PRICE] decimal(18)  NULL,
+  [STATUS] int DEFAULT ((0)) NULL,
+  [OLD_PARTID] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
+  [ADDRESS_ID] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL
 )
 GO
 
-ALTER TABLE [dbo].[sms_out] SET (LOCK_ESCALATION = TABLE)
+ALTER TABLE [dbo].[SMS_ENTRY_SKU] SET (LOCK_ESCALATION = TABLE)
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'入库单',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_ENTRY_SKU',
+'COLUMN', N'ENTRY_ID'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'库存',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_ENTRY_SKU',
+'COLUMN', N'SKU_ID'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'数量',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_ENTRY_SKU',
+'COLUMN', N'QUANTITY'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'单价',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_ENTRY_SKU',
+'COLUMN', N'PRICE'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'总价',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_ENTRY_SKU',
+'COLUMN', N'TOTAL_PRICE'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'0为新，1为旧',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_ENTRY_SKU',
+'COLUMN', N'STATUS'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'如果是旧，绑定旧来源',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_ENTRY_SKU',
+'COLUMN', N'OLD_PARTID'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'地址',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_ENTRY_SKU',
+'COLUMN', N'ADDRESS_ID'
 GO
 
 
 -- ----------------------------
--- Records of sms_out
+-- Records of SMS_ENTRY_SKU
 -- ----------------------------
-SET IDENTITY_INSERT [dbo].[sms_out] ON
+INSERT INTO [dbo].[SMS_ENTRY_SKU] ([ID], [ENTRY_ID], [SKU_ID], [QUANTITY], [PRICE], [TOTAL_PRICE], [STATUS], [OLD_PARTID], [ADDRESS_ID]) VALUES (N'2', NULL, NULL, NULL, NULL, NULL, N'0', NULL, NULL)
 GO
 
-SET IDENTITY_INSERT [dbo].[sms_out] OFF
+INSERT INTO [dbo].[SMS_ENTRY_SKU] ([ID], [ENTRY_ID], [SKU_ID], [QUANTITY], [PRICE], [TOTAL_PRICE], [STATUS], [OLD_PARTID], [ADDRESS_ID]) VALUES (N'5b2abfc493b5484cb1607ccc42089f48', N'e5ad99dc4ff34236bbf0986bb588cd44', N'string', N'2', N'33', N'3', N'1', N'string', N'string')
 GO
 
 
 -- ----------------------------
--- Table structure for sms_out_sku
+-- Table structure for SMS_OUT
 -- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sms_out_sku]') AND type IN ('U'))
-	DROP TABLE [dbo].[sms_out_sku]
+IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[SMS_OUT]') AND type IN ('U'))
+	DROP TABLE [dbo].[SMS_OUT]
 GO
 
-CREATE TABLE [dbo].[sms_out_sku] (
-  [id] int  IDENTITY(1,1) NOT NULL,
-  [SkuId] int  NULL,
-  [Number] int  NULL,
-  [Price] decimal(18)  NULL
+CREATE TABLE [dbo].[SMS_OUT] (
+  [ID] varchar(50) COLLATE Chinese_PRC_CI_AS  NOT NULL,
+  [OUT_NO] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
+  [OPERATOR] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
+  [OUT_DATE] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
+  [TOTAL_PRICE] decimal(2)  NULL,
+  [BATCH] int  NULL,
+  [DESCRIPTION] varchar(1024) COLLATE Chinese_PRC_CI_AS  NULL,
+  [CLIENT_ID] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
+  [OCU] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
+  [OCD] datetime  NULL,
+  [LUC] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
+  [LUD] datetime  NULL
 )
 GO
 
-ALTER TABLE [dbo].[sms_out_sku] SET (LOCK_ESCALATION = TABLE)
+ALTER TABLE [dbo].[SMS_OUT] SET (LOCK_ESCALATION = TABLE)
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'出库单号',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_OUT',
+'COLUMN', N'OUT_NO'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'操作员',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_OUT',
+'COLUMN', N'OPERATOR'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'出库日期',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_OUT',
+'COLUMN', N'OUT_DATE'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'总金额',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_OUT',
+'COLUMN', N'TOTAL_PRICE'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'批次',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_OUT',
+'COLUMN', N'BATCH'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'备注',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_OUT',
+'COLUMN', N'DESCRIPTION'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'客户ID',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_OUT',
+'COLUMN', N'CLIENT_ID'
 GO
 
 
 -- ----------------------------
--- Records of sms_out_sku
+-- Records of SMS_OUT
 -- ----------------------------
-SET IDENTITY_INSERT [dbo].[sms_out_sku] ON
+INSERT INTO [dbo].[SMS_OUT] ([ID], [OUT_NO], [OPERATOR], [OUT_DATE], [TOTAL_PRICE], [BATCH], [DESCRIPTION], [CLIENT_ID], [OCU], [OCD], [LUC], [LUD]) VALUES (N'43f00cba443e4e9a84edf068797ab502', N'20200430string02', N'string', N'04 30 2020 12:00AM', N'2', N'2', N'string', N'string', NULL, N'2020-10-22 16:17:23.610', NULL, N'2020-10-22 16:17:23.610')
 GO
 
-SET IDENTITY_INSERT [dbo].[sms_out_sku] OFF
+INSERT INTO [dbo].[SMS_OUT] ([ID], [OUT_NO], [OPERATOR], [OUT_DATE], [TOTAL_PRICE], [BATCH], [DESCRIPTION], [CLIENT_ID], [OCU], [OCD], [LUC], [LUD]) VALUES (N'446902cb3b8744c9b5fbb3c41b602f99', N'string', N'string', N'04 30 2020 12:00AM', N'2', N'1', N'string', N'string', NULL, N'2020-10-22 16:12:41.847', NULL, N'2020-10-22 16:12:41.847')
+GO
+
+INSERT INTO [dbo].[SMS_OUT] ([ID], [OUT_NO], [OPERATOR], [OUT_DATE], [TOTAL_PRICE], [BATCH], [DESCRIPTION], [CLIENT_ID], [OCU], [OCD], [LUC], [LUD]) VALUES (N'4544b43cc46d4e178a11d4f551581a28', N'20200430string06', N'string', N'04 30 2020 12:00AM', N'4', N'6', N'string', N'string', NULL, N'2020-10-22 16:18:10.170', NULL, N'2020-10-22 16:18:10.170')
+GO
+
+
+-- ----------------------------
+-- Table structure for SMS_OUT_SKU
+-- ----------------------------
+IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[SMS_OUT_SKU]') AND type IN ('U'))
+	DROP TABLE [dbo].[SMS_OUT_SKU]
+GO
+
+CREATE TABLE [dbo].[SMS_OUT_SKU] (
+  [ID] varchar(50) COLLATE Chinese_PRC_CI_AS  NOT NULL,
+  [OUT_ID] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
+  [SKU_ID] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
+  [QUANTITY] int  NULL,
+  [PRICE] decimal(18)  NULL,
+  [TOTAL_PRICE] decimal(18)  NULL,
+  [TOOL] int  NULL,
+  [ADDRESS_ID] varchar(1) COLLATE Chinese_PRC_CI_AS  NULL
+)
+GO
+
+ALTER TABLE [dbo].[SMS_OUT_SKU] SET (LOCK_ESCALATION = TABLE)
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'出库单ID',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_OUT_SKU',
+'COLUMN', N'OUT_ID'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'库存ID',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_OUT_SKU',
+'COLUMN', N'SKU_ID'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'数量',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_OUT_SKU',
+'COLUMN', N'QUANTITY'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'出库单价',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_OUT_SKU',
+'COLUMN', N'PRICE'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'总金额',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_OUT_SKU',
+'COLUMN', N'TOTAL_PRICE'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'0是配件，1是工具',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_OUT_SKU',
+'COLUMN', N'TOOL'
+GO
+
+
+-- ----------------------------
+-- Records of SMS_OUT_SKU
+-- ----------------------------
+INSERT INTO [dbo].[SMS_OUT_SKU] ([ID], [OUT_ID], [SKU_ID], [QUANTITY], [PRICE], [TOTAL_PRICE], [TOOL], [ADDRESS_ID]) VALUES (N'0d618c611342444484adeb95522caea5', N'446902cb3b8744c9b5fbb3c41b602f99', N'1', N'2', N'22', N'44', N'1', N'1')
+GO
+
+INSERT INTO [dbo].[SMS_OUT_SKU] ([ID], [OUT_ID], [SKU_ID], [QUANTITY], [PRICE], [TOTAL_PRICE], [TOOL], [ADDRESS_ID]) VALUES (N'a51004c7b6ba4da0ab89073a179dd71e', N'43f00cba443e4e9a84edf068797ab502', N'1', N'2', N'22', N'44', N'1', N'1')
+GO
+
+INSERT INTO [dbo].[SMS_OUT_SKU] ([ID], [OUT_ID], [SKU_ID], [QUANTITY], [PRICE], [TOTAL_PRICE], [TOOL], [ADDRESS_ID]) VALUES (N'bd41125979f448f28c50e8b23384fe14', N'4544b43cc46d4e178a11d4f551581a28', N'2', N'2', N'22', N'44', N'1', N'1')
 GO
 
 
@@ -892,7 +1097,7 @@ CREATE TABLE [dbo].[SMS_SKU] (
   [TOTAL_COUNT] int  NULL,
   [ALARM] int  NULL,
   [DESCRIPTION] varchar(1024) COLLATE Chinese_PRC_CI_AS  NULL,
-  [TYPE] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
+  [TOOL] int  NULL,
   [STATUS] int  NULL,
   [OLD_PARTID] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
   [CATALOG2_ID] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
@@ -977,10 +1182,10 @@ EXEC sp_addextendedproperty
 GO
 
 EXEC sp_addextendedproperty
-'MS_Description', N'规格',
+'MS_Description', N'是否是工具，0为配件，1为工具（自己用）',
 'SCHEMA', N'dbo',
 'TABLE', N'SMS_SKU',
-'COLUMN', N'TYPE'
+'COLUMN', N'TOOL'
 GO
 
 EXEC sp_addextendedproperty
@@ -1036,10 +1241,10 @@ GO
 -- ----------------------------
 -- Records of SMS_SKU
 -- ----------------------------
-INSERT INTO [dbo].[SMS_SKU] ([ID], [SKU_NO], [SKU_NAME], [SPU_ID], [BRAND], [PRICE], [UNIT], [TOTAL_COUNT], [ALARM], [DESCRIPTION], [TYPE], [STATUS], [OLD_PARTID], [CATALOG2_ID], [OCU], [OCD], [LUC], [LUD]) VALUES (N'1', N'no', N'name', N'spu', N'brand', N'22', N'unit', N'33', N'3', N'descr', N'type', N'0', N'oldpart', N'cata', NULL, N'2020-10-20 16:05:04.000', NULL, NULL)
+INSERT INTO [dbo].[SMS_SKU] ([ID], [SKU_NO], [SKU_NAME], [SPU_ID], [BRAND], [PRICE], [UNIT], [TOTAL_COUNT], [ALARM], [DESCRIPTION], [TOOL], [STATUS], [OLD_PARTID], [CATALOG2_ID], [OCU], [OCD], [LUC], [LUD]) VALUES (N'1', N'no', N'name', N'spu', N'brand', N'22', N'unit', NULL, N'3', N'descr', N'0', N'0', N'oldpart', N'cata', NULL, N'2020-10-20 16:05:04.000', NULL, NULL)
 GO
 
-INSERT INTO [dbo].[SMS_SKU] ([ID], [SKU_NO], [SKU_NAME], [SPU_ID], [BRAND], [PRICE], [UNIT], [TOTAL_COUNT], [ALARM], [DESCRIPTION], [TYPE], [STATUS], [OLD_PARTID], [CATALOG2_ID], [OCU], [OCD], [LUC], [LUD]) VALUES (N'2', N'no', N'string3', N'd7ed3c8162cb41bb87073530891717e5', N'brand', N'22', N'unit', N'33', N'3', N'descr', N'type', N'0', N'oldpart', N'cata', NULL, N'2020-10-24 16:05:09.000', NULL, NULL)
+INSERT INTO [dbo].[SMS_SKU] ([ID], [SKU_NO], [SKU_NAME], [SPU_ID], [BRAND], [PRICE], [UNIT], [TOTAL_COUNT], [ALARM], [DESCRIPTION], [TOOL], [STATUS], [OLD_PARTID], [CATALOG2_ID], [OCU], [OCD], [LUC], [LUD]) VALUES (N'2', N'no', N'string3', N'd7ed3c8162cb41bb87073530891717e5', N'brand', N'22', N'unit', N'3', N'3', N'descr', N'0', N'0', N'oldpart', N'cata', NULL, N'2020-10-24 16:05:09.000', NULL, NULL)
 GO
 
 
@@ -1080,7 +1285,10 @@ GO
 -- ----------------------------
 -- Records of SMS_SKU_ADDRESS
 -- ----------------------------
-INSERT INTO [dbo].[SMS_SKU_ADDRESS] ([ID], [SKU_ID], [ROOM], [SELF], [QUANTITY]) VALUES (N'1', N'2', N'd', N'd', N'3')
+INSERT INTO [dbo].[SMS_SKU_ADDRESS] ([ID], [SKU_ID], [ROOM], [SELF], [QUANTITY]) VALUES (N'1', N'2', N'd', N'd', N'0')
+GO
+
+INSERT INTO [dbo].[SMS_SKU_ADDRESS] ([ID], [SKU_ID], [ROOM], [SELF], [QUANTITY]) VALUES (N'2', N'2', N'd', N'x', N'3')
 GO
 
 
@@ -1122,90 +1330,6 @@ GO
 INSERT INTO [dbo].[SMS_SKU_ATTR_VALUE] ([SKU_ID], [SPU_ATTR_VALUE_ID], [ID]) VALUES (N'2', N'5f6786704aad4f59bfd73ce9cf068078', N'1')
 GO
 
-
--- ----------------------------
--- Table structure for SMS_SKU_ENTRY
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[SMS_SKU_ENTRY]') AND type IN ('U'))
-	DROP TABLE [dbo].[SMS_SKU_ENTRY]
-GO
-
-CREATE TABLE [dbo].[SMS_SKU_ENTRY] (
-  [ID] varchar(1) COLLATE Chinese_PRC_CI_AS  NOT NULL,
-  [ENTRY_ID] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
-  [SKU_ID] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
-  [QUANTITY] int  NULL,
-  [PRICE] decimal(18)  NULL,
-  [TOTAL_PRICE] decimal(18)  NULL,
-  [STATUS] int DEFAULT ((0)) NULL,
-  [OLD_PARTID] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
-  [ADDRESS_ID] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL
-)
-GO
-
-ALTER TABLE [dbo].[SMS_SKU_ENTRY] SET (LOCK_ESCALATION = TABLE)
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'入库单',
-'SCHEMA', N'dbo',
-'TABLE', N'SMS_SKU_ENTRY',
-'COLUMN', N'ENTRY_ID'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'库存',
-'SCHEMA', N'dbo',
-'TABLE', N'SMS_SKU_ENTRY',
-'COLUMN', N'SKU_ID'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'数量',
-'SCHEMA', N'dbo',
-'TABLE', N'SMS_SKU_ENTRY',
-'COLUMN', N'QUANTITY'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'单价',
-'SCHEMA', N'dbo',
-'TABLE', N'SMS_SKU_ENTRY',
-'COLUMN', N'PRICE'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'总价',
-'SCHEMA', N'dbo',
-'TABLE', N'SMS_SKU_ENTRY',
-'COLUMN', N'TOTAL_PRICE'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'0为新，1为旧',
-'SCHEMA', N'dbo',
-'TABLE', N'SMS_SKU_ENTRY',
-'COLUMN', N'STATUS'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'如果是旧，绑定旧来源',
-'SCHEMA', N'dbo',
-'TABLE', N'SMS_SKU_ENTRY',
-'COLUMN', N'OLD_PARTID'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'地址',
-'SCHEMA', N'dbo',
-'TABLE', N'SMS_SKU_ENTRY',
-'COLUMN', N'ADDRESS_ID'
-GO
-
-
--- ----------------------------
--- Records of SMS_SKU_ENTRY
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for SMS_SKU_LOG
@@ -1645,32 +1769,27 @@ GO
 
 
 -- ----------------------------
--- Auto increment value for sms_out
+-- Primary Key structure for table SMS_ENTRY_SKU
 -- ----------------------------
-DBCC CHECKIDENT ('[dbo].[sms_out]', RESEED, 1)
-GO
-
-
--- ----------------------------
--- Primary Key structure for table sms_out
--- ----------------------------
-ALTER TABLE [dbo].[sms_out] ADD CONSTRAINT [PK__sms_out__3213E83FFB057DE2] PRIMARY KEY CLUSTERED ([id])
+ALTER TABLE [dbo].[SMS_ENTRY_SKU] ADD CONSTRAINT [PK__SMS_SKU___3214EC27BC47317A] PRIMARY KEY CLUSTERED ([ID])
 WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
 ON [PRIMARY]
 GO
 
 
 -- ----------------------------
--- Auto increment value for sms_out_sku
+-- Primary Key structure for table SMS_OUT
 -- ----------------------------
-DBCC CHECKIDENT ('[dbo].[sms_out_sku]', RESEED, 1)
+ALTER TABLE [dbo].[SMS_OUT] ADD CONSTRAINT [PK__SMS_OUT__3214EC27FEA9507C] PRIMARY KEY CLUSTERED ([ID])
+WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
+ON [PRIMARY]
 GO
 
 
 -- ----------------------------
--- Primary Key structure for table sms_out_sku
+-- Primary Key structure for table SMS_OUT_SKU
 -- ----------------------------
-ALTER TABLE [dbo].[sms_out_sku] ADD CONSTRAINT [PK__sms_out___3213E83F995C96F3] PRIMARY KEY CLUSTERED ([id])
+ALTER TABLE [dbo].[SMS_OUT_SKU] ADD CONSTRAINT [PK__SMS_OUT___3214EC27A0ADF42A] PRIMARY KEY CLUSTERED ([ID])
 WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
 ON [PRIMARY]
 GO
@@ -1698,15 +1817,6 @@ GO
 -- Primary Key structure for table SMS_SKU_ATTR_VALUE
 -- ----------------------------
 ALTER TABLE [dbo].[SMS_SKU_ATTR_VALUE] ADD CONSTRAINT [PK__SMS_SKU___D458EB85DA171CE7] PRIMARY KEY CLUSTERED ([SKU_ID])
-WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
-ON [PRIMARY]
-GO
-
-
--- ----------------------------
--- Primary Key structure for table SMS_SKU_ENTRY
--- ----------------------------
-ALTER TABLE [dbo].[SMS_SKU_ENTRY] ADD CONSTRAINT [PK__SMS_SKU___3214EC27BC47317A] PRIMARY KEY CLUSTERED ([ID])
 WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
 ON [PRIMARY]
 GO
