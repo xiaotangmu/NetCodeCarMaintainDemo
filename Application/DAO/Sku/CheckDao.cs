@@ -67,6 +67,13 @@ namespace DAO.Sku
 
             command.CommandText = sql;
             return (int)command.ExecuteScalar() > 0 ? true : false;
+
+            //string sql = @"update SMS_CHECK set STATUS = 0
+            //where 0 = (
+            //    select Count(1) from SMS_CHECK_SKU
+
+            //    where CHECK_ID = '1' and STATUS = 1
+            //) and ID = '1'"
             
             //sql = string.Format(sql, CheckSkuId);
             //return await Repository.CountAsync(sql) > 0 ? true : false;
