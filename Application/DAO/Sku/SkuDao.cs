@@ -162,13 +162,6 @@ namespace DAO.Sku
 
         public async Task<IEnumerable<SkuModel>> GetSameSku(SkuAddModel model)
         {
-            //var pF1 = Predicates.Field<SMS_SKU>(obj => obj.SPU_ID, Operator.Eq, model.SpuId);
-            //var pF2 = Predicates.Field<SMS_SKU>(obj => obj.BRAND, Operator.Eq, model.Brand);
-            //var pF3 = Predicates.Field<SMS_SKU>(obj => obj.UNIT, Operator.Eq, model.Unit);
-            //var pF4 = Predicates.Field<SMS_SKU>(obj => obj.STATUS, Operator.Eq, model.Status);
-            //var predicateGroup = Predicates.Group(GroupOperator.And, pF1, pF2, pF3, pF4);
-            //var pSort = Predicates.Sort<SMS_SKU>(item => item.OCD, false);
-
             string sql = @"select * from SMS_SKU
                             where SPU_ID = @SpuId 
                             and BRAND = @Brand
@@ -245,6 +238,21 @@ namespace DAO.Sku
                     )
                     where ID = @SkuId";
             return await Repository.ExecuteAsync(sql, new { SkuId }, transaction) > 1 ? true : false;
+        }
+
+        public async Task<SkuAddressModel> SelectAddressByAddressId(string AddressId)
+        {
+            string sql = @"select ID Id, SKU_ID SkuId, ROOM Room, SELF Self, QUANTITY Quantity
+                        from SMS_SKU_ADDRESS where ID = @AddressId";
+            IEnumerable<SkuAddressModel> addressList = await Repository.GetGroupAsync<SkuAddressModel>(sql, new { AddressId });
+            if(addressList != null && addressList.Count() > 0)
+            {
+                return addressList.ElementAt(0);
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

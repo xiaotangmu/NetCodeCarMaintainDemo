@@ -124,7 +124,7 @@ namespace BLL.Sku
 
         public async Task<bool> UpdateDescription(string outId, string description)
         {
-            return await _outDao.UpdateDescriptionByEntryId(outId, description);
+            return await _outDao.UpdateDescriptionByOutId(outId, description);
         }
         public SMS_OUT_SKU OutSkuModelToEntityNoId(OutSkuAddModel model)
         {

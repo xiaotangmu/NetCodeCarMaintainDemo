@@ -19,5 +19,7 @@ namespace Interface.Sku
         Task<IEnumerable<SkuModel>> GetListEntrySkuByEntryId(string id);
         Task<EntryListWithPagingModel> GetEntryPageBySearch(EntryPageSearchModel model);
         Task<bool> UpdateDescriptionByEntryId(string entryId, string description);
+        Task<bool> DeleteEntrySkuByEntryId(string entryId, IDbTransaction transaction = null);
+        Task<bool> DeleteEntryById(string Id, IDbTransaction transaction = null);
     }
 }

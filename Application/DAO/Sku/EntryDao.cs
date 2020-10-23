@@ -52,7 +52,7 @@ namespace DAO.Sku
                 " Or sn.DESCRIPTION like '%' + '{0}' + '%') ";    // 还可查供应商 待定 
             strSql += model?.StartTime.Year > 1900 ? " and sn.ENTRY_DATE >= '{1}'": ""; 
             strSql += model?.EndTime.Year > 1900 ? " and '{2}' >= sn.ENTRY_DATE" : ""; 
-            string sql = string.Format(strSql, model.SearchStr);
+            string sql = string.Format(strSql, model.SearchStr, model.StartTime, model.EndTime);
             EntryListWithPagingModel pageModel = new EntryListWithPagingModel();
             string countSql = "Select Count(1) from (" + sql + ") as temp";
             pageModel.TotalCount = await Repository.CountAsync(countSql);
@@ -99,23 +99,16 @@ namespace DAO.Sku
                     where ID = @AddressId";
             return await Repository.ExecuteAsync(sql, model, transaction) > 1 ? true : false;
         }
+        public async Task<bool> DeleteEntrySkuByEntryId(string entryId, IDbTransaction transaction = null)
+        {
+            string sql = "delete from SMS_ENTRY_SKU where ENTRY_ID = @entryId";
+            return await Repository.ExecuteAsync(sql, new { entryId }, transaction) > 0 ? true : false;
+        }
 
-        ///// <summary>
-        ///// 更新总库存数据
-        ///// </summary>
-        ///// <param name="SkuId"></param>
-        ///// <param name="transaction"></param>
-        ///// <returns></returns>
-        //public async Task<bool> UpdateSkuTotalCount(string SkuId, IDbTransaction transaction = null)
-        //{
-        //    string sql = @"update SMS_SKU
-        //            set TOTAL_COUNT = (
-	       //             select SUM(ssa.QUANTITY) 
-	       //             from SMS_SKU_ADDRESS ssa
-	       //             where ssa.SKU_ID = @SkuId
-        //            )
-        //            where ID = @SkuId";
-        //    return await Repository.ExecuteAsync(sql, new { SkuId }, transaction) > 1 ? true : false;
-        //}
+        public async Task<bool> DeleteEntryById(string Id, IDbTransaction transaction = null)
+        {
+            string sql = "delete from SMS_ENTRY where ID = @Id";
+            return await Repository.ExecuteAsync(sql, new { Id }, transaction) > 0 ? true : false;
+        }
     }
 }

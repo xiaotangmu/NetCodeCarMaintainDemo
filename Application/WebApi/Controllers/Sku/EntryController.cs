@@ -52,11 +52,11 @@ namespace WebApi.Controllers.Sku
                 {
                     throw new Exception("添加的库存为空");
                 }
+                // 生成入库单号： 入库时间(年月日 + 供应商 + 批次) ： 2019012200101
+                model.EntryNo = string.Format("{0:yyyyMMdd}", model.EntryDate) + model.SupplierId.PadLeft(3, '0') + model.Batch.ToString().PadLeft(2, '0');
                 string result = await _entrySupervisor.Add(model);
                 if (!string.IsNullOrEmpty(result))
                 {
-                    // 生成入库单号： 入库时间(年月日 + 供应商 + 批次) ： 2019012200101
-                    model.EntryNo = string.Format("{0:yyyyMMdd}", model.EntryDate) + model.SupplierId.PadLeft(3, '0') + model.Batch.ToString().PadLeft(2, '0');
                     await LogOperation(await Localizer.GetValueAsync("添加入库单：") + model.EntryNo);
                 }
                 else

@@ -12,7 +12,7 @@
  Target Server Version : 14001000
  File Encoding         : 65001
 
- Date: 22/10/2020 16:30:23
+ Date: 23/10/2020 16:54:44
 */
 
 
@@ -694,62 +694,215 @@ GO
 
 
 -- ----------------------------
--- Table structure for sms_check
+-- Table structure for SMS_CHECK
 -- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sms_check]') AND type IN ('U'))
-	DROP TABLE [dbo].[sms_check]
+IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[SMS_CHECK]') AND type IN ('U'))
+	DROP TABLE [dbo].[SMS_CHECK]
 GO
 
-CREATE TABLE [dbo].[sms_check] (
-  [id] int  IDENTITY(1,1) NOT NULL,
-  [CheckNo] varchar(30) COLLATE Chinese_PRC_CI_AS  NULL,
-  [Operator] varchar(20) COLLATE Chinese_PRC_CI_AS  NULL,
-  [Status] varchar(20) COLLATE Chinese_PRC_CI_AS  NULL
+CREATE TABLE [dbo].[SMS_CHECK] (
+  [ID] varchar(50) COLLATE Chinese_PRC_CI_AS  NOT NULL,
+  [CHECK_NO] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
+  [OPERATOR] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
+  [CHECK_DATE] datetime  NULL,
+  [ACCOUNT_PRICE] decimal(2)  NULL,
+  [CHECK_PRICE] decimal(2)  NULL,
+  [DIFFERENCE_PRICE] decimal(2)  NULL,
+  [DESCRIPTION] varchar(1024) COLLATE Chinese_PRC_CI_AS  NULL,
+  [STATUS] int DEFAULT ((0)) NULL,
+  [OCU] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
+  [OCD] datetime  NULL,
+  [LUC] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
+  [LUD] datetime  NULL
 )
 GO
 
-ALTER TABLE [dbo].[sms_check] SET (LOCK_ESCALATION = TABLE)
+ALTER TABLE [dbo].[SMS_CHECK] SET (LOCK_ESCALATION = TABLE)
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'盘点单号',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_CHECK',
+'COLUMN', N'CHECK_NO'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'操作员',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_CHECK',
+'COLUMN', N'OPERATOR'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'盘点日期',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_CHECK',
+'COLUMN', N'CHECK_DATE'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'账面总金额',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_CHECK',
+'COLUMN', N'ACCOUNT_PRICE'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'盘点总金额',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_CHECK',
+'COLUMN', N'CHECK_PRICE'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'相差总金额，正为多了，负为少了',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_CHECK',
+'COLUMN', N'DIFFERENCE_PRICE'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'备注',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_CHECK',
+'COLUMN', N'DESCRIPTION'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'是否解决，0未解决，1解决',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_CHECK',
+'COLUMN', N'STATUS'
 GO
 
 
 -- ----------------------------
--- Records of sms_check
+-- Records of SMS_CHECK
 -- ----------------------------
-SET IDENTITY_INSERT [dbo].[sms_check] ON
-GO
-
-SET IDENTITY_INSERT [dbo].[sms_check] OFF
+INSERT INTO [dbo].[SMS_CHECK] ([ID], [CHECK_NO], [OPERATOR], [CHECK_DATE], [ACCOUNT_PRICE], [CHECK_PRICE], [DIFFERENCE_PRICE], [DESCRIPTION], [STATUS], [OCU], [OCD], [LUC], [LUD]) VALUES (N'1', NULL, NULL, N'2020-04-23 16:16:10.000', NULL, NULL, NULL, N'string', N'1', NULL, NULL, NULL, NULL)
 GO
 
 
 -- ----------------------------
--- Table structure for sms_check_sku
+-- Table structure for SMS_CHECK_SKU
 -- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sms_check_sku]') AND type IN ('U'))
-	DROP TABLE [dbo].[sms_check_sku]
+IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[SMS_CHECK_SKU]') AND type IN ('U'))
+	DROP TABLE [dbo].[SMS_CHECK_SKU]
 GO
 
-CREATE TABLE [dbo].[sms_check_sku] (
-  [id] int  IDENTITY(1,1) NOT NULL,
-  [CheckId] int  NULL,
-  [SkuId] int  NULL,
-  [Quantity] int  NULL,
-  [Status] varchar(20) COLLATE Chinese_PRC_CI_AS  NULL,
-  [OldQuantity] int  NULL
+CREATE TABLE [dbo].[SMS_CHECK_SKU] (
+  [ID] varchar(50) COLLATE Chinese_PRC_CI_AS  NOT NULL,
+  [CHECK_ID] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
+  [ADDRESS_ID] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
+  [CHECK_NUM] int  NULL,
+  [CHECK_PRICE] decimal(2)  NULL,
+  [PRICE] decimal(2)  NULL,
+  [ACCOUNT_NUM] int  NULL,
+  [ACCOUNT_PRICE] decimal(2)  NULL,
+  [DIFFERENCE_NUM] int  NULL,
+  [DESCRIPTION] varchar(1024) COLLATE Chinese_PRC_CI_AS  NULL,
+  [STATUS] int DEFAULT ((0)) NULL,
+  [SKU_ID] varchar(1) COLLATE Chinese_PRC_CI_AS  NULL,
+  [DIFFERENCE_PRICE] decimal(2)  NULL
 )
 GO
 
-ALTER TABLE [dbo].[sms_check_sku] SET (LOCK_ESCALATION = TABLE)
+ALTER TABLE [dbo].[SMS_CHECK_SKU] SET (LOCK_ESCALATION = TABLE)
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'关联盘点表',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_CHECK_SKU',
+'COLUMN', N'CHECK_ID'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'关联库存（位置）',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_CHECK_SKU',
+'COLUMN', N'ADDRESS_ID'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'盘点数量',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_CHECK_SKU',
+'COLUMN', N'CHECK_NUM'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'盘点总金额',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_CHECK_SKU',
+'COLUMN', N'CHECK_PRICE'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'当时单价',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_CHECK_SKU',
+'COLUMN', N'PRICE'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'账面数量',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_CHECK_SKU',
+'COLUMN', N'ACCOUNT_NUM'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'账面总金额',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_CHECK_SKU',
+'COLUMN', N'ACCOUNT_PRICE'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'相差数量，正多，负少',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_CHECK_SKU',
+'COLUMN', N'DIFFERENCE_NUM'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'备注',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_CHECK_SKU',
+'COLUMN', N'DESCRIPTION'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'0未处理，1已处理',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_CHECK_SKU',
+'COLUMN', N'STATUS'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'预留字段（冗余）',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_CHECK_SKU',
+'COLUMN', N'SKU_ID'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'相差金额，正多，负少',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_CHECK_SKU',
+'COLUMN', N'DIFFERENCE_PRICE'
 GO
 
 
 -- ----------------------------
--- Records of sms_check_sku
+-- Records of SMS_CHECK_SKU
 -- ----------------------------
-SET IDENTITY_INSERT [dbo].[sms_check_sku] ON
+INSERT INTO [dbo].[SMS_CHECK_SKU] ([ID], [CHECK_ID], [ADDRESS_ID], [CHECK_NUM], [CHECK_PRICE], [PRICE], [ACCOUNT_NUM], [ACCOUNT_PRICE], [DIFFERENCE_NUM], [DESCRIPTION], [STATUS], [SKU_ID], [DIFFERENCE_PRICE]) VALUES (N'1', N'1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, N'0', NULL, NULL)
 GO
 
-SET IDENTITY_INSERT [dbo].[sms_check_sku] OFF
+INSERT INTO [dbo].[SMS_CHECK_SKU] ([ID], [CHECK_ID], [ADDRESS_ID], [CHECK_NUM], [CHECK_PRICE], [PRICE], [ACCOUNT_NUM], [ACCOUNT_PRICE], [DIFFERENCE_NUM], [DESCRIPTION], [STATUS], [SKU_ID], [DIFFERENCE_PRICE]) VALUES (N'2', N'1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, N'0', NULL, NULL)
 GO
 
 
@@ -1728,32 +1881,18 @@ GO
 
 
 -- ----------------------------
--- Auto increment value for sms_check
+-- Primary Key structure for table SMS_CHECK
 -- ----------------------------
-DBCC CHECKIDENT ('[dbo].[sms_check]', RESEED, 1)
-GO
-
-
--- ----------------------------
--- Primary Key structure for table sms_check
--- ----------------------------
-ALTER TABLE [dbo].[sms_check] ADD CONSTRAINT [PK__sms_chec__3213E83F7EE241F8] PRIMARY KEY CLUSTERED ([id])
+ALTER TABLE [dbo].[SMS_CHECK] ADD CONSTRAINT [PK__SMS_CHEC__3214EC273B3A48D2] PRIMARY KEY CLUSTERED ([ID])
 WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
 ON [PRIMARY]
 GO
 
 
 -- ----------------------------
--- Auto increment value for sms_check_sku
+-- Primary Key structure for table SMS_CHECK_SKU
 -- ----------------------------
-DBCC CHECKIDENT ('[dbo].[sms_check_sku]', RESEED, 1)
-GO
-
-
--- ----------------------------
--- Primary Key structure for table sms_check_sku
--- ----------------------------
-ALTER TABLE [dbo].[sms_check_sku] ADD CONSTRAINT [PK__sms_chec__3213E83F9C0702E4] PRIMARY KEY CLUSTERED ([id])
+ALTER TABLE [dbo].[SMS_CHECK_SKU] ADD CONSTRAINT [PK__SMS_CHEC__3214EC2777D3A3C1] PRIMARY KEY CLUSTERED ([ID])
 WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
 ON [PRIMARY]
 GO

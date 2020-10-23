@@ -71,7 +71,7 @@ namespace DAO.Sku
                 " Or sn.DESCRIPTION like '%' + '{0}' + '%') ";    // 还可查供应商 待定 
             strSql += model?.StartTime.Year > 1900 ? " and sn.OUT_DATE >= '{1}'" : "";
             strSql += model?.EndTime.Year > 1900 ? " and '{2}' >= sn.OUT_DATE" : "";
-            string sql = string.Format(strSql, model.SearchStr);
+            string sql = string.Format(strSql, model.SearchStr, model.StartTime, model.EndTime);
             OutListWithPagingModel pageModel = new OutListWithPagingModel();
             string countSql = "Select Count(1) from (" + sql + ") as temp";
             pageModel.TotalCount = await Repository.CountAsync(countSql);
@@ -99,22 +99,22 @@ namespace DAO.Sku
             return await Repository.ExecuteAsync(sql, model, transaction) > 1 ? true : false;
         }
 
-        public async Task<bool> UpdateDescriptionByEntryId(string outId, string description)
+        public async Task<bool> UpdateDescriptionByOutId(string outId, string description)
         {
             string sql = "Update SMS_OUT set DESCRIPTION = @description where ID = @outId";
             return await Repository.ExecuteAsync(sql, new { outId, description }) > 0 ? true : false;
         }
 
-        //public async Task<bool> UpdateSkuTotalCount(string SkuId, IDbTransaction transaction)
-        //{
-        //    string sql = @"update SMS_SKU
-        //            set TOTAL_COUNT = (
-	       //             select SUM(ssa.QUANTITY) 
-	       //             from SMS_SKU_ADDRESS ssa
-	       //             where ssa.SKU_ID = @SkuId
-        //            )
-        //            where ID = @SkuId";
-        //    return await Repository.ExecuteAsync(sql, new { SkuId }, transaction) > 1 ? true : false;
-        //}
+        public async Task<bool> DeleteOutSkuByOutId(string outId, IDbTransaction transaction = null)
+        {
+            string sql = "delete from SMS_OUT_SKU where OUT_ID = @outId";
+            return await Repository.ExecuteAsync(sql, new { outId }, transaction) > 0 ? true : false;
+        }
+
+        public async Task<bool> DeleteOutById(string Id, IDbTransaction transaction = null)
+        {
+            string sql = "delete from SMS_OUT where ID = @Id";
+            return await Repository.ExecuteAsync(sql, new { Id }, transaction) > 0 ? true : false;
+        }
     }
 }
