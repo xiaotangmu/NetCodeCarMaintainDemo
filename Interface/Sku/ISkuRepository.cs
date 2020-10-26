@@ -28,5 +28,7 @@ namespace Interface.Sku
         Task<SkuModel> GetSkuById(string skuId);
         Task<bool> UpdateSkuTotalCount(string SkuId, IDbTransaction transaction);
         Task<SkuAddressModel> SelectAddressByAddressId(string AddressId);
+        Task<bool> UpdateSkuTotalCountByAddressId(string addressId, IDbTransaction transaction);
+        Task<SkuModel> GetSkuByAddressId(string addressId);
     }
 }

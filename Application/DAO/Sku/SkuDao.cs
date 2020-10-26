@@ -254,5 +254,36 @@ namespace DAO.Sku
                 return null;
             }
         }
+
+        public async Task<bool> UpdateSkuTotalCountByAddressId(string addressId, IDbTransaction transaction)
+        {
+            string sql = @"update SMS_SKU
+                    set TOTAL_COUNT = (
+	                    select SUM(ssa.QUANTITY) 
+	                    from SMS_SKU_ADDRESS ssa
+	                    where ssa.SKU_ID = (
+	                        select SKU_ID
+	                        from SMS_SKU_ADDRESS 
+	                        where ID = @addressId
+                        )
+                    )
+                    where ID = (
+	                    select SKU_ID
+	                    from SMS_SKU_ADDRESS 
+	                    where ID = @addressId
+                    )";
+            return await Repository.ExecuteAsync(sql, new { addressId }, transaction) > 1 ? true : false;
+        }
+
+        public async Task<SkuModel> GetSkuByAddressId(string addressId)
+        {
+            string sql = @"select * from SMS_SKU 
+                    where ID = (
+	                    select SKU_ID from SMS_SKU_ADDRESS
+	                    where ID = @addressId
+                    )";
+            IEnumerable<SMS_SKU> entityList = await Repository.GetGroupAsync<SMS_SKU>(sql, new { addressId });
+            return EntityToModel(entityList.First());
+        }
     }
 }

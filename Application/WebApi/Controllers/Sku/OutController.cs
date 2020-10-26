@@ -206,11 +206,11 @@ namespace WebApi.Controllers.Sku
                 bool result = await _outSupervisor.Update(model);
                 if (result)
                 {
-                    await LogOperation(await Localizer.GetValueAsync("更新盘点单：") + model.EntryNo);
+                    await LogOperation(await Localizer.GetValueAsync("更新出库单：") + model.OutNo);
                 }
                 else
                 {
-                    throw new MyServiceException(await Localizer.GetValueAsync("更新盘点单失败"));
+                    throw new MyServiceException(await Localizer.GetValueAsync("更新出库单失败"));
                 }
                 return result;
             });

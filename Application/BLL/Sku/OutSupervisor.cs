@@ -53,11 +53,7 @@ namespace BLL.Sku
         {
             // 1. 查重
             IEnumerable<OutSkuAddModel> outSkuList = model.outSkuList;
-            List<OutSkuAddModel> list = outSkuList.Distinct(new OutSkuModelComparer()).ToList();
-            if (outSkuList.Count() != list.Count())
-            {
-                throw new MyServiceException(MsgCode.SameData, "存在相同数据");
-            }
+            IsRepeatAndThrowException(outSkuList);
             // 3. 查是否存在
             bool exist = await _outDao.IsExistByOutNo(model.OutNo);
             if (exist)
@@ -73,8 +69,8 @@ namespace BLL.Sku
                     throw new Exception("库存不足，出库失败");
                 }
             }
-            // 记录查询是否报警的skuId，方便最后查询
-            HashSet<string> skuIdSet = new HashSet<string>();
+            // 记录查询是否报警的addressIdSet，方便最后查询
+            HashSet<string> addressIdSet = new HashSet<string>();
             string outId1 = await _outDao.Repository.DbSession.TransactionHandle(async (transaction) =>
             {
                 decimal Total = 0;
@@ -91,18 +87,18 @@ namespace BLL.Sku
                 {
                     outSku.OutId = outId;
                     // 添加
-                    await _outDao.AddOutSku(OutSkuModelToEntityNoId(outSku), outId, transaction);
+                    await _outDao.AddOutSku(OutSkuModelToEntityNoId(outSku), transaction);
                     // 修改具体位置库存数量
                     await _outDao.UpdateAddressSkuNumByAddressId(outSku, transaction);
                     // 修改库存总数量
                     await _skuDao.UpdateSkuTotalCount(outSku.SkuId, transaction);
-                    skuIdSet.Add(outSku.SkuId);
+                    addressIdSet.Add(outSku.AddressId);
                 }
                 return outId;
             });
 
             // 查看库存报警
-            CheckAlarm(skuIdSet);
+            CheckAlarm(addressIdSet);
             return outId1;
         }
 
@@ -110,18 +106,136 @@ namespace BLL.Sku
         /// 查看是否要报警
         /// </summary>
         /// <returns></returns>
-        public async Task CheckAlarm(IEnumerable<string> skuIdSet)
+        public async Task CheckAlarm(IEnumerable<string> addressIdSet)
         {
-            foreach(var skuId in skuIdSet)
+            Dictionary<string, SkuModel> map = new Dictionary<string, SkuModel>();
+            foreach(var AddressId in addressIdSet)
             {
-                SkuModel sku = await _skuDao.GetSkuById(skuId);
-                if(sku.TotalCount <= sku.Alarm)
+                SkuModel sku = await _skuDao.GetSkuByAddressId(AddressId);
+                if (!map.ContainsKey(sku.Id))
+                {
+                    map.Add(sku.Id, sku);
+                }
+            }
+            foreach (var item in map.Values)
+            {
+                if (item.TotalCount <= item.Alarm)
                 {
                     // 报警操作
 
                 }
             }
-            
+        }
+        /// <summary>
+        /// 更新整个出库单
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public async Task<bool> Update(OutUpdateModel model)
+        {
+            // 子项查重
+            IEnumerable<OutSkuAddModel> outSkuList = model.outSkuList;
+            IsRepeatAndThrowException(outSkuList);
+            // 获取数量变化的Address sku
+            IEnumerable<OutSkuAddModel> outSkuList2 = await GetChangeAddressSku(outSkuList, model.Id);
+            // 记录出库关联的AddressId
+            HashSet<string> addressIdSet = new HashSet<string>();
+            bool res2 =  await _outDao.Repository.DbSession.TransactionHandle(async (transaction) =>
+            {
+                // 3. 更新
+                bool res = await _outDao.UpdateOut(model, transaction);
+                // 添加盘点库存信息
+                if (res)
+                {
+                    // 1. 删除子项
+                    await _outDao.DeleteOutSkuByOutId(model.Id, transaction);
+                    // 添加入库库存
+                    foreach (var item in outSkuList)
+                    {
+                        item.OutId = model.Id;
+                        await _outDao.AddOutSku(OutSkuModelToEntityNoId(item), transaction);
+                        addressIdSet.Add(item.AddressId);
+                    }
+                    // 修改具体位置的库存数量
+                    foreach (var outSku in outSkuList2)
+                    {
+                        // 修改具体位置库存数量
+                        await _outDao.UpdateAddressSkuNumByAddressId(outSku, transaction);
+                        // 修改库存总数量
+                        await _skuDao.UpdateSkuTotalCountByAddressId(outSku.AddressId, transaction);
+                        addressIdSet.Add(outSku.AddressId);
+                    }
+                }
+                return res;
+            });
+            // 查看库存报警
+            CheckAlarm(addressIdSet);
+            return res2;
+        }
+        /// <summary>
+        /// 获取需要更新数量的OutSku -- Address -sku
+        /// </summary>
+        /// <param name="outSkuList">现在更新的列表</param>
+        /// <param name="OutId">出库单ID</param>
+        /// <returns></returns>
+        public async Task<IEnumerable<OutSkuAddModel>> GetChangeAddressSku(IEnumerable<OutSkuAddModel> outSkuList, string OutId)
+        {
+            // 获取原来的子项，以便下面修改库存数量变化
+            IEnumerable<SkuModel> skuList = await _outDao.GetListOutSkuByOutId(OutId);
+            Dictionary<string, SkuModel> outSkuMap1 = new Dictionary<string, SkuModel>();
+            Dictionary<string, OutSkuAddModel> outSkuMap2 = new Dictionary<string, OutSkuAddModel>();
+            // 记录要修改的具体位置库存 addressId -- quantity 出库（-）
+            List<OutSkuAddModel> outSkuList2 = new List<OutSkuAddModel>();
+            foreach (var item in skuList)
+            {
+                outSkuMap1.Add(item.AddressId, item);
+            }
+            // 计算具体位置库存数量变化
+            foreach (var item in outSkuList)
+            {
+                if (outSkuMap1.ContainsKey(item.AddressId))   // 原来添加列表中存在现在添加的库存
+                {
+                    OutSkuAddModel eSku = new OutSkuAddModel();
+                    SkuModel sku = new SkuModel();
+                    outSkuMap1.TryGetValue(item.AddressId, out sku);
+                    int value = item.Quantity - sku.TotalCount; // 变小(原来减多了)，- 负值，变大，- 差值
+                    eSku.Quantity = value;
+                    if (value != 0)  // 为0库存数量不做变化
+                    {
+                        eSku.AddressId = sku.AddressId;
+                        outSkuList2.Add(eSku);
+                    }
+                }
+                else // 原来列表不存在这个添加数据
+                {
+                    outSkuList2.Add(item);
+                }
+                // 原来列表存在，现在没有的, 先记录map后比较
+                outSkuMap2.Add(item.AddressId, item);
+            }
+            foreach (var item in skuList)
+            {
+                // 原来列表存在，现在没有的
+                if (!outSkuMap2.ContainsKey(item.AddressId))
+                {
+                    OutSkuAddModel eSku = new OutSkuAddModel();
+                    eSku.AddressId = item.AddressId;
+                    eSku.Quantity = -1 * item.TotalCount;   // 减回来
+                    outSkuList2.Add(eSku);
+                }
+            }
+            return outSkuList2;
+        }
+        /// <summary>
+        /// 查重
+        /// </summary>
+        public void IsRepeatAndThrowException(IEnumerable<OutSkuAddModel> outSkuList)
+        {
+            List<OutSkuAddModel> list = outSkuList.Distinct(new OutSkuModelComparer()).ToList();
+            if (outSkuList.Count() != list.Count())
+            {
+                throw new MyServiceException(MsgCode.SameData, "存在相同数据");
+            }
         }
 
         public async Task<IEnumerable<OutModel>> GetAll()

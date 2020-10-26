@@ -16,7 +16,7 @@ namespace DAO.Sku
 
         public EntryDao(IDataRepository repository) : base(repository) { }
 
-        public async Task<string> AddEntrySku(SMS_ENTRY_SKU entity, string entryId, IDbTransaction transaction = null)
+        public async Task<string> AddEntrySku(SMS_ENTRY_SKU entity, IDbTransaction transaction = null)
         {
             return await Repository.InsertAsync<SMS_ENTRY_SKU>(entity, transaction);
         }
@@ -98,7 +98,7 @@ namespace DAO.Sku
             string sql = @"update SMS_SKU_ADDRESS
                     set QUANTITY = (QUANTITY + @Quantity)
                     where ID = @AddressId";
-            return await Repository.ExecuteAsync(sql, model, transaction) > 1 ? true : false;
+            return await Repository.ExecuteAsync(sql, new { Quantity = model.Quantity, AddressId = model.AddressId }, transaction) > 1 ? true : false;
         }
         public async Task<bool> DeleteEntrySkuByEntryId(string entryId, IDbTransaction transaction = null)
         {
@@ -111,16 +111,15 @@ namespace DAO.Sku
             string sql = "delete from SMS_ENTRY where ID = @Id";
             return await Repository.ExecuteAsync(sql, new { Id }, transaction) > 0 ? true : false;
         }
-        public async Task<bool> UpdateEntry(EntryWholeUpdateModel model, IDbTransaction transaction = null)
+        public async Task<bool> UpdateEntry(EntryUpdateModel model, IDbTransaction transaction)
         {
             string sql = @"Update SMS_ENTRY 
                 set OPERATOR = @Operator, 
-                    CHECK_DATE = @CheckDate,
-                    ACCOUNT_PRICE = @AccountPrice,
-                    CHECK_PRICE = @CheckPrice,
-                    DIFFERENCE_PRICE = @DifferencePrice,
+                    ENTRY_DATE = @EntryDate,
+                    TOTAL_PRICE = @TotalPrice,
+                    BATCH = @Batch,
+                    SUPPLIER_ID = @SupplierId,
                     DESCRIPTION = @Description,
-                    STATUS = @Status,
                     LUD = CURRENT_TIMESTAMP
                 where ID = @Id";
             return await Repository.ExecuteAsync(sql, model, transaction) > 0 ? true : false;

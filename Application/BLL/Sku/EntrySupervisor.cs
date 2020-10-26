@@ -83,7 +83,7 @@ namespace BLL.Sku
                 foreach(var entrySku in entrySkuList)
                 {
                     entrySku.EntryId = entryId;
-                    await _entryDao.AddEntrySku(EntrySkuModelToEntityNoId(entrySku), entryId, transaction);
+                    await _entryDao.AddEntrySku(EntrySkuModelToEntityNoId(entrySku), transaction);
                     // 修改具体位置库存数量
                     await _entryDao.UpdateAddressSkuNumByAddressId(entrySku, transaction);
                     // 修改库存总数量
@@ -103,67 +103,22 @@ namespace BLL.Sku
             // 子项查重
             IEnumerable<EntrySkuAddModel> entrySkuList = model.entrySkuList;
             IsRepeatAndThrowException(entrySkuList);
-            // 获取原来的子项，以便下面修改库存数量变化
-            IEnumerable<SkuModel> skuList = await _entryDao.GetListEntrySkuByEntryId(model.Id);
-            Dictionary<string, SkuModel> entrySkuMap1 = new Dictionary<string, SkuModel>();
-            Dictionary<string, EntrySkuAddModel> entrySkuMap2 = new Dictionary<string, EntrySkuAddModel>();
-            // 记录要修改的具体位置库存 addressId -- quantity 入库（+）
-            List<EntrySkuAddModel> entrySkuList2 = new List<EntrySkuAddModel>();
-            foreach(var item in skuList)
-            {
-                entrySkuMap1.Add(item.AddressId, item);
-            }
-            // 计算具体位置库存数量变化
-            foreach(var item in entrySkuList)
-            {
-                if (entrySkuMap1.ContainsKey(item.AddressId))   // 原来添加列表中存在现在添加的库存
-                {
-                    EntrySkuAddModel eSku = new EntrySkuAddModel();
-                    SkuModel sku = new SkuModel();
-                    entrySkuMap1.TryGetValue(item.AddressId, out sku);
-                    int value = item.Quantity - sku.TotalCount; // 变小，+ 负值，变大，+ 差值
-                    eSku.Quantity = value;
-                    if(value != 0)  // 为0库存数量不做变化
-                    {
-                        entrySkuList2.Add(eSku);
-                    }
-                }
-                else // 原来列表不存在这个添加数据
-                {
-                    entrySkuList2.Add(item);
-                }
-                // 原来列表存在，现在没有的, 先记录map后比较
-                entrySkuMap2.Add(item.AddressId, item);
-            }
-            foreach(var item in skuList)
-            {
-                // 原来列表存在，现在没有的
-                if (!entrySkuMap2.ContainsKey(item.AddressId))
-                {
-                    EntrySkuAddModel eSku = new EntrySkuAddModel();
-                    eSku.SkuId = item.
-                    eSku.AddressId = item.AddressId;
-                    eSku.Quantity = -1 * item.TotalCount;   // 减回来
-                    entrySkuList2.Add(eSku);
-                }
-            }
-
-
-
+            // 获取数量变化的Address sku
+            IEnumerable<EntrySkuAddModel> entrySkuList2 = await GetChangeEntrySku(entrySkuList, model.Id);
             return await _entryDao.Repository.DbSession.TransactionHandle(async (transaction) =>
             {
-                // 1. 删除子项
-                await _entryDao.DeleteEntrySkuByEntryId(model.Id, transaction);
-
                 // 3. 更新
                 bool res = await _entryDao.UpdateEntry(model, transaction);
                 // 添加盘点库存信息
                 if (res)
                 {
+                    // 1. 删除子项
+                    await _entryDao.DeleteEntrySkuByEntryId(model.Id, transaction);
                     // 添加入库库存
                     foreach (var item in entrySkuList)
                     {
-                        await _entryDao.AddEntrySku(EntrySkuModelToEntityNoId(item), model.Id, transaction);
+                        item.EntryId = model.Id;
+                        await _entryDao.AddEntrySku(EntrySkuModelToEntityNoId(item), transaction);
                     }
                     // 修改具体位置的库存数量
                     foreach (var entrySku in entrySkuList2)
@@ -176,6 +131,60 @@ namespace BLL.Sku
                 }
                 return res;
             });
+        }
+        /// <summary>
+        /// 获取需要更新数量的EntrySku -- Address -sku
+        /// </summary>
+        /// <param name="entrySkuList">现在更新的列表</param>
+        /// <param name="EntryId">入库单ID</param>
+        /// <returns></returns>
+        public async Task<IEnumerable<EntrySkuAddModel>> GetChangeEntrySku(IEnumerable<EntrySkuAddModel> entrySkuList, string EntryId)
+        {
+            // 获取原来的子项，以便下面修改库存数量变化
+            IEnumerable<SkuModel> skuList = await _entryDao.GetListEntrySkuByEntryId(EntryId);
+            Dictionary<string, SkuModel> entrySkuMap1 = new Dictionary<string, SkuModel>();
+            Dictionary<string, EntrySkuAddModel> entrySkuMap2 = new Dictionary<string, EntrySkuAddModel>();
+            // 记录要修改的具体位置库存 addressId -- quantity 入库（+）
+            List<EntrySkuAddModel> entrySkuList2 = new List<EntrySkuAddModel>();
+            foreach (var item in skuList)
+            {
+                entrySkuMap1.Add(item.AddressId, item);
+            }
+            // 计算具体位置库存数量变化
+            foreach (var item in entrySkuList)
+            {
+                if (entrySkuMap1.ContainsKey(item.AddressId))   // 原来添加列表中存在现在添加的库存
+                {
+                    EntrySkuAddModel eSku = new EntrySkuAddModel();
+                    SkuModel sku = new SkuModel();
+                    entrySkuMap1.TryGetValue(item.AddressId, out sku);
+                    int value = item.Quantity - sku.TotalCount; // 变小，+ 负值，变大，+ 差值
+                    eSku.Quantity = value;
+                    if (value != 0)  // 为0库存数量不做变化
+                    {
+                        eSku.AddressId = sku.AddressId;
+                        entrySkuList2.Add(eSku);
+                    }
+                }
+                else // 原来列表不存在这个添加数据
+                {
+                    entrySkuList2.Add(item);
+                }
+                // 原来列表存在，现在没有的, 先记录map后比较
+                entrySkuMap2.Add(item.AddressId, item);
+            }
+            foreach (var item in skuList)
+            {
+                // 原来列表存在，现在没有的
+                if (!entrySkuMap2.ContainsKey(item.AddressId))
+                {
+                    EntrySkuAddModel eSku = new EntrySkuAddModel();
+                    eSku.AddressId = item.AddressId;
+                    eSku.Quantity = -1 * item.TotalCount;   // 减回来
+                    entrySkuList2.Add(eSku);
+                }
+            }
+            return entrySkuList2;
         }
         /// <summary>
         /// 查重

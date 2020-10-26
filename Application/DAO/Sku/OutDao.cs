@@ -15,7 +15,7 @@ namespace DAO.Sku
         public OutDao() { }
         public OutDao(IDataRepository repository) : base(repository) { }
 
-        public async Task<string> AddOutSku(SMS_OUT_SKU entity, string outId, IDbTransaction transaction)
+        public async Task<string> AddOutSku(SMS_OUT_SKU entity, IDbTransaction transaction)
         {
             return await Repository.InsertAsync<SMS_OUT_SKU>(entity, transaction);
         }
@@ -116,6 +116,20 @@ namespace DAO.Sku
         {
             string sql = "delete from SMS_OUT where ID = @Id";
             return await Repository.ExecuteAsync(sql, new { Id }, transaction) > 0 ? true : false;
+        }
+
+        public async Task<bool> UpdateOut(OutUpdateModel model, IDbTransaction transaction)
+        {
+            string sql = @"Update SMS_OUT 
+                set OPERATOR = @Operator, 
+                    OUT_DATE = @OutDate,
+                    TOTAL_PRICE = @TotalPrice,
+                    BATCH = @Batch,
+                    CLIENT_ID = @ClientId,
+                    DESCRIPTION = @Description,
+                    LUD = CURRENT_TIMESTAMP
+                where ID = @Id";
+            return await Repository.ExecuteAsync(sql, model, transaction) > 0 ? true : false;
         }
     }
 }

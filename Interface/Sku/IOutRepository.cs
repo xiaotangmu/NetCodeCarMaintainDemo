@@ -14,7 +14,7 @@ namespace Interface.Sku
         Task<string> Insert(SMS_OUT sMS_OUT, IDbTransaction transaction);
         Task<bool> UpdateAddressSkuNumByAddressId(OutSkuAddModel outSku, IDbTransaction transaction);
         //Task<bool> UpdateSkuTotalCount(string skuId, IDbTransaction transaction);
-        Task<string> AddOutSku(SMS_OUT_SKU entity, string outId, IDbTransaction transaction);
+        Task<string> AddOutSku(SMS_OUT_SKU entity, IDbTransaction transaction);
         Task<IEnumerable<OutModel>> GetAll();
         Task<OutListWithPagingModel> GetOutPageBySearch(OutPageSearchModel model);
         Task<IEnumerable<SkuModel>> GetListOutSkuByOutId(string id);
@@ -22,5 +22,6 @@ namespace Interface.Sku
         Task<bool> CheckSkuIsEnough(OutSkuAddModel outSku);
         Task<bool> DeleteOutSkuByOutId(string outId, IDbTransaction transaction = null);
         Task<bool> DeleteOutById(string Id, IDbTransaction transaction = null);
+        Task<bool> UpdateOut(OutUpdateModel model, IDbTransaction transaction);
     }
 }
