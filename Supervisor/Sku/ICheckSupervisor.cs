@@ -14,5 +14,8 @@ namespace Supervisor.Sku
         Task<bool> UpdateAllStatus(CheckUpdateModel model);
         Task<IEnumerable<CheckModel>> GetAll();
         Task<PageModel<CheckModel>> GetListPageBySearch(CheckPageSearchModel model);
+        Task<bool> Delete(string Id);
+        Task<bool> DeleteBatch(IEnumerable<CheckDeleteModel> modelList);
+        Task<bool> Update(CheckWholeUpdateModel model);
     }
 }

@@ -13,7 +13,7 @@ namespace ViewModel.CustomException
         public MsgCode Code { get; set; }
         public MyServiceException(string message): base(message)
         {
-
+            Code = MsgCode.Data_Failure;
         }
         public MyServiceException(MsgCode Code, string message) : base(message)
         {

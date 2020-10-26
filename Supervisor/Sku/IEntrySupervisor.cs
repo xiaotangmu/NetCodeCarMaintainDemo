@@ -13,5 +13,8 @@ namespace Supervisor.Sku
         Task<IEnumerable<EntryModel>> GetAll();
         Task<EntryListWithPagingModel> GetListPageBySearch(EntryPageSearchModel model);
         Task<bool> UpdateDescription(string entryId, string descriptions);
+        Task<bool> Delete(string Id);
+        Task<bool> DeleteBatch(IEnumerable<EntryDeleteModel> modelList);
+        Task<bool> Update(EntryUpdateModel model);
     }
 }

@@ -117,7 +117,7 @@ namespace WebApi.Controllers
                 result.data = default;
                 result.code = MsgCode.Failure;
                 result.message = ex.Message;
-                Common.Logger.LoggerManager.DefaultLogger.Error("Occur a error:" + ex.StackTrace, ex);
+                //Common.Logger.LoggerManager.DefaultLogger.Error("Occur a error:" + ex.StackTrace, ex);
             }
             return Ok(result);
         }

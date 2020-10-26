@@ -14,5 +14,8 @@ namespace Supervisor.Sku
         Task<IEnumerable<OutModel>> GetAll();
         Task<bool> UpdateDescription(string outId, string description);
         Task<string> Add(OutAddModel model);
+        Task<bool> Delete(string Id);
+        Task<bool> DeleteBatch(IEnumerable<OutDeleteModel> modelList);
+        Task<bool> Update(OutUpdateModel model);
     }
 }

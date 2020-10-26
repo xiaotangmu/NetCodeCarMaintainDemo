@@ -27,6 +27,26 @@ namespace ViewModel.Sku
 
         public IEnumerable<SkuModel> skuList { get; set; } = new List<SkuModel>();
     }
+    public class OutUpdateModel : OutAddModel
+    {
+        public string Id { get; set; }
+        /// <summary>
+        /// 创建用户
+        /// </summary>
+        public string OCU { get; set; }
+        /// <summary>
+        /// 创建时间
+        /// </summary>
+        public DateTime OCD { get; set; }
+        /// <summary>
+        /// 最后更新用户
+        /// </summary>
+        public string LUC { get; set; }
+        /// <summary>
+        /// 最后更新时间
+        /// </summary>
+        public DateTime LUD { get; set; }
+    }
     public class OutAddModel
     {
         /// <summary>
@@ -72,5 +92,10 @@ namespace ViewModel.Sku
         public string SearchStr { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
+    }
+    public class OutDeleteModel
+    {
+        public string Id { get; set; }
+        public string OutNo { get; set; }
     }
 }

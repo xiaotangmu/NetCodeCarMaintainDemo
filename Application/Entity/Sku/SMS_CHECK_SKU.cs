@@ -74,7 +74,7 @@ namespace DateModel.Sku
         public static readonly string FIELD_DESCRIPTION = "description";
         public string DESCRIPTION { get; set; }
         /// <summary>
-        /// 是否处理，1已经处理，0没有处理
+        /// 是否处理，0已经处理，1没有处理
         /// </summary>
         public static readonly string FIELD_STATUS = "status";
         public int STATUS { get; set; }

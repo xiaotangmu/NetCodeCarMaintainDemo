@@ -22,5 +22,9 @@ namespace Interface.Sku
         Task<bool> UpdateCheckSkuStatus(CheckUpdateModel model, IDbTransaction transaction = null);
         Task<bool> HasCheckSkuToDealByCheckSkuId(string CheckSkuId, IDbTransaction transaction = null);
         Task<bool> UpdateCheckStatusByCheckSkuId(string id, IDbTransaction transaction = null);
+        Task<bool> HasCheckToDealAndUpdateByCheckSkuId(string id, IDbTransaction transaction);
+        Task<bool> DeleteCheckSkuByCheckId(string checkId, IDbTransaction transaction = null);
+        Task<bool> DeleteCheckById(string Id, IDbTransaction transaction = null);
+        Task<bool> UpdateCheck(CheckWholeUpdateModel model, IDbTransaction transaction = null);
     }
 }

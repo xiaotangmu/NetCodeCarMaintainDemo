@@ -18,6 +18,18 @@ namespace DAO.Sku
         public CheckDao() { }
         public CheckDao(IDataRepository repository) : base(repository) { }
 
+        public async Task<bool> DeleteCheckById(string Id, IDbTransaction transaction = null)
+        {
+            string sql = "delete from SMS_CHECK where ID = @Id";
+            return await Repository.ExecuteAsync(sql, new { Id }, transaction) > 0 ? true : false;
+        }
+
+        public async Task<bool> DeleteCheckSkuByCheckId(string checkId, IDbTransaction transaction = null)
+        {
+            string sql = "delete from SMS_CHECK_SKU where CHECK_ID = @checkId";
+            return await Repository.ExecuteAsync(sql, new { checkId }, transaction) > 0 ? true : false;
+        }
+
         public void Dispose()
         {
             Repository.DbSession.Connection.Close();
@@ -40,7 +52,7 @@ namespace DAO.Sku
             // 是否有差错: 0不开启,1差,2无差 
             strSql += model?.Difference == 1 ? " and sc.DIFFERENCE_PRICE <> 0 " : ""; // 有差
             strSql += model?.Difference == 2 ? " and sc.DIFFERENCE_PRICE = 0 " : ""; // 无差
-            // 状态 0 未处理，1 处理    -- 只在有差的情况作用
+            // 状态 1 未处理，0 处理    -- 只在有差的情况作用
             if(model?.Difference == 1)
             {
                 strSql += model?.Status < 0 ? "" : " and sc.STATUS = {3} "; //
@@ -55,28 +67,29 @@ namespace DAO.Sku
 
         public async Task<bool> HasCheckSkuToDealByCheckSkuId(string CheckSkuId, IDbTransaction transaction = null)
         {
-            IDbCommand command = Repository.DbSession.Connection.CreateCommand();
-            command.Connection = Repository.DbSession.Connection;
-            command.Transaction = (IDbTransaction)transaction;
+            string sql = @"select Count(1) from SMS_CHECK_SKU scs
+                where scs.CHECK_ID = (select CHECK_ID from SMS_CHECK_SKU where ID = '{0}') and STATUS = 1";
+            sql = string.Format(sql, CheckSkuId);
+            return await Repository.CountAsync(sql) > 0 ? true : false;
+        }
 
-            string sql = @"select Count(1) from SMS_CHECK_SKU scs2
-                where scs2.STATUS = 1 and scs2.CHECK_ID = (
-                select sc.ID from SMS_CHECK_SKU scs
-                left join SMS_CHECK sc on sc.ID = scs.CHECK_ID
-                where scs.ID = '{0}')";
+        public async Task<bool> HasCheckToDealAndUpdateByCheckSkuId(string CheckSkuId, IDbTransaction transaction)
+        {
+            /// 没效果
+            string sql = @"declare @CheckId varchar(50);
+                set @CheckId = (
+	                select CHECK_ID from SMS_CHECK_SKU 
+	                where ID = '{0}'
+                );
+                update SMS_CHECK set STATUS = 0
+                where 0 = (
+                    select Count(1) from SMS_CHECK_SKU
 
-            command.CommandText = sql;
-            return (int)command.ExecuteScalar() > 0 ? true : false;
-
-            //string sql = @"update SMS_CHECK set STATUS = 0
-            //where 0 = (
-            //    select Count(1) from SMS_CHECK_SKU
-
-            //    where CHECK_ID = '1' and STATUS = 1
-            //) and ID = '1'"
-            
-            //sql = string.Format(sql, CheckSkuId);
-            //return await Repository.CountAsync(sql) > 0 ? true : false;
+                    where CHECK_ID = @CheckId and STATUS = 1
+                ) and ID = @CheckId";
+            sql = string.Format(sql, CheckSkuId);
+            await Repository.ExecuteAsync(sql, transaction);
+            return false;
         }
 
         public async Task<string> Insert(SMS_CHECK sMS_CHECK, IDbTransaction transaction)
@@ -116,22 +129,37 @@ namespace DAO.Sku
             return await Repository.GetGroupAsync<CheckSkuModel>(sql, new { id });
         }
 
+        public async Task<bool> UpdateCheck(CheckWholeUpdateModel model, IDbTransaction transaction = null)
+        {
+            string sql = @"Update SMS_CHECK 
+                set OPERATOR = @Operator, 
+                    CHECK_DATE = @CheckDate,
+                    ACCOUNT_PRICE = @AccountPrice,
+                    CHECK_PRICE = @CheckPrice,
+                    DIFFERENCE_PRICE = @DifferencePrice,
+                    DESCRIPTION = @Description,
+                    STATUS = @Status,
+                    LUD = CURRENT_TIMESTAMP
+                where ID = @Id";
+            return await Repository.ExecuteAsync(sql, model, transaction) > 0 ? true : false;
+        }
+
         public async Task<bool> UpdateCheckSkuStatus(CheckUpdateModel model, IDbTransaction transaction = null)
         {
-            string sql = "Update SMS_CHECK_SKU set DESCRIPTION = @Description, STATUS = 1 where ID = @Id";
+            string sql = "Update SMS_CHECK_SKU set DESCRIPTION = @Description, STATUS = 0 where ID = @Id";
             return await Repository.ExecuteAsync(sql, model, transaction) > 0 ? true : false;
         }
 
         public async Task<bool> UpdateCheckSkuStatusByCheckId(string id, IDbTransaction transaction = null)
         {
-            string sql = "Update SMS_CHECK_SKU set STATUS = 1 where CHECK_ID = @id";
+            string sql = "Update SMS_CHECK_SKU set STATUS = 0 where CHECK_ID = @id";
             return await Repository.ExecuteAsync(sql, new { id }, transaction) > 0 ? true : false;
         }
 
         public async Task<bool> UpdateCheckStatusByCheckSkuId(string id, IDbTransaction transaction = null)
         {
             string sql = @"Update SMS_CHECK
-                set STATUS = 1
+                set STATUS = 0
                 where ID = (
                 select sc.ID from SMS_CHECK_SKU scs
                 left join SMS_CHECK sc on sc.ID = scs.CHECK_ID
@@ -142,7 +170,7 @@ namespace DAO.Sku
         public async Task<bool> UpdateCheckStatusById(CheckUpdateModel model, IDbTransaction transaction)
         {
             string sql = @"Update SMS_CHECK
-                set STATUS = 1,
+                set STATUS = 0,
                     DESCRIPTION = @Description
                 where ID = @Id";
             return await Repository.ExecuteAsync(sql, model, transaction) > 0 ? true : false;

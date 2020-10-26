@@ -35,7 +35,7 @@ namespace DateModel.Sku
         public static readonly string FIELD_DIFFERENCE_PRICE = "difference_price";
         public decimal DIFFERENCE_PRICE { get; set; }
         /// <summary>
-        /// 是否已经处理，1处理，0未处理
+        /// 是否已经处理，0处理，1未处理
         /// </summary>
         public static readonly string FIELD_STATUS = "status";
         public int STATUS { get; set; }

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ViewModel.Catalog;
+using ViewModel.CustomException;
 
 namespace WebApi.Controllers.Catalog
 {
@@ -36,7 +37,7 @@ namespace WebApi.Controllers.Catalog
             {
                 if (string.IsNullOrWhiteSpace(model.AttrName))
                 {
-                    throw new Exception(("数据异常"));
+                    throw new MyServiceException(("数据异常"));
                 }
                 string result = await _attrSupervisor.Add(model);
                 if (!string.IsNullOrEmpty(result))
@@ -46,7 +47,7 @@ namespace WebApi.Controllers.Catalog
                 }
                 else
                 {
-                    throw new Exception(await Localizer.GetValueAsync("添加属性失败"));
+                    throw new MyServiceException(await Localizer.GetValueAsync("添加属性失败"));
                 }
                 return result;
             });
@@ -78,7 +79,7 @@ namespace WebApi.Controllers.Catalog
                 }
                 else
                 {
-                    throw new Exception(await Localizer.GetValueAsync("更新属性失败"));
+                    throw new MyServiceException(await Localizer.GetValueAsync("更新属性失败"));
                 }
                 return result;
             });
@@ -97,7 +98,7 @@ namespace WebApi.Controllers.Catalog
                 }
                 else
                 {
-                    throw new Exception(await Localizer.GetValueAsync("删除失败"));
+                    throw new MyServiceException(await Localizer.GetValueAsync("删除失败"));
                 }
                 return result;
             });
@@ -124,7 +125,7 @@ namespace WebApi.Controllers.Catalog
                 }
                 else
                 {
-                    throw new Exception(await Localizer.GetValueAsync("批量添加属性失败"));
+                    throw new MyServiceException(await Localizer.GetValueAsync("批量添加属性失败"));
                 }
                 return result;
             });
@@ -151,7 +152,7 @@ namespace WebApi.Controllers.Catalog
                 }
                 else
                 {
-                    throw new Exception(await Localizer.GetValueAsync("批量删除属性失败"));
+                    throw new MyServiceException(await Localizer.GetValueAsync("批量删除属性失败"));
                 }
                 return result;
             });
@@ -175,7 +176,7 @@ namespace WebApi.Controllers.Catalog
                 }
                 else
                 {
-                    throw new Exception(await Localizer.GetValueAsync("删除失败"));
+                    throw new MyServiceException(await Localizer.GetValueAsync("删除失败"));
                 }
                 return result;
             });

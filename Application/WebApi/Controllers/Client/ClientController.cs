@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Supervisor.Client;
 using Swashbuckle.Swagger.Annotations;
 using ViewModel.Client;
+using ViewModel.CustomException;
 
 namespace WebApi.Controllers.Client
 {
@@ -39,7 +40,7 @@ namespace WebApi.Controllers.Client
             {
                 if (string.IsNullOrWhiteSpace(model.Company))
                 {
-                    throw new Exception(("数据异常"));
+                    throw new MyServiceException(("数据异常"));
                 }
                 string result = await _clientSupervisor.AddClient(model);
                 if (!string.IsNullOrEmpty(result))
@@ -48,7 +49,7 @@ namespace WebApi.Controllers.Client
                 }
                 else
                 {
-                    throw new Exception(await Localizer.GetValueAsync("Failure"));
+                    throw new MyServiceException(await Localizer.GetValueAsync("Failure"));
                 }
                 return result;
             });
@@ -76,7 +77,7 @@ namespace WebApi.Controllers.Client
             {
                 if (string.IsNullOrWhiteSpace(model.id))
                 {
-                    throw new Exception(("数据异常"));
+                    throw new MyServiceException(("数据异常"));
                 }
                 bool result = await _clientSupervisor.DeleteClient(model.id);
                 if (result)
@@ -85,7 +86,7 @@ namespace WebApi.Controllers.Client
                 }
                 else
                 {
-                    throw new Exception(await Localizer.GetValueAsync("刪除失敗"));
+                    throw new MyServiceException(await Localizer.GetValueAsync("刪除失敗"));
                 }
                 return result;
             });
@@ -103,7 +104,7 @@ namespace WebApi.Controllers.Client
             {
                 if (string.IsNullOrWhiteSpace(model.id))
                 {
-                    throw new Exception(("数据异常"));
+                    throw new MyServiceException(("数据异常"));
                 }
                 bool result = await _clientSupervisor.UpdateClientBySQL(model);
                 if (result)
@@ -112,7 +113,7 @@ namespace WebApi.Controllers.Client
                 }
                 else
                 {
-                    throw new Exception(await Localizer.GetValueAsync("刪除失敗"));
+                    throw new MyServiceException(await Localizer.GetValueAsync("刪除失敗"));
                 }
                 return result;
             });
@@ -142,7 +143,7 @@ namespace WebApi.Controllers.Client
             {
                 if (model.PageIndex < 1 || model.PageSize < 1)
                 {
-                    throw new Exception(("数据异常"));
+                    throw new MyServiceException(("数据异常"));
                 }
                 return await _clientSupervisor.GetClientListPageBySearch(model);
             });

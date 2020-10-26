@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ViewModel.Catalog;
+using ViewModel.CustomException;
 
 namespace WebApi.Controllers.Catalog
 {
@@ -37,7 +38,7 @@ namespace WebApi.Controllers.Catalog
             {
                 if (string.IsNullOrWhiteSpace(model.Catalog1Id) || string.IsNullOrWhiteSpace(model.CatalogName))
                 {
-                    throw new Exception(("数据异常"));
+                    throw new MyServiceException(("数据异常"));
                 }
                 string result = await _catalog2Supervisor.Add(model);
                 if (!string.IsNullOrEmpty(result))
@@ -46,7 +47,7 @@ namespace WebApi.Controllers.Catalog
                 }
                 else
                 {
-                    throw new Exception(await Localizer.GetValueAsync("二级分类添加失败"));
+                    throw new MyServiceException(await Localizer.GetValueAsync("二级分类添加失败"));
                 }
                 return result;
             });
@@ -65,7 +66,7 @@ namespace WebApi.Controllers.Catalog
                 if (string.IsNullOrWhiteSpace(model.Catalog1Id) || string.IsNullOrWhiteSpace(model.CatalogName)
                     || string.IsNullOrWhiteSpace(model.Id))
                 {
-                    throw new Exception(("数据异常"));
+                    throw new MyServiceException(("数据异常"));
                 }
                 bool result = await _catalog2Supervisor.Update(model);
                 if (result)
@@ -74,7 +75,7 @@ namespace WebApi.Controllers.Catalog
                 }
                 else
                 {
-                    throw new Exception(await Localizer.GetValueAsync("二级分类更新失败"));
+                    throw new MyServiceException(await Localizer.GetValueAsync("二级分类更新失败"));
                 }
                 return result;
             });
@@ -86,7 +87,7 @@ namespace WebApi.Controllers.Catalog
             return await ResponseResult(async () => {
                 if (string.IsNullOrWhiteSpace(model.Id))
                 {
-                    throw new Exception(("数据异常"));
+                    throw new MyServiceException(("数据异常"));
                 }
                 bool result = await _catalog2Supervisor.Delete(model.Id);
                 if (result)
@@ -95,7 +96,7 @@ namespace WebApi.Controllers.Catalog
                 }
                 else
                 {
-                    throw new Exception(await Localizer.GetValueAsync("二级分类删除失败"));
+                    throw new MyServiceException(await Localizer.GetValueAsync("二级分类删除失败"));
                 }
                 return result;
             });
@@ -136,7 +137,7 @@ namespace WebApi.Controllers.Catalog
                 }
                 else
                 {
-                    throw new Exception(await Localizer.GetValueAsync("批量添加二级分类失败"));
+                    throw new MyServiceException(await Localizer.GetValueAsync("批量添加二级分类失败"));
                 }
                 return result;
             });
@@ -163,7 +164,7 @@ namespace WebApi.Controllers.Catalog
                 }
                 else
                 {
-                    throw new Exception(await Localizer.GetValueAsync("批量删除二级分类失败"));
+                    throw new MyServiceException(await Localizer.GetValueAsync("批量删除二级分类失败"));
                 }
                 return result;
             });
@@ -187,7 +188,7 @@ namespace WebApi.Controllers.Catalog
                 }
                 else
                 {
-                    throw new Exception(await Localizer.GetValueAsync("删除失败"));
+                    throw new MyServiceException(await Localizer.GetValueAsync("删除失败"));
                 }
                 return result;
             });

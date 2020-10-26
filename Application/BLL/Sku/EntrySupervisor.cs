@@ -24,15 +24,38 @@ namespace BLL.Sku
             _skuDao = new SkuDao(_entryDao.Repository);
         }
 
+        public async Task<bool> Delete(string Id)
+        {
+            return await _entryDao.Repository.DbSession.TransactionHandle(async (transaction) =>
+            {
+                // 1. 删除关联Sku
+                await _entryDao.DeleteEntrySkuByEntryId(Id, transaction);
+                // 2. 删除entry
+                return await _entryDao.DeleteEntryById(Id, transaction);
+            });
+        }
+        public async Task<bool> DeleteBatch(IEnumerable<EntryDeleteModel> modelList)
+        {
+            return await _entryDao.Repository.DbSession.TransactionHandle(async (transaction) =>
+            {
+                foreach (var model in modelList)
+                {
+                    if (string.IsNullOrWhiteSpace(model.Id))
+                    {
+                        throw new MyServiceException("数据异常");
+                    }
+                    await _entryDao.DeleteEntrySkuByEntryId(model.Id, transaction);
+                    await _entryDao.DeleteEntryById(model.Id, transaction);
+                }
+                return true;
+            });
+        }
+
         public async Task<string> Add(EntryAddModel model)
         {
             // 1. 查重
             IEnumerable<EntrySkuAddModel> entrySkuList = model.entrySkuList;
-            List<EntrySkuAddModel> list = entrySkuList.Distinct(new EntrySkuModelComparer()).ToList();
-            if(entrySkuList.Count() != list.Count())
-            {
-                throw new MyServiceException(MsgCode.SameData, "存在相同数据");
-            }
+            IsRepeatAndThrowException(entrySkuList);
             // 2. 生成入库单号 入库时间(年月日 + 供应商 + 批次) ： 2019012200101
             //model.EntryNo = string.Format("{0:yyyyMMdd}", model.EntryDate) + model.SupplierId.PadLeft(3, '0') + model.Batch.ToString().PadLeft(2,'0');
             // 3. 查是否存在
@@ -52,7 +75,7 @@ namespace BLL.Sku
                 }
                 if(model.TotalPrice != Total)
                 {
-                    throw new Exception("总金额不对");
+                    throw new MyServiceException("总金额不对");
                 }
                 // 添加入库单
                 string entryId = await _entryDao.Insert(ModelToEntityNoId(model), transaction);
@@ -69,6 +92,101 @@ namespace BLL.Sku
                 
                 return entryId;
             });
+        }
+        /// <summary>
+        /// 更新整个入库单
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public async Task<bool> Update(EntryUpdateModel model)
+        {
+            // 子项查重
+            IEnumerable<EntrySkuAddModel> entrySkuList = model.entrySkuList;
+            IsRepeatAndThrowException(entrySkuList);
+            // 获取原来的子项，以便下面修改库存数量变化
+            IEnumerable<SkuModel> skuList = await _entryDao.GetListEntrySkuByEntryId(model.Id);
+            Dictionary<string, SkuModel> entrySkuMap1 = new Dictionary<string, SkuModel>();
+            Dictionary<string, EntrySkuAddModel> entrySkuMap2 = new Dictionary<string, EntrySkuAddModel>();
+            // 记录要修改的具体位置库存 addressId -- quantity 入库（+）
+            List<EntrySkuAddModel> entrySkuList2 = new List<EntrySkuAddModel>();
+            foreach(var item in skuList)
+            {
+                entrySkuMap1.Add(item.AddressId, item);
+            }
+            // 计算具体位置库存数量变化
+            foreach(var item in entrySkuList)
+            {
+                if (entrySkuMap1.ContainsKey(item.AddressId))   // 原来添加列表中存在现在添加的库存
+                {
+                    EntrySkuAddModel eSku = new EntrySkuAddModel();
+                    SkuModel sku = new SkuModel();
+                    entrySkuMap1.TryGetValue(item.AddressId, out sku);
+                    int value = item.Quantity - sku.TotalCount; // 变小，+ 负值，变大，+ 差值
+                    eSku.Quantity = value;
+                    if(value != 0)  // 为0库存数量不做变化
+                    {
+                        entrySkuList2.Add(eSku);
+                    }
+                }
+                else // 原来列表不存在这个添加数据
+                {
+                    entrySkuList2.Add(item);
+                }
+                // 原来列表存在，现在没有的, 先记录map后比较
+                entrySkuMap2.Add(item.AddressId, item);
+            }
+            foreach(var item in skuList)
+            {
+                // 原来列表存在，现在没有的
+                if (!entrySkuMap2.ContainsKey(item.AddressId))
+                {
+                    EntrySkuAddModel eSku = new EntrySkuAddModel();
+                    eSku.SkuId = item.
+                    eSku.AddressId = item.AddressId;
+                    eSku.Quantity = -1 * item.TotalCount;   // 减回来
+                    entrySkuList2.Add(eSku);
+                }
+            }
+
+
+
+            return await _entryDao.Repository.DbSession.TransactionHandle(async (transaction) =>
+            {
+                // 1. 删除子项
+                await _entryDao.DeleteEntrySkuByEntryId(model.Id, transaction);
+
+                // 3. 更新
+                bool res = await _entryDao.UpdateEntry(model, transaction);
+                // 添加盘点库存信息
+                if (res)
+                {
+                    // 添加入库库存
+                    foreach (var item in entrySkuList)
+                    {
+                        await _entryDao.AddEntrySku(EntrySkuModelToEntityNoId(item), model.Id, transaction);
+                    }
+                    // 修改具体位置的库存数量
+                    foreach (var entrySku in entrySkuList2)
+                    {
+                        // 修改具体位置库存数量
+                        await _entryDao.UpdateAddressSkuNumByAddressId(entrySku, transaction);
+                        // 修改库存总数量
+                        await _skuDao.UpdateSkuTotalCountByAddressId(entrySku.AddressId, transaction);
+                    }
+                }
+                return res;
+            });
+        }
+        /// <summary>
+        /// 查重
+        /// </summary>
+        public void IsRepeatAndThrowException(IEnumerable<EntrySkuAddModel> entrySkuList)
+        {
+            List<EntrySkuAddModel> list = entrySkuList.Distinct(new EntrySkuModelComparer()).ToList();
+            if (entrySkuList.Count() != list.Count())
+            {
+                throw new MyServiceException(MsgCode.SameData, "存在相同数据");
+            }
         }
 
         public async Task<IEnumerable<EntryModel>> GetAll()

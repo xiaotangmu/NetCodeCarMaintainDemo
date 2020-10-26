@@ -45,10 +45,11 @@ namespace DAO.Sku
         public async Task<IEnumerable<SkuModel>> GetListOutSkuByOutId(string id)
         {
             // 注意这里的输出的Id 是OutSku 的Id 不是Sku id
-            string sql = @"select sse.ID Id, sse.QUANTITY Quantity,
+            string sql = @"select sse.ID Id, sse.QUANTITY TotalCount,
                     sse.PRICE Price, sse.TOTAL_PRICE TotalPrice,
                     ps.PRODUCT_NAME SkuName, ss.BRAND Brand, ss.UNIT Unit,
-                    ss.STATUS Status, ss.OLD_PARTID OldPartId, ss.CATALOG2_ID Catalog2Id
+                    ss.STATUS Status, ss.OLD_PARTID OldPartId, ss.CATALOG2_ID Catalog2Id,
+                    sse.ADDRESS_ID AddressId
                     from SMS_OUT_SKU sse 
                     left join SMS_SKU ss on ss.ID = sse.SKU_ID
                     left join PMS_SPU ps on ss.SPU_ID = ps.ID

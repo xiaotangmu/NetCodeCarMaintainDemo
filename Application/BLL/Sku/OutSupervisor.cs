@@ -23,6 +23,32 @@ namespace BLL.Sku
             _skuDao = new SkuDao(_outDao.Repository);
         }
 
+        public async Task<bool> Delete(string Id)
+        {
+            return await _outDao.Repository.DbSession.TransactionHandle(async (transaction) =>
+            {
+                // 1. 删除关联Sku
+                await _outDao.DeleteOutSkuByOutId(Id, transaction);
+                // 2. 删除out
+                return await _outDao.DeleteOutById(Id, transaction);
+            });
+        }
+        public async Task<bool> DeleteBatch(IEnumerable<OutDeleteModel> modelList)
+        {
+            return await _outDao.Repository.DbSession.TransactionHandle(async (transaction) =>
+            {
+                foreach (var model in modelList)
+                {
+                    if (string.IsNullOrWhiteSpace(model.Id))
+                    {
+                        throw new MyServiceException("数据异常");
+                    }
+                    await _outDao.DeleteOutSkuByOutId(model.Id, transaction);
+                    await _outDao.DeleteOutById(model.Id, transaction);
+                }
+                return true;
+            });
+        }
         public async Task<string> Add(OutAddModel model)
         {
             // 1. 查重

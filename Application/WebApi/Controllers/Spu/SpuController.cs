@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ViewModel.CustomException;
 using ViewModel.Spu;
 
 namespace WebApi.Controllers.Spu
@@ -38,7 +39,7 @@ namespace WebApi.Controllers.Spu
             {
                 if (string.IsNullOrWhiteSpace(model.Catalog2Id) || string.IsNullOrWhiteSpace(model.ProductName))
                 {
-                    throw new Exception(("数据异常"));
+                    throw new MyServiceException(("数据异常"));
                 }
                 string result = await _spuSupervisor.Add(model);
                 if (!string.IsNullOrEmpty(result))
@@ -47,7 +48,7 @@ namespace WebApi.Controllers.Spu
                 }
                 else
                 {
-                    throw new Exception(await Localizer.GetValueAsync("添加SPU失败"));
+                    throw new MyServiceException(await Localizer.GetValueAsync("添加SPU失败"));
                 }
                 return result;
             });
@@ -64,7 +65,7 @@ namespace WebApi.Controllers.Spu
             {
                 if (string.IsNullOrWhiteSpace(Id))
                 {
-                    throw new Exception(("数据异常"));
+                    throw new MyServiceException(("数据异常"));
                 }
                 bool result = await _spuSupervisor.Delete(Id);
                 if (result)
@@ -73,7 +74,7 @@ namespace WebApi.Controllers.Spu
                 }
                 else
                 {
-                    throw new Exception(await Localizer.GetValueAsync("删除SPU失败"));
+                    throw new MyServiceException(await Localizer.GetValueAsync("删除SPU失败"));
                 }
                 return result;
             });
@@ -92,7 +93,7 @@ namespace WebApi.Controllers.Spu
                 if (string.IsNullOrWhiteSpace(model.Catalog2Id) || string.IsNullOrWhiteSpace(model.ProductName) 
                     || string.IsNullOrWhiteSpace(model.Id))
                 {
-                    throw new Exception(("数据异常"));
+                    throw new MyServiceException(("数据异常"));
                 }
                 bool result = await _spuSupervisor.Update(model);
                 if (result)
@@ -101,7 +102,7 @@ namespace WebApi.Controllers.Spu
                 }
                 else
                 {
-                    throw new Exception(await Localizer.GetValueAsync("更新SPU失败"));
+                    throw new MyServiceException(await Localizer.GetValueAsync("更新SPU失败"));
                 }
                 return result;
             });
@@ -119,7 +120,7 @@ namespace WebApi.Controllers.Spu
             {
                 if (model.PageIndex < 0 || model.PageSize < 0)
                 {
-                    throw new Exception(("数据异常"));
+                    throw new MyServiceException(("数据异常"));
                 }
                 return await _spuSupervisor.GetSpuListWithPaging(model);
             });
@@ -137,7 +138,7 @@ namespace WebApi.Controllers.Spu
             {
                 if (model.PageIndex < 0 || model.PageSize < 0)
                 {
-                    throw new Exception(("数据异常"));
+                    throw new MyServiceException(("数据异常"));
                 }
                 return await _spuSupervisor.GetAllWithPaging(model);
             });
@@ -168,7 +169,7 @@ namespace WebApi.Controllers.Spu
             {
                 if (string.IsNullOrWhiteSpace(Catalog2Id))
                 {
-                    throw new Exception(("数据异常"));
+                    throw new MyServiceException(("数据异常"));
                 }
                 return await _spuSupervisor.GetListByCatalog2Id(Catalog2Id);
             });

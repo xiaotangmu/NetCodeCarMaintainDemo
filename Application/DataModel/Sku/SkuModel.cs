@@ -27,6 +27,11 @@ namespace ViewModel.Sku
         /// </summary>
         public DateTime LUD { get; set; }
 
+        /// <summary>
+        /// 入库出库时用到
+        /// </summary>
+        public string AddressId { get; set; }
+
     }
     public class SkuAddModel
     {

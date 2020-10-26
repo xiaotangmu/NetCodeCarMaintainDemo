@@ -29,6 +29,26 @@ namespace ViewModel.Sku
 
         public IEnumerable<CheckSkuModel> CheckSkuList { get; set; } = new List<CheckSkuModel>();
     }
+    public class CheckWholeUpdateModel: CheckAddModel
+    {
+        public string Id { get; set; }
+        /// <summary>
+        /// 创建用户
+        /// </summary>
+        public string OCU { get; set; }
+        /// <summary>
+        /// 创建时间
+        /// </summary>
+        public DateTime OCD { get; set; }
+        /// <summary>
+        /// 最后更新用户
+        /// </summary>
+        public string LUC { get; set; }
+        /// <summary>
+        /// 最后更新时间
+        /// </summary>
+        public DateTime LUD { get; set; }
+    }
     public class CheckAddModel
     {
         public string CheckNo { get; set; }
@@ -84,7 +104,7 @@ namespace ViewModel.Sku
         /// </summary>
         public string Description { get; set; }
         /// <summary>
-        /// 是否已经处理，1为处理，0未处理
+        /// 是否已经处理，0为处理，1未处理
         /// </summary>
         //public int status { get; set; }
     }
@@ -99,10 +119,15 @@ namespace ViewModel.Sku
         /// </summary>
         public int Difference { get; set; }
         /// <summary>
-        /// 是否处理，1处理，0没处理
+        /// 是否处理，0处理，1没处理
         /// </summary>
         public int Status { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
+    }
+    public class CheckDeleteModel
+    {
+        public string Id { get; set; }
+        public string CheckNo { get; set; }
     }
 }
