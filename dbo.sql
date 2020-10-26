@@ -12,7 +12,7 @@
  Target Server Version : 14001000
  File Encoding         : 65001
 
- Date: 23/10/2020 16:54:44
+ Date: 26/10/2020 17:12:32
 */
 
 
@@ -153,7 +153,7 @@ CREATE TABLE [dbo].[CMS_CLIENT] (
   [OCD] datetime  NULL,
   [LUC] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
   [LUD] datetime  NULL,
-  [ID] nvarchar(100) COLLATE Chinese_PRC_CI_AS  NOT NULL
+  [ID] varchar(50) COLLATE Chinese_PRC_CI_AS  NOT NULL
 )
 GO
 
@@ -261,16 +261,16 @@ IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[MM
 GO
 
 CREATE TABLE [dbo].[MMS_APPOINTMENT] (
-  [ID] int  IDENTITY(1,1) NOT NULL,
-  [APPOINTMENT_NO] varchar(30) COLLATE Chinese_PRC_CI_AS  NULL,
-  [COMPANY_ID] int  NULL,
+  [ID] varchar(50) COLLATE Chinese_PRC_CI_AS  NOT NULL,
+  [APPOINTMENT_NO] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
+  [COMPANY_ID] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
   [CAR_LICENSE] varchar(20) COLLATE Chinese_PRC_CI_AS  NULL,
   [DESCRIPTION] varchar(1024) COLLATE Chinese_PRC_CI_AS  NULL,
   [APPOINTMENT_DATE] datetime  NULL,
-  [TYPE] varchar(30) COLLATE Chinese_PRC_CI_AS  NULL,
-  [CONTACT] int DEFAULT ((0)) NULL,
-  [PHONE] varchar(30) COLLATE Chinese_PRC_CI_AS  NULL,
-  [STATUS] varchar(1) COLLATE Chinese_PRC_CI_AS  NULL,
+  [TYPE] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
+  [PHONE] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
+  [CONTACT] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
+  [STATUS] int  NULL,
   [REMARK] varchar(1024) COLLATE Chinese_PRC_CI_AS  NULL,
   [OCU] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
   [OCD] datetime  NULL,
@@ -283,21 +283,21 @@ ALTER TABLE [dbo].[MMS_APPOINTMENT] SET (LOCK_ESCALATION = TABLE)
 GO
 
 EXEC sp_addextendedproperty
-'MS_Description', N'预约单编号',
+'MS_Description', N'预约编号',
 'SCHEMA', N'dbo',
 'TABLE', N'MMS_APPOINTMENT',
 'COLUMN', N'APPOINTMENT_NO'
 GO
 
 EXEC sp_addextendedproperty
-'MS_Description', N'绑定所属公司',
+'MS_Description', N'客户公司',
 'SCHEMA', N'dbo',
 'TABLE', N'MMS_APPOINTMENT',
 'COLUMN', N'COMPANY_ID'
 GO
 
 EXEC sp_addextendedproperty
-'MS_Description', N'车牌',
+'MS_Description', N'车牌号',
 'SCHEMA', N'dbo',
 'TABLE', N'MMS_APPOINTMENT',
 'COLUMN', N'CAR_LICENSE'
@@ -311,7 +311,7 @@ EXEC sp_addextendedproperty
 GO
 
 EXEC sp_addextendedproperty
-'MS_Description', N'预约时间',
+'MS_Description', N'预约日期',
 'SCHEMA', N'dbo',
 'TABLE', N'MMS_APPOINTMENT',
 'COLUMN', N'APPOINTMENT_DATE'
@@ -325,13 +325,6 @@ EXEC sp_addextendedproperty
 GO
 
 EXEC sp_addextendedproperty
-'MS_Description', N'联系人',
-'SCHEMA', N'dbo',
-'TABLE', N'MMS_APPOINTMENT',
-'COLUMN', N'CONTACT'
-GO
-
-EXEC sp_addextendedproperty
 'MS_Description', N'联系电话',
 'SCHEMA', N'dbo',
 'TABLE', N'MMS_APPOINTMENT',
@@ -339,7 +332,14 @@ EXEC sp_addextendedproperty
 GO
 
 EXEC sp_addextendedproperty
-'MS_Description', N'预约单状态，0为处理，1已处理，2取消预约',
+'MS_Description', N'联系人',
+'SCHEMA', N'dbo',
+'TABLE', N'MMS_APPOINTMENT',
+'COLUMN', N'CONTACT'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'是否取消，0未处理，1已处理，2取消',
 'SCHEMA', N'dbo',
 'TABLE', N'MMS_APPOINTMENT',
 'COLUMN', N'STATUS'
@@ -353,7 +353,7 @@ EXEC sp_addextendedproperty
 GO
 
 EXEC sp_addextendedproperty
-'MS_Description', N'创建人',
+'MS_Description', N'创建账号',
 'SCHEMA', N'dbo',
 'TABLE', N'MMS_APPOINTMENT',
 'COLUMN', N'OCU'
@@ -367,7 +367,7 @@ EXEC sp_addextendedproperty
 GO
 
 EXEC sp_addextendedproperty
-'MS_Description', N'最后更新人',
+'MS_Description', N'最后更新账号',
 'SCHEMA', N'dbo',
 'TABLE', N'MMS_APPOINTMENT',
 'COLUMN', N'LUC'
@@ -384,12 +384,6 @@ GO
 -- ----------------------------
 -- Records of MMS_APPOINTMENT
 -- ----------------------------
-SET IDENTITY_INSERT [dbo].[MMS_APPOINTMENT] ON
-GO
-
-SET IDENTITY_INSERT [dbo].[MMS_APPOINTMENT] OFF
-GO
-
 
 -- ----------------------------
 -- Table structure for mms_maintain
@@ -705,9 +699,9 @@ CREATE TABLE [dbo].[SMS_CHECK] (
   [CHECK_NO] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
   [OPERATOR] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
   [CHECK_DATE] datetime  NULL,
-  [ACCOUNT_PRICE] decimal(2)  NULL,
-  [CHECK_PRICE] decimal(2)  NULL,
-  [DIFFERENCE_PRICE] decimal(2)  NULL,
+  [ACCOUNT_PRICE] decimal(20,2)  NULL,
+  [CHECK_PRICE] decimal(20,2)  NULL,
+  [DIFFERENCE_PRICE] decimal(20,2) DEFAULT ((0)) NULL,
   [DESCRIPTION] varchar(1024) COLLATE Chinese_PRC_CI_AS  NULL,
   [STATUS] int DEFAULT ((0)) NULL,
   [OCU] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
@@ -770,7 +764,7 @@ EXEC sp_addextendedproperty
 GO
 
 EXEC sp_addextendedproperty
-'MS_Description', N'是否解决，0未解决，1解决',
+'MS_Description', N'是否解决，0解决，1未解决',
 'SCHEMA', N'dbo',
 'TABLE', N'SMS_CHECK',
 'COLUMN', N'STATUS'
@@ -780,7 +774,16 @@ GO
 -- ----------------------------
 -- Records of SMS_CHECK
 -- ----------------------------
-INSERT INTO [dbo].[SMS_CHECK] ([ID], [CHECK_NO], [OPERATOR], [CHECK_DATE], [ACCOUNT_PRICE], [CHECK_PRICE], [DIFFERENCE_PRICE], [DESCRIPTION], [STATUS], [OCU], [OCD], [LUC], [LUD]) VALUES (N'1', NULL, NULL, N'2020-04-23 16:16:10.000', NULL, NULL, NULL, N'string', N'1', NULL, NULL, NULL, NULL)
+INSERT INTO [dbo].[SMS_CHECK] ([ID], [CHECK_NO], [OPERATOR], [CHECK_DATE], [ACCOUNT_PRICE], [CHECK_PRICE], [DIFFERENCE_PRICE], [DESCRIPTION], [STATUS], [OCU], [OCD], [LUC], [LUD]) VALUES (N'4c02a45dca9b49ed8f366eb0ad466294', N'20200130string23', N'string', N'2020-03-22 00:00:00.000', N'2.00', N'3.00', N'100.00', N'string', N'1', NULL, N'2020-10-26 14:11:05.607', NULL, N'2020-10-26 16:01:01.753')
+GO
+
+INSERT INTO [dbo].[SMS_CHECK] ([ID], [CHECK_NO], [OPERATOR], [CHECK_DATE], [ACCOUNT_PRICE], [CHECK_PRICE], [DIFFERENCE_PRICE], [DESCRIPTION], [STATUS], [OCU], [OCD], [LUC], [LUD]) VALUES (N'5eff775c132a4a188dbec3e9b79b5404', N'20200130string', N'string', N'2020-01-30 00:00:00.000', N'3.00', N'2.00', N'3.00', N'string', N'1', NULL, N'2020-10-26 14:10:01.107', NULL, N'2020-10-26 14:10:01.107')
+GO
+
+INSERT INTO [dbo].[SMS_CHECK] ([ID], [CHECK_NO], [OPERATOR], [CHECK_DATE], [ACCOUNT_PRICE], [CHECK_PRICE], [DIFFERENCE_PRICE], [DESCRIPTION], [STATUS], [OCU], [OCD], [LUC], [LUD]) VALUES (N'7077629c57604397a2d489675af0e3ba', N'20200123string23', N'string23', N'2020-01-23 00:00:00.000', N'3.00', N'2.00', N'3.00', N'string', N'1', NULL, N'2020-10-26 14:34:02.600', NULL, N'2020-10-26 14:34:02.600')
+GO
+
+INSERT INTO [dbo].[SMS_CHECK] ([ID], [CHECK_NO], [OPERATOR], [CHECK_DATE], [ACCOUNT_PRICE], [CHECK_PRICE], [DIFFERENCE_PRICE], [DESCRIPTION], [STATUS], [OCU], [OCD], [LUC], [LUD]) VALUES (N'ecde2e9e62044324a4e2eef7dd97d742', N'20200124string23', N'string23', N'2020-01-24 00:00:00.000', N'3.00', N'2.00', N'3.00', N'string', N'1', NULL, N'2020-10-26 15:30:09.453', NULL, N'2020-10-26 15:30:09.453')
 GO
 
 
@@ -796,15 +799,15 @@ CREATE TABLE [dbo].[SMS_CHECK_SKU] (
   [CHECK_ID] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
   [ADDRESS_ID] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
   [CHECK_NUM] int  NULL,
-  [CHECK_PRICE] decimal(2)  NULL,
-  [PRICE] decimal(2)  NULL,
+  [CHECK_PRICE] decimal(20,2)  NULL,
+  [PRICE] decimal(20,2)  NULL,
   [ACCOUNT_NUM] int  NULL,
-  [ACCOUNT_PRICE] decimal(2)  NULL,
-  [DIFFERENCE_NUM] int  NULL,
+  [ACCOUNT_PRICE] decimal(20,2)  NULL,
+  [DIFFERENCE_NUM] int DEFAULT ((0)) NULL,
   [DESCRIPTION] varchar(1024) COLLATE Chinese_PRC_CI_AS  NULL,
-  [STATUS] int DEFAULT ((0)) NULL,
-  [SKU_ID] varchar(1) COLLATE Chinese_PRC_CI_AS  NULL,
-  [DIFFERENCE_PRICE] decimal(2)  NULL
+  [STATUS] int DEFAULT ((0)) NOT NULL,
+  [SKU_ID] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
+  [DIFFERENCE_PRICE] decimal(20,2) DEFAULT ((0)) NULL
 )
 GO
 
@@ -875,7 +878,7 @@ EXEC sp_addextendedproperty
 GO
 
 EXEC sp_addextendedproperty
-'MS_Description', N'0未处理，1已处理',
+'MS_Description', N'0已处理，1未处理',
 'SCHEMA', N'dbo',
 'TABLE', N'SMS_CHECK_SKU',
 'COLUMN', N'STATUS'
@@ -899,10 +902,25 @@ GO
 -- ----------------------------
 -- Records of SMS_CHECK_SKU
 -- ----------------------------
-INSERT INTO [dbo].[SMS_CHECK_SKU] ([ID], [CHECK_ID], [ADDRESS_ID], [CHECK_NUM], [CHECK_PRICE], [PRICE], [ACCOUNT_NUM], [ACCOUNT_PRICE], [DIFFERENCE_NUM], [DESCRIPTION], [STATUS], [SKU_ID], [DIFFERENCE_PRICE]) VALUES (N'1', N'1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, N'0', NULL, NULL)
+INSERT INTO [dbo].[SMS_CHECK_SKU] ([ID], [CHECK_ID], [ADDRESS_ID], [CHECK_NUM], [CHECK_PRICE], [PRICE], [ACCOUNT_NUM], [ACCOUNT_PRICE], [DIFFERENCE_NUM], [DESCRIPTION], [STATUS], [SKU_ID], [DIFFERENCE_PRICE]) VALUES (N'2dbf845b918c48eba774d45f23a3c063', N'5eff775c132a4a188dbec3e9b79b5404', N'string', N'3', N'5.00', N'2.00', N'1', N'3.00', N'1', N'string', N'1', NULL, N'3.00')
 GO
 
-INSERT INTO [dbo].[SMS_CHECK_SKU] ([ID], [CHECK_ID], [ADDRESS_ID], [CHECK_NUM], [CHECK_PRICE], [PRICE], [ACCOUNT_NUM], [ACCOUNT_PRICE], [DIFFERENCE_NUM], [DESCRIPTION], [STATUS], [SKU_ID], [DIFFERENCE_PRICE]) VALUES (N'2', N'1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, N'0', NULL, NULL)
+INSERT INTO [dbo].[SMS_CHECK_SKU] ([ID], [CHECK_ID], [ADDRESS_ID], [CHECK_NUM], [CHECK_PRICE], [PRICE], [ACCOUNT_NUM], [ACCOUNT_PRICE], [DIFFERENCE_NUM], [DESCRIPTION], [STATUS], [SKU_ID], [DIFFERENCE_PRICE]) VALUES (N'4c3a6985638346be9c1163f15dc4c36a', N'4c02a45dca9b49ed8f366eb0ad466294', N'string', N'100', N'100.00', N'100.00', N'100', N'100.00', N'100', N'string', N'1', NULL, N'100.00')
+GO
+
+INSERT INTO [dbo].[SMS_CHECK_SKU] ([ID], [CHECK_ID], [ADDRESS_ID], [CHECK_NUM], [CHECK_PRICE], [PRICE], [ACCOUNT_NUM], [ACCOUNT_PRICE], [DIFFERENCE_NUM], [DESCRIPTION], [STATUS], [SKU_ID], [DIFFERENCE_PRICE]) VALUES (N'5791d1a1ce1d457a9cd6d394af485821', N'7077629c57604397a2d489675af0e3ba', N'string', N'3', N'5.00', N'2.00', N'1', N'3.00', N'1', N'string', N'1', NULL, N'3.00')
+GO
+
+INSERT INTO [dbo].[SMS_CHECK_SKU] ([ID], [CHECK_ID], [ADDRESS_ID], [CHECK_NUM], [CHECK_PRICE], [PRICE], [ACCOUNT_NUM], [ACCOUNT_PRICE], [DIFFERENCE_NUM], [DESCRIPTION], [STATUS], [SKU_ID], [DIFFERENCE_PRICE]) VALUES (N'706156bd234743dbafe9e2739e25a0e9', N'7077629c57604397a2d489675af0e3ba', N'fsdf', N'33', N'5.00', N'2.00', N'1', N'3.00', N'1', N'string', N'1', NULL, N'3.00')
+GO
+
+INSERT INTO [dbo].[SMS_CHECK_SKU] ([ID], [CHECK_ID], [ADDRESS_ID], [CHECK_NUM], [CHECK_PRICE], [PRICE], [ACCOUNT_NUM], [ACCOUNT_PRICE], [DIFFERENCE_NUM], [DESCRIPTION], [STATUS], [SKU_ID], [DIFFERENCE_PRICE]) VALUES (N'8b4277f46ef64806aa38e2721a7d02b1', N'ecde2e9e62044324a4e2eef7dd97d742', N'fsdf', N'33', N'5.00', N'2.00', N'1', N'3.00', N'1', N'string', N'1', NULL, N'3.00')
+GO
+
+INSERT INTO [dbo].[SMS_CHECK_SKU] ([ID], [CHECK_ID], [ADDRESS_ID], [CHECK_NUM], [CHECK_PRICE], [PRICE], [ACCOUNT_NUM], [ACCOUNT_PRICE], [DIFFERENCE_NUM], [DESCRIPTION], [STATUS], [SKU_ID], [DIFFERENCE_PRICE]) VALUES (N'ef4aa024f9374019aaed9f25d3b2c6e6', N'ecde2e9e62044324a4e2eef7dd97d742', N'string', N'3', N'5.00', N'2.00', N'1', N'3.00', N'1', N'string', N'1', NULL, N'3.00')
+GO
+
+INSERT INTO [dbo].[SMS_CHECK_SKU] ([ID], [CHECK_ID], [ADDRESS_ID], [CHECK_NUM], [CHECK_PRICE], [PRICE], [ACCOUNT_NUM], [ACCOUNT_PRICE], [DIFFERENCE_NUM], [DESCRIPTION], [STATUS], [SKU_ID], [DIFFERENCE_PRICE]) VALUES (N'Id', N'checkId', N'addressId', N'3', N'3.00', N'3.00', N'3', N'3.00', N'3', N'DESCRIPTION', N'1', N'SKU_ID', N'3.00')
 GO
 
 
@@ -917,7 +935,7 @@ CREATE TABLE [dbo].[SMS_ENTRY] (
   [ID] varchar(50) COLLATE Chinese_PRC_CI_AS  NOT NULL,
   [ENTRY_NO] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
   [OPERATOR] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
-  [TOTAL_PRICE] decimal(18)  NULL,
+  [TOTAL_PRICE] decimal(18,2)  NULL,
   [ENTRY_DATE] datetime  NULL,
   [BATCH] int DEFAULT ((1)) NULL,
   [SUPPLIER_ID] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
@@ -971,9 +989,6 @@ GO
 -- ----------------------------
 -- Records of SMS_ENTRY
 -- ----------------------------
-INSERT INTO [dbo].[SMS_ENTRY] ([ID], [ENTRY_NO], [OPERATOR], [TOTAL_PRICE], [ENTRY_DATE], [BATCH], [SUPPLIER_ID], [DESCRIPTION], [OCU], [OCD], [LUC], [LUD]) VALUES (N'e5ad99dc4ff34236bbf0986bb588cd44', N'19900302string01', N'string', N'22', N'1990-03-02 00:00:00.000', N'1', N'string', N'string', NULL, N'2020-10-22 11:07:37.660', NULL, N'2020-10-22 11:07:37.660')
-GO
-
 
 -- ----------------------------
 -- Table structure for SMS_ENTRY_SKU
@@ -987,8 +1002,8 @@ CREATE TABLE [dbo].[SMS_ENTRY_SKU] (
   [ENTRY_ID] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
   [SKU_ID] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
   [QUANTITY] int  NULL,
-  [PRICE] decimal(18)  NULL,
-  [TOTAL_PRICE] decimal(18)  NULL,
+  [PRICE] decimal(18,2)  NULL,
+  [TOTAL_PRICE] decimal(18,2)  NULL,
   [STATUS] int DEFAULT ((0)) NULL,
   [OLD_PARTID] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
   [ADDRESS_ID] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL
@@ -1058,12 +1073,6 @@ GO
 -- ----------------------------
 -- Records of SMS_ENTRY_SKU
 -- ----------------------------
-INSERT INTO [dbo].[SMS_ENTRY_SKU] ([ID], [ENTRY_ID], [SKU_ID], [QUANTITY], [PRICE], [TOTAL_PRICE], [STATUS], [OLD_PARTID], [ADDRESS_ID]) VALUES (N'2', NULL, NULL, NULL, NULL, NULL, N'0', NULL, NULL)
-GO
-
-INSERT INTO [dbo].[SMS_ENTRY_SKU] ([ID], [ENTRY_ID], [SKU_ID], [QUANTITY], [PRICE], [TOTAL_PRICE], [STATUS], [OLD_PARTID], [ADDRESS_ID]) VALUES (N'5b2abfc493b5484cb1607ccc42089f48', N'e5ad99dc4ff34236bbf0986bb588cd44', N'string', N'2', N'33', N'3', N'1', N'string', N'string')
-GO
-
 
 -- ----------------------------
 -- Table structure for SMS_OUT
@@ -1077,7 +1086,7 @@ CREATE TABLE [dbo].[SMS_OUT] (
   [OUT_NO] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
   [OPERATOR] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
   [OUT_DATE] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
-  [TOTAL_PRICE] decimal(2)  NULL,
+  [TOTAL_PRICE] decimal(20,2)  NULL,
   [BATCH] int  NULL,
   [DESCRIPTION] varchar(1024) COLLATE Chinese_PRC_CI_AS  NULL,
   [CLIENT_ID] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
@@ -1144,13 +1153,10 @@ GO
 -- ----------------------------
 -- Records of SMS_OUT
 -- ----------------------------
-INSERT INTO [dbo].[SMS_OUT] ([ID], [OUT_NO], [OPERATOR], [OUT_DATE], [TOTAL_PRICE], [BATCH], [DESCRIPTION], [CLIENT_ID], [OCU], [OCD], [LUC], [LUD]) VALUES (N'43f00cba443e4e9a84edf068797ab502', N'20200430string02', N'string', N'04 30 2020 12:00AM', N'2', N'2', N'string', N'string', NULL, N'2020-10-22 16:17:23.610', NULL, N'2020-10-22 16:17:23.610')
+INSERT INTO [dbo].[SMS_OUT] ([ID], [OUT_NO], [OPERATOR], [OUT_DATE], [TOTAL_PRICE], [BATCH], [DESCRIPTION], [CLIENT_ID], [OCU], [OCD], [LUC], [LUD]) VALUES (N'446902cb3b8744c9b5fbb3c41b602f99', N'string', N'string', N'04 30 2020 12:00AM', N'2.00', N'1', N'string', N'string', NULL, N'2020-10-22 16:12:41.847', NULL, N'2020-10-22 16:12:41.847')
 GO
 
-INSERT INTO [dbo].[SMS_OUT] ([ID], [OUT_NO], [OPERATOR], [OUT_DATE], [TOTAL_PRICE], [BATCH], [DESCRIPTION], [CLIENT_ID], [OCU], [OCD], [LUC], [LUD]) VALUES (N'446902cb3b8744c9b5fbb3c41b602f99', N'string', N'string', N'04 30 2020 12:00AM', N'2', N'1', N'string', N'string', NULL, N'2020-10-22 16:12:41.847', NULL, N'2020-10-22 16:12:41.847')
-GO
-
-INSERT INTO [dbo].[SMS_OUT] ([ID], [OUT_NO], [OPERATOR], [OUT_DATE], [TOTAL_PRICE], [BATCH], [DESCRIPTION], [CLIENT_ID], [OCU], [OCD], [LUC], [LUD]) VALUES (N'4544b43cc46d4e178a11d4f551581a28', N'20200430string06', N'string', N'04 30 2020 12:00AM', N'4', N'6', N'string', N'string', NULL, N'2020-10-22 16:18:10.170', NULL, N'2020-10-22 16:18:10.170')
+INSERT INTO [dbo].[SMS_OUT] ([ID], [OUT_NO], [OPERATOR], [OUT_DATE], [TOTAL_PRICE], [BATCH], [DESCRIPTION], [CLIENT_ID], [OCU], [OCD], [LUC], [LUD]) VALUES (N'4544b43cc46d4e178a11d4f551581a28', N'20200430string06', N'string', N'04 30 2020 12:00AM', N'4.00', N'6', N'string', N'string', NULL, N'2020-10-22 16:18:10.170', NULL, N'2020-10-22 16:18:10.170')
 GO
 
 
@@ -1166,10 +1172,10 @@ CREATE TABLE [dbo].[SMS_OUT_SKU] (
   [OUT_ID] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
   [SKU_ID] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
   [QUANTITY] int  NULL,
-  [PRICE] decimal(18)  NULL,
-  [TOTAL_PRICE] decimal(18)  NULL,
+  [PRICE] decimal(18,2)  NULL,
+  [TOTAL_PRICE] decimal(18,2)  NULL,
   [TOOL] int  NULL,
-  [ADDRESS_ID] varchar(1) COLLATE Chinese_PRC_CI_AS  NULL
+  [ADDRESS_ID] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL
 )
 GO
 
@@ -1222,13 +1228,10 @@ GO
 -- ----------------------------
 -- Records of SMS_OUT_SKU
 -- ----------------------------
-INSERT INTO [dbo].[SMS_OUT_SKU] ([ID], [OUT_ID], [SKU_ID], [QUANTITY], [PRICE], [TOTAL_PRICE], [TOOL], [ADDRESS_ID]) VALUES (N'0d618c611342444484adeb95522caea5', N'446902cb3b8744c9b5fbb3c41b602f99', N'1', N'2', N'22', N'44', N'1', N'1')
+INSERT INTO [dbo].[SMS_OUT_SKU] ([ID], [OUT_ID], [SKU_ID], [QUANTITY], [PRICE], [TOTAL_PRICE], [TOOL], [ADDRESS_ID]) VALUES (N'0d618c611342444484adeb95522caea5', N'446902cb3b8744c9b5fbb3c41b602f99', N'1', N'2', N'22.00', N'44.00', N'1', N'1')
 GO
 
-INSERT INTO [dbo].[SMS_OUT_SKU] ([ID], [OUT_ID], [SKU_ID], [QUANTITY], [PRICE], [TOTAL_PRICE], [TOOL], [ADDRESS_ID]) VALUES (N'a51004c7b6ba4da0ab89073a179dd71e', N'43f00cba443e4e9a84edf068797ab502', N'1', N'2', N'22', N'44', N'1', N'1')
-GO
-
-INSERT INTO [dbo].[SMS_OUT_SKU] ([ID], [OUT_ID], [SKU_ID], [QUANTITY], [PRICE], [TOTAL_PRICE], [TOOL], [ADDRESS_ID]) VALUES (N'bd41125979f448f28c50e8b23384fe14', N'4544b43cc46d4e178a11d4f551581a28', N'2', N'2', N'22', N'44', N'1', N'1')
+INSERT INTO [dbo].[SMS_OUT_SKU] ([ID], [OUT_ID], [SKU_ID], [QUANTITY], [PRICE], [TOTAL_PRICE], [TOOL], [ADDRESS_ID]) VALUES (N'bd41125979f448f28c50e8b23384fe14', N'4544b43cc46d4e178a11d4f551581a28', N'2', N'2', N'22.00', N'44.00', N'1', N'1')
 GO
 
 
@@ -1245,7 +1248,7 @@ CREATE TABLE [dbo].[SMS_SKU] (
   [SKU_NAME] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
   [SPU_ID] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
   [BRAND] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
-  [PRICE] decimal(2)  NULL,
+  [PRICE] decimal(20,2)  NULL,
   [UNIT] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
   [TOTAL_COUNT] int  NULL,
   [ALARM] int  NULL,
@@ -1394,10 +1397,10 @@ GO
 -- ----------------------------
 -- Records of SMS_SKU
 -- ----------------------------
-INSERT INTO [dbo].[SMS_SKU] ([ID], [SKU_NO], [SKU_NAME], [SPU_ID], [BRAND], [PRICE], [UNIT], [TOTAL_COUNT], [ALARM], [DESCRIPTION], [TOOL], [STATUS], [OLD_PARTID], [CATALOG2_ID], [OCU], [OCD], [LUC], [LUD]) VALUES (N'1', N'no', N'name', N'spu', N'brand', N'22', N'unit', NULL, N'3', N'descr', N'0', N'0', N'oldpart', N'cata', NULL, N'2020-10-20 16:05:04.000', NULL, NULL)
+INSERT INTO [dbo].[SMS_SKU] ([ID], [SKU_NO], [SKU_NAME], [SPU_ID], [BRAND], [PRICE], [UNIT], [TOTAL_COUNT], [ALARM], [DESCRIPTION], [TOOL], [STATUS], [OLD_PARTID], [CATALOG2_ID], [OCU], [OCD], [LUC], [LUD]) VALUES (N'1', N'no', N'name', N'spu', N'brand', N'22.00', N'unit', NULL, N'3', N'descr', N'0', N'0', N'oldpart', N'cata', NULL, N'2020-10-20 16:05:04.000', NULL, NULL)
 GO
 
-INSERT INTO [dbo].[SMS_SKU] ([ID], [SKU_NO], [SKU_NAME], [SPU_ID], [BRAND], [PRICE], [UNIT], [TOTAL_COUNT], [ALARM], [DESCRIPTION], [TOOL], [STATUS], [OLD_PARTID], [CATALOG2_ID], [OCU], [OCD], [LUC], [LUD]) VALUES (N'2', N'no', N'string3', N'd7ed3c8162cb41bb87073530891717e5', N'brand', N'22', N'unit', N'3', N'3', N'descr', N'0', N'0', N'oldpart', N'cata', NULL, N'2020-10-24 16:05:09.000', NULL, NULL)
+INSERT INTO [dbo].[SMS_SKU] ([ID], [SKU_NO], [SKU_NAME], [SPU_ID], [BRAND], [PRICE], [UNIT], [TOTAL_COUNT], [ALARM], [DESCRIPTION], [TOOL], [STATUS], [OLD_PARTID], [CATALOG2_ID], [OCU], [OCD], [LUC], [LUD]) VALUES (N'2', N'no', N'string3', N'd7ed3c8162cb41bb87073530891717e5', N'brand', N'22.00', N'unit', N'3', N'3', N'descr', N'0', N'0', N'oldpart', N'cata', NULL, N'2020-10-24 16:05:09.000', NULL, NULL)
 GO
 
 
@@ -1492,17 +1495,17 @@ IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[SM
 GO
 
 CREATE TABLE [dbo].[SMS_SKU_LOG] (
-  [ID] varchar(1) COLLATE Chinese_PRC_CI_AS  NOT NULL,
-  [SKU_ID] varchar(1) COLLATE Chinese_PRC_CI_AS  NULL,
+  [ID] varchar(50) COLLATE Chinese_PRC_CI_AS  NOT NULL,
+  [SKU_ID] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
   [OLD_ROOM] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
   [OLD_SELF] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
   [OLD_QUANTITY] int  NULL,
   [OLD_ALARM] int  NULL,
-  [OLD_PRICE] decimal(2)  NULL,
+  [OLD_PRICE] decimal(20,2)  NULL,
   [NEW_ROOM] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
   [NEW_SELF] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
   [NEW_QUANTITY] int  NULL,
-  [NEW_PRICE] decimal(2)  NULL,
+  [NEW_PRICE] decimal(20,2)  NULL,
   [NEW_ALARM] int  NULL,
   [TYPE] int  NULL,
   [OCD] datetime  NULL,
@@ -1760,7 +1763,7 @@ GO
 -- ----------------------------
 -- Primary Key structure for table CMS_CLIENT
 -- ----------------------------
-ALTER TABLE [dbo].[CMS_CLIENT] ADD CONSTRAINT [PK__CMS_CLIE__3214EC27BB95052F] PRIMARY KEY CLUSTERED ([ID])
+ALTER TABLE [dbo].[CMS_CLIENT] ADD CONSTRAINT [PK__CMS_CLIE__3214EC278FA2579C] PRIMARY KEY CLUSTERED ([ID])
 WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
 ON [PRIMARY]
 GO
@@ -1783,16 +1786,9 @@ GO
 
 
 -- ----------------------------
--- Auto increment value for MMS_APPOINTMENT
--- ----------------------------
-DBCC CHECKIDENT ('[dbo].[MMS_APPOINTMENT]', RESEED, 1)
-GO
-
-
--- ----------------------------
 -- Primary Key structure for table MMS_APPOINTMENT
 -- ----------------------------
-ALTER TABLE [dbo].[MMS_APPOINTMENT] ADD CONSTRAINT [PK__mms_appo__3213E83F7612500E] PRIMARY KEY CLUSTERED ([ID])
+ALTER TABLE [dbo].[MMS_APPOINTMENT] ADD CONSTRAINT [PK__MMS_APPO__3214EC27F04461E4] PRIMARY KEY CLUSTERED ([ID])
 WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
 ON [PRIMARY]
 GO
