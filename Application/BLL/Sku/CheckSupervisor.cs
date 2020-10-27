@@ -175,7 +175,6 @@ namespace BLL.Sku
             return false;
         }
 
-
         public SMS_CHECK_SKU CheckSkuModelToEntityNoId(CheckSkuAddModel model)
         {
             return new SMS_CHECK_SKU

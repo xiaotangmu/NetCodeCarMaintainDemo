@@ -12,7 +12,7 @@
  Target Server Version : 14001000
  File Encoding         : 65001
 
- Date: 26/10/2020 17:12:32
+ Date: 27/10/2020 17:16:05
 */
 
 
@@ -270,7 +270,7 @@ CREATE TABLE [dbo].[MMS_APPOINTMENT] (
   [TYPE] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
   [PHONE] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
   [CONTACT] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
-  [STATUS] int  NULL,
+  [STATUS] int DEFAULT ((0)) NULL,
   [REMARK] varchar(1024) COLLATE Chinese_PRC_CI_AS  NULL,
   [OCU] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
   [OCD] datetime  NULL,
@@ -283,7 +283,7 @@ ALTER TABLE [dbo].[MMS_APPOINTMENT] SET (LOCK_ESCALATION = TABLE)
 GO
 
 EXEC sp_addextendedproperty
-'MS_Description', N'预约编号',
+'MS_Description', N'预约编号: 预约年月日+公司编号(三位后三位（不足补）)+车牌后两位+当天公司维修次序（三位）',
 'SCHEMA', N'dbo',
 'TABLE', N'MMS_APPOINTMENT',
 'COLUMN', N'APPOINTMENT_NO'
@@ -386,20 +386,21 @@ GO
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for mms_maintain
+-- Table structure for MMS_MAINTAIN
 -- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[mms_maintain]') AND type IN ('U'))
-	DROP TABLE [dbo].[mms_maintain]
+IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[MMS_MAINTAIN]') AND type IN ('U'))
+	DROP TABLE [dbo].[MMS_MAINTAIN]
 GO
 
-CREATE TABLE [dbo].[mms_maintain] (
-  [ID] int  IDENTITY(1,1) NOT NULL,
-  [STAFF] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
-  [APPOINTMENT_ID] int  NULL,
-  [CREATE_TIME] datetime  NULL,
-  [SATUS] int DEFAULT ((0)) NULL,
-  [RETURN_TIME] datetime  NULL,
-  [MAINTAIN_NO] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
+CREATE TABLE [dbo].[MMS_MAINTAIN] (
+  [ID] varchar(50) COLLATE Chinese_PRC_CI_AS  NOT NULL,
+  [MAINTAIN_NO] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
+  [STAFF] varchar(1024) COLLATE Chinese_PRC_CI_AS  NULL,
+  [APPOINTMENT_ID] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
+  [START_DATE] datetime  NULL,
+  [STATUS] int DEFAULT ((0)) NULL,
+  [RETURN_DATE] datetime  NULL,
+  [OPERATOR] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
   [OCU] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
   [OCD] datetime  NULL,
   [LUC] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
@@ -407,180 +408,220 @@ CREATE TABLE [dbo].[mms_maintain] (
 )
 GO
 
-ALTER TABLE [dbo].[mms_maintain] SET (LOCK_ESCALATION = TABLE)
+ALTER TABLE [dbo].[MMS_MAINTAIN] SET (LOCK_ESCALATION = TABLE)
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'维修编号',
+'SCHEMA', N'dbo',
+'TABLE', N'MMS_MAINTAIN',
+'COLUMN', N'MAINTAIN_NO'
 GO
 
 EXEC sp_addextendedproperty
 'MS_Description', N'员工',
 'SCHEMA', N'dbo',
-'TABLE', N'mms_maintain',
+'TABLE', N'MMS_MAINTAIN',
 'COLUMN', N'STAFF'
 GO
 
 EXEC sp_addextendedproperty
-'MS_Description', N'绑定预约单',
+'MS_Description', N'关联预约单',
 'SCHEMA', N'dbo',
-'TABLE', N'mms_maintain',
+'TABLE', N'MMS_MAINTAIN',
 'COLUMN', N'APPOINTMENT_ID'
 GO
 
 EXEC sp_addextendedproperty
-'MS_Description', N'创建时间',
+'MS_Description', N'开始时间',
 'SCHEMA', N'dbo',
-'TABLE', N'mms_maintain',
-'COLUMN', N'CREATE_TIME'
+'TABLE', N'MMS_MAINTAIN',
+'COLUMN', N'START_DATE'
 GO
 
 EXEC sp_addextendedproperty
-'MS_Description', N'是否完成，0没有，1完成',
+'MS_Description', N'是否已经签字完成，0没有，1处理完',
 'SCHEMA', N'dbo',
-'TABLE', N'mms_maintain',
-'COLUMN', N'SATUS'
+'TABLE', N'MMS_MAINTAIN',
+'COLUMN', N'STATUS'
 GO
 
 EXEC sp_addextendedproperty
-'MS_Description', N'交付时间',
+'MS_Description', N'归还时间',
 'SCHEMA', N'dbo',
-'TABLE', N'mms_maintain',
-'COLUMN', N'RETURN_TIME'
+'TABLE', N'MMS_MAINTAIN',
+'COLUMN', N'RETURN_DATE'
 GO
 
 EXEC sp_addextendedproperty
-'MS_Description', N'维修单号',
+'MS_Description', N'负责人',
 'SCHEMA', N'dbo',
-'TABLE', N'mms_maintain',
-'COLUMN', N'MAINTAIN_NO'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建人',
-'SCHEMA', N'dbo',
-'TABLE', N'mms_maintain',
-'COLUMN', N'OCU'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'创建时间',
-'SCHEMA', N'dbo',
-'TABLE', N'mms_maintain',
-'COLUMN', N'OCD'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'最后更新人',
-'SCHEMA', N'dbo',
-'TABLE', N'mms_maintain',
-'COLUMN', N'LUC'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'最后更新时间',
-'SCHEMA', N'dbo',
-'TABLE', N'mms_maintain',
-'COLUMN', N'LUD'
+'TABLE', N'MMS_MAINTAIN',
+'COLUMN', N'OPERATOR'
 GO
 
 
 -- ----------------------------
--- Records of mms_maintain
+-- Records of MMS_MAINTAIN
 -- ----------------------------
-SET IDENTITY_INSERT [dbo].[mms_maintain] ON
-GO
-
-SET IDENTITY_INSERT [dbo].[mms_maintain] OFF
-GO
-
 
 -- ----------------------------
--- Table structure for mms_maintain_oldpart
+-- Table structure for MMS_MAINTAIN_OLDPART
 -- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[mms_maintain_oldpart]') AND type IN ('U'))
-	DROP TABLE [dbo].[mms_maintain_oldpart]
+IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[MMS_MAINTAIN_OLDPART]') AND type IN ('U'))
+	DROP TABLE [dbo].[MMS_MAINTAIN_OLDPART]
 GO
 
-CREATE TABLE [dbo].[mms_maintain_oldpart] (
-  [id] int  IDENTITY(1,1) NOT NULL,
-  [FromCar] varchar(20) COLLATE Chinese_PRC_CI_AS  NULL,
-  [FromCompany] varchar(30) COLLATE Chinese_PRC_CI_AS  NULL,
-  [MaintainId] int  NULL,
-  [Type] varchar(1) COLLATE Chinese_PRC_CI_AS  NULL,
-  [Number] varchar(1) COLLATE Chinese_PRC_CI_AS  NULL,
-  [Price] decimal(18)  NULL
+CREATE TABLE [dbo].[MMS_MAINTAIN_OLDPART] (
+  [ID] varchar(50) COLLATE Chinese_PRC_CI_AS  NOT NULL,
+  [MAINTAIN_ID] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
+  [SKU_ID] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
+  [NUM] int  NULL,
+  [PRICE] decimal(18)  NULL,
+  [STATUS] int DEFAULT ((0)) NULL,
+  [REMARK] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL
 )
 GO
 
-ALTER TABLE [dbo].[mms_maintain_oldpart] SET (LOCK_ESCALATION = TABLE)
+ALTER TABLE [dbo].[MMS_MAINTAIN_OLDPART] SET (LOCK_ESCALATION = TABLE)
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'关联维修单',
+'SCHEMA', N'dbo',
+'TABLE', N'MMS_MAINTAIN_OLDPART',
+'COLUMN', N'MAINTAIN_ID'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'关联库存，规格，品牌, 几成新，去设置spu，sku属性',
+'SCHEMA', N'dbo',
+'TABLE', N'MMS_MAINTAIN_OLDPART',
+'COLUMN', N'SKU_ID'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'数量',
+'SCHEMA', N'dbo',
+'TABLE', N'MMS_MAINTAIN_OLDPART',
+'COLUMN', N'NUM'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'收购价',
+'SCHEMA', N'dbo',
+'TABLE', N'MMS_MAINTAIN_OLDPART',
+'COLUMN', N'PRICE'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'是否已经入库，0没有，1入库',
+'SCHEMA', N'dbo',
+'TABLE', N'MMS_MAINTAIN_OLDPART',
+'COLUMN', N'STATUS'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'备注',
+'SCHEMA', N'dbo',
+'TABLE', N'MMS_MAINTAIN_OLDPART',
+'COLUMN', N'REMARK'
 GO
 
 
 -- ----------------------------
--- Records of mms_maintain_oldpart
+-- Records of MMS_MAINTAIN_OLDPART
 -- ----------------------------
-SET IDENTITY_INSERT [dbo].[mms_maintain_oldpart] ON
-GO
-
-SET IDENTITY_INSERT [dbo].[mms_maintain_oldpart] OFF
-GO
-
 
 -- ----------------------------
--- Table structure for mms_maintain_sku
+-- Table structure for MMS_MAINTAIN_OUT
 -- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[mms_maintain_sku]') AND type IN ('U'))
-	DROP TABLE [dbo].[mms_maintain_sku]
+IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[MMS_MAINTAIN_OUT]') AND type IN ('U'))
+	DROP TABLE [dbo].[MMS_MAINTAIN_OUT]
 GO
 
-CREATE TABLE [dbo].[mms_maintain_sku] (
-  [id] int  IDENTITY(1,1) NOT NULL,
-  [SkuId] int  NULL,
-  [Price] decimal(18)  NULL,
-  [Number] int  NULL,
-  [MaintainId] int  NULL
+CREATE TABLE [dbo].[MMS_MAINTAIN_OUT] (
+  [ID] varchar(50) COLLATE Chinese_PRC_CI_AS  NOT NULL,
+  [MIANTAIN_ID] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
+  [OUT_ID] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL
 )
 GO
 
-ALTER TABLE [dbo].[mms_maintain_sku] SET (LOCK_ESCALATION = TABLE)
+ALTER TABLE [dbo].[MMS_MAINTAIN_OUT] SET (LOCK_ESCALATION = TABLE)
 GO
 
 
 -- ----------------------------
--- Records of mms_maintain_sku
+-- Records of MMS_MAINTAIN_OUT
 -- ----------------------------
-SET IDENTITY_INSERT [dbo].[mms_maintain_sku] ON
-GO
-
-SET IDENTITY_INSERT [dbo].[mms_maintain_sku] OFF
-GO
-
 
 -- ----------------------------
--- Table structure for mms_maintain_tool
+-- Table structure for MMS_MAINTAIN_TOOL
 -- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[mms_maintain_tool]') AND type IN ('U'))
-	DROP TABLE [dbo].[mms_maintain_tool]
+IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[MMS_MAINTAIN_TOOL]') AND type IN ('U'))
+	DROP TABLE [dbo].[MMS_MAINTAIN_TOOL]
 GO
 
-CREATE TABLE [dbo].[mms_maintain_tool] (
-  [id] int  IDENTITY(1,1) NOT NULL,
-  [SkuId] int  NULL,
-  [Number] int  NULL,
-  [MaintainId] int  NULL
+CREATE TABLE [dbo].[MMS_MAINTAIN_TOOL] (
+  [ID] varchar(50) COLLATE Chinese_PRC_CI_AS  NOT NULL,
+  [MAINTAIN_ID] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
+  [OUT_SKU_ID] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
+  [RETURN_NUM] int DEFAULT ((0)) NULL,
+  [STATUS] int DEFAULT ((0)) NULL,
+  [REMARK] varchar(1024) COLLATE Chinese_PRC_CI_AS  NULL,
+  [COMPENSATION] decimal(18,2)  NULL
 )
 GO
 
-ALTER TABLE [dbo].[mms_maintain_tool] SET (LOCK_ESCALATION = TABLE)
+ALTER TABLE [dbo].[MMS_MAINTAIN_TOOL] SET (LOCK_ESCALATION = TABLE)
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'关联维修单',
+'SCHEMA', N'dbo',
+'TABLE', N'MMS_MAINTAIN_TOOL',
+'COLUMN', N'MAINTAIN_ID'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'关联出库库存',
+'SCHEMA', N'dbo',
+'TABLE', N'MMS_MAINTAIN_TOOL',
+'COLUMN', N'OUT_SKU_ID'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'归还数量',
+'SCHEMA', N'dbo',
+'TABLE', N'MMS_MAINTAIN_TOOL',
+'COLUMN', N'RETURN_NUM'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'状态，0没有解决，1已经解决',
+'SCHEMA', N'dbo',
+'TABLE', N'MMS_MAINTAIN_TOOL',
+'COLUMN', N'STATUS'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'备注',
+'SCHEMA', N'dbo',
+'TABLE', N'MMS_MAINTAIN_TOOL',
+'COLUMN', N'REMARK'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'赔偿金',
+'SCHEMA', N'dbo',
+'TABLE', N'MMS_MAINTAIN_TOOL',
+'COLUMN', N'COMPENSATION'
 GO
 
 
 -- ----------------------------
--- Records of mms_maintain_tool
+-- Records of MMS_MAINTAIN_TOOL
 -- ----------------------------
-SET IDENTITY_INSERT [dbo].[mms_maintain_tool] ON
-GO
-
-SET IDENTITY_INSERT [dbo].[mms_maintain_tool] OFF
-GO
-
 
 -- ----------------------------
 -- Table structure for PMS_SPU
@@ -1795,64 +1836,36 @@ GO
 
 
 -- ----------------------------
--- Auto increment value for mms_maintain
+-- Primary Key structure for table MMS_MAINTAIN
 -- ----------------------------
-DBCC CHECKIDENT ('[dbo].[mms_maintain]', RESEED, 1)
-GO
-
-
--- ----------------------------
--- Primary Key structure for table mms_maintain
--- ----------------------------
-ALTER TABLE [dbo].[mms_maintain] ADD CONSTRAINT [PK__mms_main__3213E83F872FCAE5] PRIMARY KEY CLUSTERED ([ID])
+ALTER TABLE [dbo].[MMS_MAINTAIN] ADD CONSTRAINT [PK__MMS_MAIN__3214EC27564780A3] PRIMARY KEY CLUSTERED ([ID])
 WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
 ON [PRIMARY]
 GO
 
 
 -- ----------------------------
--- Auto increment value for mms_maintain_oldpart
+-- Primary Key structure for table MMS_MAINTAIN_OLDPART
 -- ----------------------------
-DBCC CHECKIDENT ('[dbo].[mms_maintain_oldpart]', RESEED, 1)
-GO
-
-
--- ----------------------------
--- Primary Key structure for table mms_maintain_oldpart
--- ----------------------------
-ALTER TABLE [dbo].[mms_maintain_oldpart] ADD CONSTRAINT [PK__mms_main__3213E83F1535E3EF] PRIMARY KEY CLUSTERED ([id])
+ALTER TABLE [dbo].[MMS_MAINTAIN_OLDPART] ADD CONSTRAINT [PK__MMS_MAIN__3214EC27B6C4AD49] PRIMARY KEY CLUSTERED ([ID])
 WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
 ON [PRIMARY]
 GO
 
 
 -- ----------------------------
--- Auto increment value for mms_maintain_sku
+-- Primary Key structure for table MMS_MAINTAIN_OUT
 -- ----------------------------
-DBCC CHECKIDENT ('[dbo].[mms_maintain_sku]', RESEED, 1)
-GO
-
-
--- ----------------------------
--- Primary Key structure for table mms_maintain_sku
--- ----------------------------
-ALTER TABLE [dbo].[mms_maintain_sku] ADD CONSTRAINT [PK__mms_main__3213E83F121CFC63] PRIMARY KEY CLUSTERED ([id])
+ALTER TABLE [dbo].[MMS_MAINTAIN_OUT] ADD CONSTRAINT [PK__MMS_MAIN__3214EC271B3F34AB] PRIMARY KEY CLUSTERED ([ID])
 WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
 ON [PRIMARY]
 GO
 
 
 -- ----------------------------
--- Auto increment value for mms_maintain_tool
+-- Primary Key structure for table MMS_MAINTAIN_TOOL
 -- ----------------------------
-DBCC CHECKIDENT ('[dbo].[mms_maintain_tool]', RESEED, 1)
-GO
-
-
--- ----------------------------
--- Primary Key structure for table mms_maintain_tool
--- ----------------------------
-ALTER TABLE [dbo].[mms_maintain_tool] ADD CONSTRAINT [PK__mms_main__3213E83F998DCA1D] PRIMARY KEY CLUSTERED ([id])
+ALTER TABLE [dbo].[MMS_MAINTAIN_TOOL] ADD CONSTRAINT [PK__MMS_MAIN__3214EC27B42AA253] PRIMARY KEY CLUSTERED ([ID])
 WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
 ON [PRIMARY]
 GO

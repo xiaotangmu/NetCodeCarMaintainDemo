@@ -1,4 +1,5 @@
 ﻿using Entity;
+using System;
 
 namespace DateModel.Maintain
 {
@@ -31,7 +32,7 @@ namespace DateModel.Maintain
         /// 预约日期
         /// </summary>
         public static readonly string FIELD_APPOINTMENT_DATE = "appointment_date";
-        public string APPOINTMENT_Date { get; set; }
+        public DateTime APPOINTMENT_DATE { get; set; }
         /// <summary>
         /// 车型
         /// </summary>
@@ -51,7 +52,7 @@ namespace DateModel.Maintain
         /// 是否取消，0未处理，1处理，2取消
         /// </summary>
         public static readonly string FIELD_STATUS = "status";
-        public string STATUS { get; set; }
+        public int STATUS { get; set; }
         /// <summary>
         /// 备注
         /// </summary>

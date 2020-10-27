@@ -18,6 +18,7 @@ namespace Interface.Sku
         Task<IEnumerable<OutModel>> GetAll();
         Task<OutListWithPagingModel> GetOutPageBySearch(OutPageSearchModel model);
         Task<IEnumerable<SkuModel>> GetListOutSkuByOutId(string id);
+        Task<IEnumerable<SkuModel>> GetListOutSkuToolByOutId(string Id);
         Task<bool> UpdateDescriptionByOutId(string outId, string description);
         Task<bool> CheckSkuIsEnough(OutSkuAddModel outSku);
         Task<bool> DeleteOutSkuByOutId(string outId, IDbTransaction transaction = null);

@@ -129,12 +129,12 @@ namespace WebApi.Controllers.Sku
         [HttpDelete]
         public async Task<IActionResult> Delete(string Id, string EntryNo)
         {
-            if (string.IsNullOrWhiteSpace(Id))
-            {
-                throw new MyServiceException("提交的数据异常");
-            }
             return await ResponseResult(async () =>
             {
+                if (string.IsNullOrWhiteSpace(Id))
+                {
+                    throw new MyServiceException("提交的数据异常");
+                }
                 bool result = await _entrySupervisor.Delete(Id);
                 if (result)
                 {
@@ -154,12 +154,12 @@ namespace WebApi.Controllers.Sku
         [HttpDelete]
         public async Task<IActionResult> DeleteBatch(IEnumerable<EntryDeleteModel> modelList)
         {
-            if (modelList == null || modelList.Count() == 0)
-            {
-                throw new MyServiceException("提交的数据异常");
-            }
             return await ResponseResult(async () =>
             {
+                if (modelList == null || modelList.Count() == 0)
+                {
+                    throw new MyServiceException("提交的数据异常");
+                }
                 bool result = await _entrySupervisor.DeleteBatch(modelList);
                 if (result)
                 {

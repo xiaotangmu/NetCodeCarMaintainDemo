@@ -131,5 +131,20 @@ namespace DAO.Sku
                 where ID = @Id";
             return await Repository.ExecuteAsync(sql, model, transaction) > 0 ? true : false;
         }
+
+        public async Task<IEnumerable<SkuModel>> GetListOutSkuToolByOutId(string Id)
+        {
+            // 注意这里的输出的Id 是OutSku 的Id 不是Sku id
+            string sql = @"select sse.ID Id, sse.QUANTITY TotalCount,
+                    sse.PRICE Price, sse.TOTAL_PRICE TotalPrice,
+                    ps.PRODUCT_NAME SkuName, ss.BRAND Brand, ss.UNIT Unit,
+                    ss.STATUS Status, ss.OLD_PARTID OldPartId, ss.CATALOG2_ID Catalog2Id,
+                    sse.ADDRESS_ID AddressId
+                    from SMS_OUT_SKU sse 
+                    left join SMS_SKU ss on ss.ID = sse.SKU_ID
+                    left join PMS_SPU ps on ss.SPU_ID = ps.ID
+                    where sse.OUT_ID = @Id and sse.TOOL = 1";
+            return await Repository.GetGroupAsync<SkuModel>(sql, new { Id });
+        }
     }
 }
