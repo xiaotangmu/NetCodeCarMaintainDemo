@@ -60,19 +60,19 @@ namespace DAO.Sku
             return pageModel;
         }
 
-        public async Task<IEnumerable<SkuModel>> GetListEntrySkuByEntryId(string id)
+        public async Task<IEnumerable<SkuEntryOrOutModel>> GetListEntrySkuByEntryId(string id)
         {
             // 注意这里输出的Id 是EntrySku 的Id 不是Sku id
             string sql = @"select sse.ID Id, sse.QUANTITY TotalCount,
                     sse.PRICE Price, sse.TOTAL_PRICE TotalPrice,
                     ps.PRODUCT_NAME SkuName, ss.BRAND Brand, ss.UNIT Unit,
                     sse.STATUS Status, sse.OLD_PARTID OldPartId, ss.CATALOG2_ID Catalog2Id,
-                    sse.ADDRESS_ID AddressId
+                    sse.ADDRESS_ID AddressId, sse.SKU_ID SkuId
                     from SMS_ENTRY_SKU sse 
                     left join SMS_SKU ss on ss.ID = sse.SKU_ID
                     left join PMS_SPU ps on ss.SPU_ID = ps.ID
                     where sse.ENTRY_ID = @id";
-            return await Repository.GetGroupAsync<SkuModel>(sql, new { id });
+            return await Repository.GetGroupAsync<SkuEntryOrOutModel>(sql, new { id });
         }
 
         public async Task<string> Insert(SMS_ENTRY sMS_ENTRY, IDbTransaction transaction)

@@ -181,8 +181,8 @@ namespace BLL.Sku
         public async Task<IEnumerable<OutSkuAddModel>> GetChangeAddressSku(IEnumerable<OutSkuAddModel> outSkuList, string OutId)
         {
             // 获取原来的子项，以便下面修改库存数量变化
-            IEnumerable<SkuModel> skuList = await _outDao.GetListOutSkuByOutId(OutId);
-            Dictionary<string, SkuModel> outSkuMap1 = new Dictionary<string, SkuModel>();
+            IEnumerable<SkuEntryOrOutModel> skuList = await _outDao.GetListOutSkuByOutId(OutId);
+            Dictionary<string, SkuEntryOrOutModel> outSkuMap1 = new Dictionary<string, SkuEntryOrOutModel>();
             Dictionary<string, OutSkuAddModel> outSkuMap2 = new Dictionary<string, OutSkuAddModel>();
             // 记录要修改的具体位置库存 addressId -- quantity 出库（-）
             List<OutSkuAddModel> outSkuList2 = new List<OutSkuAddModel>();
@@ -196,7 +196,7 @@ namespace BLL.Sku
                 if (outSkuMap1.ContainsKey(item.AddressId))   // 原来添加列表中存在现在添加的库存
                 {
                     OutSkuAddModel eSku = new OutSkuAddModel();
-                    SkuModel sku = new SkuModel();
+                    SkuEntryOrOutModel sku = new SkuEntryOrOutModel();
                     outSkuMap1.TryGetValue(item.AddressId, out sku);
                     int value = item.Quantity - sku.TotalCount; // 变小(原来减多了)，- 负值，变大，- 差值
                     eSku.Quantity = value;
@@ -258,6 +258,11 @@ namespace BLL.Sku
             foreach (var item in pageModel.Items)
             {
                 item.skuList = await _outDao.GetListOutSkuByOutId(item.Id);
+                // 获取规格
+                foreach(var sku in item.skuList)
+                {
+                    sku.attrList = await _skuDao.SelectAttrBySkuId(sku.SkuId);
+                }
             }
             return pageModel;
         }

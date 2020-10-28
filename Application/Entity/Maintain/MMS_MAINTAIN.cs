@@ -14,6 +14,9 @@ namespace DateModel.Maintain
         public string APPOINTMENT_ID { get; set; }
         public static readonly string FIELD_START_DATE = "start_date";
         public DateTime START_DATE { get; set; }
+        /// <summary>
+        /// 是否已经签字完成，0没有，1处理完，2维修取消
+        /// </summary>
         public static readonly string FIELD_STATUS = "status";
         public int STATUS { get; set; }
         public static readonly string FIELD_RETURN_DATE = "return_date";

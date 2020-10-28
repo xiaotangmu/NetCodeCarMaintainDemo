@@ -11,8 +11,13 @@ namespace Supervisor.Maintain
         Task<string> Add(MaintainAddModel model);
         Task<bool> Update(MaintainModel model);
         Task<bool> Delete(string id);
-        Task<bool> DeleteBatch(IEnumerable<AppointmentDeleteModel> modelList);
-        Task<IEnumerable<MaintainModel>> GetAll();
-        Task<PageModel<MaintainModel>> GetListPageBySearch(MaintainPageSearchModel model);
+        Task<bool> DeleteBatch(IEnumerable<MaintainDeleteModel> modelList);
+        Task<IEnumerable<MaintainShowModel>> GetAll();
+        Task<PageModel<MaintainShowModel>> GetListPageBySearch(MaintainPageSearchModel model); 
+        Task<bool> UpdateTool(MaintainToolUpdateModel model);
+        Task<bool> UpdateOldPart(MaintainOldPartUpdateModel model);
+        Task<bool> UpdateToolList(IEnumerable<MaintainToolUpdateModel> modelList);
+        Task<bool> UpdateOldPartList(IEnumerable<MaintainOldPartUpdateModel> modelList);
+        Task<bool> UpdateMaintainNoRelation(MaintainModel model);
     }
 }

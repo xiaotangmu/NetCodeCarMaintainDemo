@@ -1,12 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using ViewModel.Sku;
 
 namespace ViewModel.Maintain
 {
-    public class MaintainOldPartModel : MaintainOldPartAddModel
+    public class MaintainOldPartModel : MaintainOldPartUpdateModel
     {
-        public string Id { get;set; }
+        #region 用于返回方便看配件信息
+        public string SkuName { get; set; }
+        public string Brand { get; set; }
+        public string Unit { get; set; }
+        public IEnumerable<SkuAttrModel> AttrList { get; set; } = new List<SkuAttrModel>();
+        #endregion
     }
     public class MaintainOldPartAddModel
     {
@@ -22,5 +28,9 @@ namespace ViewModel.Maintain
         /// </summary>
         public int Status { get; set; }
         public string Remark { get; set; }
+    }
+    public class MaintainOldPartUpdateModel : MaintainOldPartAddModel
+    {
+        public string Id { get; set; }
     }
 }

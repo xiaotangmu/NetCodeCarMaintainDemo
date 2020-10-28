@@ -29,7 +29,7 @@ namespace WebApi.Controllers.Sku
         }
 
         /// <summary>
-        /// 添加库存
+        /// 添加库存, 库存名（冗余）也要提交，方便后面操作
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
@@ -38,7 +38,8 @@ namespace WebApi.Controllers.Sku
         {
             return await ResponseResult(async () =>
             {
-                if (string.IsNullOrWhiteSpace(model.Catalog2Id) || string.IsNullOrWhiteSpace(model.SpuId))
+                if (string.IsNullOrWhiteSpace(model.Catalog2Id) || string.IsNullOrWhiteSpace(model.SpuId) 
+                    || string.IsNullOrWhiteSpace(model.SkuName))
                 {
                     throw new MyServiceException(("数据异常"));
                 }

@@ -1,12 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using ViewModel.Sku;
 
 namespace ViewModel.Maintain
 {
-    public class MaintainToolModel : MaintainToolAddModel
+    public class MaintainToolModel : MaintainToolUpdateModel
     {
-        public string Id { get; set; }
+        #region 用于返回方便看工具信息
+        public string SkuName { get; set; }
+        public string Brand { get; set; }
+        public string Unit { get; set; }
+        public IEnumerable<SkuAttrModel> AttrList { get; set; } = new List<SkuAttrModel>();
+        #endregion
     }
     public class MaintainToolAddModel
     {
@@ -25,5 +31,9 @@ namespace ViewModel.Maintain
         /// 赔偿金
         /// </summary>
         public decimal Compensation { get; set; }
+    }
+    public class MaintainToolUpdateModel : MaintainToolAddModel
+    {
+        public string Id { get; set; }
     }
 }

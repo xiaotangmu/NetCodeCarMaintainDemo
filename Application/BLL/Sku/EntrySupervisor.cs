@@ -1,6 +1,7 @@
 ﻿using DAO.Sku;
 using DateModel.Sku;
 using Interface.Sku;
+using NPOI.OpenXmlFormats.Dml;
 using NPOI.SS.Formula.Functions;
 using Supervisor.Sku;
 using System;
@@ -141,8 +142,8 @@ namespace BLL.Sku
         public async Task<IEnumerable<EntrySkuAddModel>> GetChangeEntrySku(IEnumerable<EntrySkuAddModel> entrySkuList, string EntryId)
         {
             // 获取原来的子项，以便下面修改库存数量变化
-            IEnumerable<SkuModel> skuList = await _entryDao.GetListEntrySkuByEntryId(EntryId);
-            Dictionary<string, SkuModel> entrySkuMap1 = new Dictionary<string, SkuModel>();
+            IEnumerable<SkuEntryOrOutModel> skuList = await _entryDao.GetListEntrySkuByEntryId(EntryId);
+            Dictionary<string, SkuEntryOrOutModel> entrySkuMap1 = new Dictionary<string, SkuEntryOrOutModel>();
             Dictionary<string, EntrySkuAddModel> entrySkuMap2 = new Dictionary<string, EntrySkuAddModel>();
             // 记录要修改的具体位置库存 addressId -- quantity 入库（+）
             List<EntrySkuAddModel> entrySkuList2 = new List<EntrySkuAddModel>();
@@ -156,7 +157,7 @@ namespace BLL.Sku
                 if (entrySkuMap1.ContainsKey(item.AddressId))   // 原来添加列表中存在现在添加的库存
                 {
                     EntrySkuAddModel eSku = new EntrySkuAddModel();
-                    SkuModel sku = new SkuModel();
+                    SkuEntryOrOutModel sku = new SkuEntryOrOutModel();
                     entrySkuMap1.TryGetValue(item.AddressId, out sku);
                     int value = item.Quantity - sku.TotalCount; // 变小，+ 负值，变大，+ 差值
                     eSku.Quantity = value;
@@ -203,11 +204,24 @@ namespace BLL.Sku
             // 1. 获取 EntryList
             IEnumerable<EntryModel> entryList = await _entryDao.GetAll();
             // 2. 获取 EntrySku
-            foreach(var entry in entryList)
-            {
-                entry.skuList = await _entryDao.GetListEntrySkuByEntryId(entry.Id);
-            }
+            await GetSkuListReturnEntryList(entryList);
             return entryList;
+        }
+        public async Task GetSkuListReturnEntryList(IEnumerable<EntryModel> modelList)
+        {
+            foreach (var entry in modelList)
+            {
+                await GetSkuList(entry);
+            }
+        }
+        public async Task GetSkuList(EntryModel model)
+        {
+            model.skuList = await _entryDao.GetListEntrySkuByEntryId(model.Id);
+            // 获取参数
+            foreach (var sku in model.skuList)
+            {
+                sku.attrList = await _skuDao.SelectAttrBySkuId(sku.SkuId);
+            }
         }
 
         public async Task<EntryListWithPagingModel> GetListPageBySearch(EntryPageSearchModel model)
@@ -215,10 +229,7 @@ namespace BLL.Sku
             // 获取EntryList
             EntryListWithPagingModel pageModel = await _entryDao.GetEntryPageBySearch(model);
             // 获取EntrySku
-            foreach(var entry in pageModel.Items)
-            {
-                entry.skuList = await _entryDao.GetListEntrySkuByEntryId(entry.Id);
-            }
+            await GetSkuListReturnEntryList(pageModel.Items);
             return pageModel;
         }
 

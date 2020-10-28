@@ -6,6 +6,17 @@ using ViewModel.Common;
 
 namespace ViewModel.Sku
 {
+    /// <summary>
+    /// 出入库时用到的skuModel, 此时Id 是entrySku Id
+    /// </summary>
+    public class SkuEntryOrOutModel : SkuModel
+    {
+        /// <summary>
+        /// 入库出库时用到
+        /// </summary>
+        public string AddressId { get; set; }
+        public string SkuId { get; set; }
+    }
     public class SkuModel: SkuAddModel
     {
         public string Id { get; set; }
@@ -26,12 +37,6 @@ namespace ViewModel.Sku
         /// 最后更新时间
         /// </summary>
         public DateTime LUD { get; set; }
-
-        /// <summary>
-        /// 入库出库时用到
-        /// </summary>
-        public string AddressId { get; set; }
-
     }
     public class SkuAddModel
     {

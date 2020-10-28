@@ -16,7 +16,7 @@ namespace Interface.Sku
         Task<bool> UpdateAddressSkuNumByAddressId(EntrySkuAddModel model, IDbTransaction transaction);
         //Task<bool> UpdateSkuTotalCount(string SkuId, IDbTransaction transaction = null);
         Task<IEnumerable<EntryModel>> GetAll();
-        Task<IEnumerable<SkuModel>> GetListEntrySkuByEntryId(string id);
+        Task<IEnumerable<SkuEntryOrOutModel>> GetListEntrySkuByEntryId(string id);
         Task<EntryListWithPagingModel> GetEntryPageBySearch(EntryPageSearchModel model);
         Task<bool> UpdateDescriptionByEntryId(string entryId, string description);
         Task<bool> DeleteEntrySkuByEntryId(string entryId, IDbTransaction transaction = null);
