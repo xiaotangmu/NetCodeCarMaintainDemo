@@ -197,10 +197,10 @@ namespace DAO.Maintain
 
         public async Task<IEnumerable<MaintainShowModel>> SelectAll()
         {
-            string sql = @"select Imm.ID Id, mm.MAINTAIN_NO MaintainNo, mm.STAFF Staff,
+            string sql = @"select mm.ID Id, mm.MAINTAIN_NO MaintainNo, mm.STAFF Staff,
                     mm.APPOINTMENT_ID AppointmentId, mm.START_DATE StartDate,
                     mm.STATUS Status, mm.RETURN_DATE ReturnDate, mm.OPERATOR Operator,
-                    mm.OCU, mm.OCD, mm.LUC, mm.LUD, cc.COMPNAY CompanyName, ma.TYPE Type,
+                    mm.OCU, mm.OCD, mm.LUC, mm.LUD, cc.COMPANY CompanyName, ma.TYPE Type,
                     ma.CONTACT Contact, ma.PHONE Phone
                     from MMS_MAINTAIN mm
                     left join MMS_APPOINTMENT ma on mm.APPOINTMENT_ID = ma.ID
@@ -214,7 +214,7 @@ namespace DAO.Maintain
             string strSql = @"select DISTINCT mm.ID Id, mm.MAINTAIN_NO MaintainNo, mm.STAFF Staff,
                     mm.APPOINTMENT_ID AppointmentId, mm.START_DATE StartDate,
                     mm.STATUS Status, mm.RETURN_DATE ReturnDate, mm.OPERATOR Operator,
-                    mm.OCU, mm.OCD, mm.LUC, mm.LUD from MMS_MAINTAIN mm, cc.COMPNAY CompanyName, ma.TYPE Type,
+                    mm.OCU, mm.OCD, mm.LUC, mm.LUD from MMS_MAINTAIN mm, cc.COMPANY CompanyName, ma.TYPE Type,
                     ma.CONTACT Contact, ma.PHONE Phone
                     left join MMS_APPOINTMENT ma on mm.APPOINTMENT_ID = ma.ID
                     left join CMS_CLIENT cc on cc.ID = ma.COMPANY_ID 
