@@ -73,10 +73,11 @@ namespace ViewModel.Sku
         public string AddressId { get; set; }
         public decimal TotalPrice { get; set; }
         /// <summary>
-        /// 状态: 为0新，为1旧
+        /// 状态: 为0新，为1旧, 2为工具
         /// </summary>
         public int Status { get; set; }
         public string OldPartId { get; set; }
+        public string ToolId { get; set; }
     }
     public class EntryListWithPagingModel
     {

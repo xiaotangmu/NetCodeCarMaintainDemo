@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Text;
 using ViewModel.Sku;
 
@@ -28,6 +29,7 @@ namespace ViewModel.Maintain
         /// </summary>
         public int Status { get; set; }
         public string Remark { get; set; }
+        public int DealNum { get; set; }
     }
     public class MaintainOldPartUpdateModel : MaintainOldPartAddModel
     {

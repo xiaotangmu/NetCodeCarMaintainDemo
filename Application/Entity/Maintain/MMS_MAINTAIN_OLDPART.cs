@@ -29,6 +29,8 @@ namespace DateModel.Maintain
         public string SKU_ID { get; set; }
         public static readonly string FIELD_NUM = "num";
         public int NUM { get; set; }
+        public static readonly string FIELD_DEAL_NUM = "deal_num";
+        public int DEAL_NUM { get; set; }
         /// <summary>
         /// 入库单价
         /// </summary>

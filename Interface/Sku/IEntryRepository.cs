@@ -22,5 +22,7 @@ namespace Interface.Sku
         Task<bool> DeleteEntrySkuByEntryId(string entryId, IDbTransaction transaction = null);
         Task<bool> DeleteEntryById(string Id, IDbTransaction transaction = null);
         Task<bool> UpdateEntry(EntryUpdateModel model, IDbTransaction transaction);
+        Task<bool> UpdateOldPartStatus(string oldPartId, int quantity, IDbTransaction transaction);
+        Task<bool> UpdateToolStatus(string toolId, int quantity, IDbTransaction transaction);
     }
 }

@@ -50,8 +50,8 @@ namespace BLL.Maintain
                 throw new MyServiceException(MsgCode.SameData, "提交的配件有相同数据");
             }
             // 维修单是否已经存在 -- 维修单号与预约单号相同
-            bool Exist = await _mainDao.IsExistByMaintainNo(model.MaintainNo);
-            if (Exist)
+            int Exist = await _mainDao.IsExistByMaintainNo(model.MaintainNo);
+            if (Exist > 0)
             {
                 throw new MyServiceException("该维修单已经存在");
             }
@@ -113,7 +113,7 @@ namespace BLL.Maintain
             // 查看是否可以删除
             foreach (var item in modelList)
             {
-                IsSureToDeleteOrThrowException(item.Id);
+                await IsSureToDeleteOrThrowException(item.Id);
             }
             // 删除
             return await _mainDao.Repository.DbSession.TransactionHandle(async (transaction) =>
@@ -217,7 +217,12 @@ namespace BLL.Maintain
             return pageModel;
         }
 
-        public async Task<bool> Update(MaintainModel model)
+        /// <summary>
+        /// 更新 -- 出库单
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public async Task<bool> UpdateWithOut(MaintainModel model)
         {
             // 判断关联项是否已经有处理的
             // 判断工具是否有处理的
@@ -227,23 +232,24 @@ namespace BLL.Maintain
                 throw new MyServiceException("存在工具已经处理，不能更新，或者先将该其强制修改为未处理");
             }
             // 判断旧配件是否有处理的
-            bool res2 = await _mainDao.HasDealOldPartByMaintainId(model.Id);
-            if (res2)
-            {
-                throw new MyServiceException("存在旧配件已经处理，不能删除，或者先将该其强制修改为未处理");
-            }
+            //bool res2 = await _mainDao.HasDealOldPartByMaintainId(model.Id);
+            //if (res2)
+            //{
+            //    throw new MyServiceException("存在旧配件已经处理，不能删除，或者先将该其强制修改为未处理");
+            //}
             return await _mainDao.Repository.DbSession.TransactionHandle(async (transaction) =>
             {
                 // 删除工具
                 await _mainDao.DeleteToolByMaintainId(model.Id, transaction);
                 // 删除旧配件
-                try
-                {
-                    await _mainDao.DeleteOldPartByMaintainId(model.Id, transaction);
-                } catch (Exception e)
-                {
-                    throw new MyServiceException("该配件已入库，需要绑定来源，请先将该库存和对应入库信息删除");
-                }
+                //try
+                //{
+                //    await _mainDao.DeleteOldPartByMaintainId(model.Id, transaction);
+                //}
+                //catch (Exception e)
+                //{
+                //    throw new MyServiceException("该配件已入库，需要绑定来源，请先将该库存和对应入库信息删除");
+                //}
                 // 删除关联出库
                 await _mainDao.DeleteMaintainOutByMaintainId(model.Id, transaction);
                 // 添加工具
@@ -253,10 +259,86 @@ namespace BLL.Maintain
                     await _mainDao.InsertTool(ToolModelToEntityNoId(tool), transaction);
                 }
                 // 添加旧配件
-                foreach (var old in model.OldPartList)
+                //foreach (var old in model.OldPartList)
+                //{
+                //    old.MaintainId = model.Id;
+                //    await _mainDao.InsertOldPart(OldPartModelToEntityNoId(old), transaction);
+                //}
+                // 添加出库单
+                foreach (var outId in model.OutIdList)
+                {
+                    await _mainDao.InsertMaintainOut(OutModelToEntityNoId(outId, model.Id), transaction);
+                }
+                // 更新主表维修单信息
+                return await _mainDao.UpdateMaintainNoRelation(model, transaction);
+            });
+        }
+        /// <summary>
+        /// 更新工具栏
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public async Task<bool> UpdateWithTool(MaintainModel model)
+        {
+            // 过滤数据，只更新状态为0或者数量大于处理数量的, 工具不更新，只能更新
+            return await _mainDao.Repository.DbSession.TransactionHandle(async (transaction) =>
+            {
+                // 更新工具
+                foreach (var tool in model.ToolList)
+                {
+                    tool.MaintainId = model.Id;
+                    await _mainDao.UpdateTool(tool, transaction);
+                }
+                // 更新主表维修单信息
+                return await _mainDao.UpdateMaintainNoRelation(model, transaction);
+            });
+        }
+        /// <summary>
+        /// 更新配件栏
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public async Task<bool> UpdateWithOldPart(MaintainModel model)
+        {
+            // 过滤数据，只更新状态为0或者数量大于处理数量的
+            List<MaintainOldPartModel> addOldPartList = new List<MaintainOldPartModel>();    // 没有处理过的
+            List<MaintainOldPartModel> updateOldPartList = new List<MaintainOldPartModel>(); // 有处理过的，减少数量刚好等于的也要更新
+            foreach (var item in model.OldPartList)
+            {
+                if (item.Status == 0 && item.Num < item.DealNum)
+                {
+                    throw new MyServiceException("存在配件数量大于处理数量");
+                }
+                else if (item.Status == 0 && item.DealNum > 0) // 有处理过的
+                {
+                    updateOldPartList.Add(item);
+                }
+                // 减少数量至刚好等于的
+                else if (item.Status == 1 && item.Num == item.DealNum && item.Num > 0)
+                {
+                    updateOldPartList.Add(item);
+                }
+                else if (item.Status == 0 && item.DealNum == 0 && item.Num > 0)
+                {
+                    addOldPartList.Add(item);
+                }
+            }
+
+            return await _mainDao.Repository.DbSession.TransactionHandle(async (transaction) =>
+            {
+                // 删除未处理的配件-- 处理的不能直接删除，绑定id
+                await _mainDao.DeleteNoDealOldPartByMaintainId(model.Id, transaction);
+                // 添加配件
+                foreach (var old in addOldPartList)
                 {
                     old.MaintainId = model.Id;
                     await _mainDao.InsertOldPart(OldPartModelToEntityNoId(old), transaction);
+                }
+                // 更新工具
+                foreach (var tool in updateOldPartList)
+                {
+                    tool.MaintainId = model.Id;
+                    await _mainDao.UpdateOldPart(tool, transaction);
                 }
                 // 添加出库单
                 foreach (var outId in model.OutIdList)
@@ -281,7 +363,8 @@ namespace BLL.Maintain
             {
                 MAINTAIN_ID = model?.MaintainId,
                 OUT_SKU_ID = model?.OutSkuId,
-                RETURN_NUM = (int)model?.ReturnNum,
+                DEAL_NUM = (int)model?.DealNum,
+                NUM = (int)model?.Num,
                 STATUS = (int)model?.Status,
                 REMARK = model?.Remark,
                 COMPENSATION = (decimal)model?.Compensation
@@ -295,7 +378,8 @@ namespace BLL.Maintain
                 SKU_ID = model?.SkuId,
                 NUM = (int)model?.Num,
                 STATUS = (int)model?.Status,
-                REMARK = model?.Remark
+                REMARK = model?.Remark,
+                DEAL_NUM = (int)model?.DealNum
             };
         }
         public MMS_MAINTAIN ModelToEntityNoId(MaintainAddModel model = null)

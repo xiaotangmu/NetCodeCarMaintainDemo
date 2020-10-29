@@ -66,41 +66,6 @@ namespace WebApi.Controllers.Maintain
             });
         }
         /// <summary>
-        /// 更新整个维修单，包括出库
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        [HttpPost]
-        public async Task<IActionResult> Update(MaintainModel model)
-        {
-            return await ResponseResult(async () =>
-            {
-                if (string.IsNullOrWhiteSpace(model.Operator))
-                {
-                    throw new MyServiceException("负责人为空");
-                }
-                if (string.IsNullOrWhiteSpace(model.MaintainNo))
-                {
-                    throw new MyServiceException("负责人为空");
-                }
-                if (model.StartDate == null || model.StartDate.Year < 1900)
-                {
-                    throw new MyServiceException("数据异常");
-                }
-                bool result = await _maintainSupervisor.Update(model);
-                if (result)
-                {
-                    await LogOperation(await Localizer.GetValueAsync("更新维修单：") + model.MaintainNo);
-                }
-                else
-                {
-                    throw new MyServiceException(await Localizer.GetValueAsync("添加预约失败"));
-                }
-                return result;
-            });
-        }
-
-        /// <summary>
         /// 删除预约单
         /// </summary>
         /// <returns></returns>
@@ -183,9 +148,147 @@ namespace WebApi.Controllers.Maintain
                 return await _maintainSupervisor.GetListPageBySearch(model);
             });
         }
-
         /// <summary>
-        /// 更新工具信息
+        /// 1. 零件栏打开，更新，只更新大框
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        //[HttpPost]
+        //public async Task<IActionResult> Update(MaintainModel model)
+        //{
+        //    return await ResponseResult(async () =>
+        //    {
+        //        if (string.IsNullOrWhiteSpace(model.Operator))
+        //        {
+        //            throw new MyServiceException("负责人为空");
+        //        }
+        //        if (string.IsNullOrWhiteSpace(model.MaintainNo))
+        //        {
+        //            throw new MyServiceException("维修单为空");
+        //        }
+        //        if (model.StartDate == null || model.StartDate.Year < 1900)
+        //        {
+        //            throw new MyServiceException("数据异常");
+        //        }
+        //        bool result = await _maintainSupervisor.Update(model);
+        //        if (result)
+        //        {
+        //            await LogOperation(await Localizer.GetValueAsync("更新维修单：") + model.MaintainNo);
+        //        }
+        //        else
+        //        {
+        //            throw new MyServiceException(await Localizer.GetValueAsync("添加预约失败"));
+        //        }
+        //        return result;
+        //    });
+        //}
+        /// <summary>
+        /// 更新出库单栏
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<IActionResult> UpdateWithOut(MaintainModel model)
+        {
+            return await ResponseResult(async () =>
+            {
+                if (string.IsNullOrWhiteSpace(model.Operator))
+                {
+                    throw new MyServiceException("负责人为空");
+                }
+                if (string.IsNullOrWhiteSpace(model.MaintainNo))
+                {
+                    throw new MyServiceException("维修单为空");
+                }
+                if (model.StartDate == null || model.StartDate.Year < 1900)
+                {
+                    throw new MyServiceException("数据异常");
+                }
+                bool result = await _maintainSupervisor.UpdateWithOut(model);
+                if (result)
+                {
+                    await LogOperation(await Localizer.GetValueAsync("更新维修单：") + model.MaintainNo);
+                }
+                else
+                {
+                    throw new MyServiceException(await Localizer.GetValueAsync("添加预约失败"));
+                }
+                return result;
+            });
+
+        }
+        /// <summary>
+        /// 更新工具栏 -- 强制更新
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<IActionResult> UpdateWithTool(MaintainModel model)
+        {
+            return await ResponseResult(async () =>
+            {
+                if (string.IsNullOrWhiteSpace(model.Operator))
+                {
+                    throw new MyServiceException("负责人为空");
+                }
+                if (string.IsNullOrWhiteSpace(model.MaintainNo))
+                {
+                    throw new MyServiceException("维修单为空");
+                }
+                if (model.StartDate == null || model.StartDate.Year < 1900)
+                {
+                    throw new MyServiceException("数据异常");
+                }
+                bool result = await _maintainSupervisor.UpdateWithTool(model);
+                if (result)
+                {
+                    await LogOperation(await Localizer.GetValueAsync("更新维修单：") + model.MaintainNo);
+                }
+                else
+                {
+                    throw new MyServiceException(await Localizer.GetValueAsync("更新失败"));
+                }
+                return result;
+            });
+
+        }
+        /// <summary>
+        /// 更新配件栏 -- 强制更新
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<IActionResult> UpdateWithOldPart(MaintainModel model)
+        {
+            return await ResponseResult(async () =>
+            {
+                if (string.IsNullOrWhiteSpace(model.Operator))
+                {
+                    throw new MyServiceException("负责人为空");
+                }
+                if (string.IsNullOrWhiteSpace(model.MaintainNo))
+                {
+                    throw new MyServiceException("维修单为空");
+                }
+                if (model.StartDate == null || model.StartDate.Year < 1900)
+                {
+                    throw new MyServiceException("数据异常");
+                }
+                bool result = await _maintainSupervisor.UpdateWithOldPart(model);
+                if (result)
+                {
+                    await LogOperation(await Localizer.GetValueAsync("更新维修单：") + model.MaintainNo);
+                }
+                else
+                {
+                    throw new MyServiceException(await Localizer.GetValueAsync("更新失败"));
+                }
+                return result;
+            });
+
+        }
+        /// <summary>
+        /// 单个强制更新工具信息
         /// </summary>
         /// <returns></returns>
         [HttpPost]
@@ -215,7 +318,7 @@ namespace WebApi.Controllers.Maintain
         /// <param name="modelList"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> UpdateTollList(IEnumerable<MaintainToolUpdateModel> modelList)
+        public async Task<IActionResult> UpdateToolList(IEnumerable<MaintainToolUpdateModel> modelList)
         {
             return await ResponseResult(async () =>
             {
@@ -242,7 +345,7 @@ namespace WebApi.Controllers.Maintain
             });
         }
         /// <summary>
-        /// 更新旧配件信息
+        /// 强制更新单个旧配件信息
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
@@ -302,7 +405,7 @@ namespace WebApi.Controllers.Maintain
         }
 
         /// <summary>
-        /// 更新维修单基本信息（状态, 员工等），不更新关联信息（出库/工具/配件），
+        /// 更新零件栏：更新维修单基本信息（状态, 员工等），不更新关联信息（出库/工具/配件），没有强制更新工具栏，零件栏
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>

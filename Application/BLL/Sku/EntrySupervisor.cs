@@ -85,6 +85,31 @@ namespace BLL.Sku
                 {
                     entrySku.EntryId = entryId;
                     await _entryDao.AddEntrySku(EntrySkuModelToEntityNoId(entrySku), transaction);
+                    if (entrySku.Status == 1) // 是旧配件
+                    {
+                        if (!string.IsNullOrWhiteSpace(entrySku.OldPartId))
+                        {
+                            // 更新旧配件表处理数量和入库状态 + 
+                            await _entryDao.UpdateOldPartStatus(entrySku.OldPartId, entrySku.Quantity, transaction);
+                        }
+                        else
+                        {
+                            throw new MyServiceException("旧配件ID为空");
+                        }
+                    }  
+                    if (entrySku.Status == 2)
+                    {
+                        if (!string.IsNullOrWhiteSpace(entrySku.ToolId))
+                        {
+                            // 更新工具表处理数量和入库状态 +
+                            await _entryDao.UpdateToolStatus(entrySku.ToolId, entrySku.Quantity, transaction);
+                        }
+                        else
+                        {
+                            throw new MyServiceException("工具ID为空");
+                        }
+                    } 
+                    
                     // 修改具体位置库存数量
                     await _entryDao.UpdateAddressSkuNumByAddressId(entrySku, transaction);
                     // 修改库存总数量
@@ -120,6 +145,30 @@ namespace BLL.Sku
                     {
                         item.EntryId = model.Id;
                         await _entryDao.AddEntrySku(EntrySkuModelToEntityNoId(item), transaction);
+                        if (item.Status == 1) // 是旧配件
+                        {
+                            if (!string.IsNullOrWhiteSpace(item.OldPartId))
+                            {
+                                // 更新旧配件表处理数量和入库状态 + 
+                                await _entryDao.UpdateOldPartStatus(item.OldPartId, item.Quantity, transaction);
+                            }
+                            else
+                            {
+                                throw new MyServiceException("旧配件ID为空");
+                            }
+                        }
+                        if (item.Status == 2)
+                        {
+                            if (!string.IsNullOrWhiteSpace(item.ToolId))
+                            {
+                                // 更新工具表处理数量和入库状态 +
+                                await _entryDao.UpdateToolStatus(item.ToolId, item.Quantity, transaction);
+                            }
+                            else
+                            {
+                                throw new MyServiceException("工具ID为空");
+                            }
+                        }
                     }
                     // 修改具体位置的库存数量
                     foreach (var entrySku in entrySkuList2)

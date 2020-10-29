@@ -12,7 +12,7 @@ namespace Interface.Maintain
 {
     public interface IMaintainRepository : IBaseRepository
     {
-        Task<bool> IsExistByMaintainNo(string maintainNo);
+        Task<int> IsExistByMaintainNo(string maintainNo);
         Task<string> Insert(MMS_MAINTAIN mMS_MAINTAIN, IDbTransaction transaction = null);
         Task<string> InsertTool(MMS_MAINTAIN_TOOL mMS_MAINTAIN_TOOL, IDbTransaction transaction = null);
         Task<string> InsertMaintainOut(MMS_MAINTAIN_OUT mMS_MAINTAIN_OUT, IDbTransaction transaction = null);
@@ -36,5 +36,7 @@ namespace Interface.Maintain
         Task<IEnumerable<MaintainOldPartModel>> GetOldPartsByMaintainId(string id);
         Task<IEnumerable<SkuAttrModel>> GetOldPartTypeById(string id);
         Task<IEnumerable<SkuModel>> GetSkusByMaintainId(string id);
+        Task<bool> DeleteNoDealToolByMaintainId(string id, IDbTransaction transaction);
+        Task<bool> DeleteNoDealOldPartByMaintainId(string id, IDbTransaction transaction);
     }
 }

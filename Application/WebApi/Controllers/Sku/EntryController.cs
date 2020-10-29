@@ -28,7 +28,7 @@ namespace WebApi.Controllers.Sku
         }
 
         /// <summary>
-        /// 添加入库
+        /// 添加入库, EntrySku状态: 0新，1旧, 2为工具
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
@@ -177,7 +177,7 @@ namespace WebApi.Controllers.Sku
         }
 
         /// <summary>
-        /// 更新整个入库单,除了入库单号
+        /// 更新整个入库单,除了入库单号,EntrySku状态: 0新，1旧, 2为工具
         /// </summary>
         /// <returns></returns>
         [HttpPost]

@@ -9,7 +9,7 @@ namespace Supervisor.Maintain
     public interface IMaintainSupervisor
     {
         Task<string> Add(MaintainAddModel model);
-        Task<bool> Update(MaintainModel model);
+        Task<bool> UpdateWithOut(MaintainModel model);
         Task<bool> Delete(string id);
         Task<bool> DeleteBatch(IEnumerable<MaintainDeleteModel> modelList);
         Task<IEnumerable<MaintainShowModel>> GetAll();
@@ -19,5 +19,7 @@ namespace Supervisor.Maintain
         Task<bool> UpdateToolList(IEnumerable<MaintainToolUpdateModel> modelList);
         Task<bool> UpdateOldPartList(IEnumerable<MaintainOldPartUpdateModel> modelList);
         Task<bool> UpdateMaintainNoRelation(MaintainModel model);
+        Task<bool> UpdateWithOldPart(MaintainModel model);
+        Task<bool> UpdateWithTool(MaintainModel model);
     }
 }

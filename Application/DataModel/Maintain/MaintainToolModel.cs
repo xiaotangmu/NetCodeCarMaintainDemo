@@ -19,10 +19,11 @@ namespace ViewModel.Maintain
         public string MaintainId { get; set; }
         public string Remark { get; set; }
         public string OutSkuId { get; set; }
+        public int Num { get; set; }
         /// <summary>
         /// 归还数量
         /// </summary>
-        public int ReturnNum { get; set; }
+        public int DealNum { get; set; }
         /// <summary>
         /// 状态，0没有解决/归还，1解决
         /// </summary>

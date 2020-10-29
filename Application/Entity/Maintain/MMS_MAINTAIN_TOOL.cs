@@ -27,8 +27,10 @@ namespace DateModel.Maintain
         public string MAINTAIN_ID { get; set; }
         public static readonly string FIELD_OUT_SKU_ID = "out_sku_id";
         public string OUT_SKU_ID { get; set; }
-        public static readonly string FIELD_RETURN_NUM = "return_num";
-        public int RETURN_NUM { get; set; }
+        public static readonly string FIELD_DEAL_NUM = "deal_num";
+        public int DEAL_NUM { get; set; }
+        public static readonly string FIELD_NUM = "deal_num";
+        public int NUM { get; set; }
         /// <summary>
         /// 状态，0没有解决，1已经解决
         /// </summary>

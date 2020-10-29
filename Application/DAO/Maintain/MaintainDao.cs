@@ -29,6 +29,18 @@ namespace DAO.Maintain
             return await Repository.ExecuteAsync(sql, new { id }, transaction) > 0 ? true : false;
         }
 
+        public async Task<bool> DeleteNoDealOldPartByMaintainId(string id, IDbTransaction transaction)
+        {
+            string sql = "delete from MMS_MAINTAIN_OLDPART where MAINTAIN_ID = @id and DEAL_NUM = 0 and STATUS = 0";
+            return await Repository.ExecuteAsync(sql, new { id }, transaction) > 0 ? true : false;
+        }
+
+        public async Task<bool> DeleteNoDealToolByMaintainId(string id, IDbTransaction transaction)
+        {
+            string sql = "delete from MMS_MAINTAIN_TOOL where MAINTAIN_ID = @id and DEAL_NUM = 0 and STATUS = 0";
+            return await Repository.ExecuteAsync(sql, new { id }, transaction) > 0 ? true : false;
+        }
+
         public async Task<bool> DeleteOldPartByMaintainId(string id, IDbTransaction transaction = null)
         {
             string sql = "delete from MMS_MAINTAIN_OLDPART where MAINTAIN_ID = @id";
@@ -50,7 +62,7 @@ namespace DAO.Maintain
         public async Task<IEnumerable<MaintainOldPartModel>> GetOldPartsByMaintainId(string id)
         {
             string sql = @"select ss.SKU_NAME SkuName, ss.BRAND Brand, ss.UNIT Unit,
-                        mmo.ID Id, mmo.MAINTAIN_ID MaintainId, mmo.NUM Num,
+                        mmo.ID Id, mmo.MAINTAIN_ID MaintainId, mmo.NUM Num, mmo.DEAL_NUM DealNum,
                         mmo.PRICE Price, mmo.STATUS Status, mmo.SKU_ID SkuId, 
                         mmo.REMARK Remark
                         from MMS_MAINTAIN_OLDPART mmo
@@ -89,7 +101,7 @@ namespace DAO.Maintain
         {
             string sql = @"select ss.SKU_NAME SkuName, ss.BRAND Brand, ss.UNIT Unit,
                     sos.PRICE Price, sos.QUANTITY TotalCount, mmt.STATUS Status, 
-                    mmt.REMARK Remark, mmt.RETURN_NUM ReturnNum, mmt.COMPENSATION Compensation
+                    mmt.REMARK Remark, mmt.DEAL_NUM DealNum, mmt.NUM num, mmt.COMPENSATION Compensation
                     from MMS_MAINTAIN_TOOL mmt 
                     LEFT JOIN SMS_OUT_SKU sos on sos.ID = mmt.OUT_SKU_ID
                     Left join SMS_SKU_ADDRESS ssa on ssa.ID = sos.ADDRESS_ID 
@@ -121,7 +133,7 @@ namespace DAO.Maintain
         public async Task<bool> HasDealOldPartByMaintainId(string id)
         {
             string sql = @"select Count(1) from MMS_MAINTAIN_OLDPART
-                    where MAINTAIN_ID = '{0}' and STATUS = 1";
+                    where MAINTAIN_ID = '{0}' and (DEAL_NUM > 0 OR STATUS = 1)";
             sql = string.Format(sql, id);
             return await Repository.CountAsync(sql) > 0 ? true : false;
         }
@@ -133,7 +145,7 @@ namespace DAO.Maintain
         public async Task<bool> HasDealToolByMaintainId(string id)
         {
             string sql = @"select Count(1) from MMS_MAINTAIN_TOOL
-                    where MAINTAIN_ID = '{0}' and STATUS = 1";
+                    where MAINTAIN_ID = '{0}' and (DEAL_NUM > 0 OR STATUS = 1)";
             sql = string.Format(sql, id);
             return await Repository.CountAsync(sql) > 0 ? true : false;
         }
@@ -141,7 +153,7 @@ namespace DAO.Maintain
         public async Task<bool> HasNoDealOlPartByMaintainId(string id)
         {
             string sql = @"select Count(1) from MMS_MAINTAIN_OLDPART
-                    where MAINTAIN_ID = '{0}' and STATUS = 0";
+                    where MAINTAIN_ID = '{0}' and STATUS = 0 and DEAL_NUM = 0";
             sql = string.Format(sql, id);
             return await Repository.CountAsync(sql) > 0 ? true : false;
         }
@@ -149,7 +161,7 @@ namespace DAO.Maintain
         public async Task<bool> HasNoDealToolByMaintainId(string id)
         {
             string sql = @"select Count(1) from MMS_MAINTAIN_TOOL
-                    where MAINTAIN_ID = '{0}' and STATUS = 0";
+                    where MAINTAIN_ID = '{0}' and STATUS = 0 and DEAL_NUM = 0";
             sql = string.Format(sql, id);
             return await Repository.CountAsync(sql) > 0 ? true : false;
         }
@@ -174,12 +186,12 @@ namespace DAO.Maintain
             return await Repository.InsertAsync<MMS_MAINTAIN_TOOL>(mMS_MAINTAIN_TOOL, transaction);
         }
 
-        public async Task<bool> IsExistByMaintainNo(string maintainNo)
+        public async Task<int> IsExistByMaintainNo(string maintainNo)
         {
             string sql = @"select Count(1) from MMS_MAINTAIN
                     where MAINTAIN_NO = '{0}'";
             sql = string.Format(sql, maintainNo);
-            return await Repository.CountAsync(sql) > 0 ? true : false;
+            return await Repository.CountAsync(sql);
         }
 
         /// <summary>
@@ -189,10 +201,22 @@ namespace DAO.Maintain
         /// <returns></returns>
         public async Task<bool> IsNoSignByMaintainId(string id)
         {
-            string sql = @"select SUM(STATUS) from MMS_MAINTAIN
+            string sql = @"select STATUS from MMS_MAINTAIN
                     where ID = '{0}'";
             sql = string.Format(sql, id);
-            return await Repository.CountAsync(sql) == 0 ? true : false;
+            MMS_MAINTAIN obj =  await Repository.GetFirstAsync<MMS_MAINTAIN>(sql);
+            if(obj == null)
+            {
+                throw new ViewModel.CustomException.MyServiceException("不存在该维修单");
+            }
+            if(obj.STATUS > 0)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
 
         public async Task<IEnumerable<MaintainShowModel>> SelectAll()
@@ -214,8 +238,9 @@ namespace DAO.Maintain
             string strSql = @"select DISTINCT mm.ID Id, mm.MAINTAIN_NO MaintainNo, mm.STAFF Staff,
                     mm.APPOINTMENT_ID AppointmentId, mm.START_DATE StartDate,
                     mm.STATUS Status, mm.RETURN_DATE ReturnDate, mm.OPERATOR Operator,
-                    mm.OCU, mm.OCD, mm.LUC, mm.LUD from MMS_MAINTAIN mm, cc.COMPANY CompanyName, ma.TYPE Type,
+                    mm.OCU, mm.OCD, mm.LUC, mm.LUD , cc.COMPANY CompanyName, ma.TYPE Type,
                     ma.CONTACT Contact, ma.PHONE Phone
+                    from MMS_MAINTAIN mm
                     left join MMS_APPOINTMENT ma on mm.APPOINTMENT_ID = ma.ID
                     left join CMS_CLIENT cc on cc.ID = ma.COMPANY_ID 
                     left join MMS_MAINTAIN_TOOL mmt on mm.ID = mmt.MAINTAIN_ID
@@ -230,8 +255,8 @@ namespace DAO.Maintain
             strSql += model?.EndTime.Year > 1900 ? " and '{2}' >= ma.START_DATE " : "";
             // 签字处理，0未处理，1已处理，2取消, -1 不开启处理查询 -- Status
             strSql += model?.Status == -1 ? "" : " and mm.STATUS = {3} ";
-            strSql += model?.ToolStatus == -1 ? "" : " and mmt.STATUS = {4} ";
-            strSql += model?.OldPartStatus == -1 ? "" : " and mmo.STATUS = {5} ";
+            strSql += model?.ToolStatus == -1 ? "" : model?.ToolStatus == 0 ? "and mmt.STATUS = {4}" : " and (mmt.STATUS = {4} OR mmt.DEAL_NUM > 0)";
+            strSql += model?.OldPartStatus == -1 ? "" : model?.OldPartStatus == 0 ? "and mmo.STATUS = {5}" : " and (mmo.STATUS = {5} OR mmo.DEAL_NUM > 0)";
             string sql = string.Format(strSql, model.SearchStr, model.StartTime, model.EndTime, model.Status, 
                 model.ToolStatus, model.OldPartStatus);
             string countSql = "Select Count(1) from (" + sql + ") as temp";
@@ -270,10 +295,10 @@ namespace DAO.Maintain
 
         public async Task<bool> UpdateTool(MaintainToolUpdateModel model, IDbTransaction transaction = null)
         {
-            string sql = @"update MMS_MAINTAIN_OLDPART
+            string sql = @"update MMS_MAINTAIN_TOOL
                         set MAINTAIN_ID = @MaintainId, 
                             OUT_SKU_ID = @OutSkuId,
-                            RETURN_NUM = @ReturnNum,  
+                            DEAL_NUM = @DealNum,  
                             STATUS = @Status,
                             REMARK = @Remark,
                             COMPENSATION = @Compensation

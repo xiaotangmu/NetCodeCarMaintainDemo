@@ -124,5 +124,25 @@ namespace DAO.Sku
                 where ID = @Id";
             return await Repository.ExecuteAsync(sql, model, transaction) > 0 ? true : false;
         }
+
+        public async Task<bool> UpdateOldPartStatus(string oldPartId, int quantity, IDbTransaction transaction)
+        {
+            string sql = @"update MMS_MAINTAIN_OLDPART 
+                set 
+		                STATUS =  (case when DEAL_NUM + @quantity = NUM then 1 else 0 end),
+		                DEAL_NUM = @quantity + DEAL_NUM
+                where ID = @oldPartId";
+            return await Repository.ExecuteAsync(sql, new { oldPartId, quantity }, transaction) > 0 ? true : false;
+        }
+
+        public async Task<bool> UpdateToolStatus(string toolId, int quantity, IDbTransaction transaction)
+        {
+            string sql = @"update MMS_MAINTAIN_TOOL
+                set 
+		                STATUS =  (case when DEAL_NUM + @quantity = NUM then 1 else 0 end),
+		                DEAL_NUM = @quantity + DEAL_NUM
+                where ID = @toolId";
+            return await Repository.ExecuteAsync(sql, new { toolId, quantity }, transaction) > 0 ? true : false;
+        }
     }
 }
