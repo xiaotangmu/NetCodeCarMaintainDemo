@@ -1,4 +1,5 @@
-﻿using DateModel.Catalog;
+﻿using DataModel;
+using DateModel.Catalog;
 using Interface.Catalog;
 using ORM;
 using System;
@@ -7,6 +8,7 @@ using System.Data;
 using System.Text;
 using System.Threading.Tasks;
 using ViewModel.Catalog;
+using ViewModel.Common;
 
 namespace DAO.Catalog
 {
@@ -114,6 +116,32 @@ namespace DAO.Catalog
                 }
             }
             return true;
+        }
+        public async Task<int> CountAsync()
+        {
+            string sql = "select Count(1) from BMMS_CATALOG1 where 1 = 1";
+            return await Repository.CountAsync(sql);
+        }
+
+        public async Task<PageModel<Catalog1Model>> GetCatalog1GroupWithPagingBySearch(BaseSearchModel model)
+        {
+            PageModel<Catalog1Model> pageModel = new PageModel<Catalog1Model>();
+            Catalog1Model viewModel = new Catalog1Model();
+            pageModel.TotalCount = await CountAsync();
+            if (pageModel.TotalCount == 0)
+            {
+                pageModel.Items = new List<Catalog1Model>();
+                return pageModel;
+            }
+            string sql = "select * from BMMS_CATALOG1 where 1=1";
+            IEnumerable<BMMS_CATALOG1> entityList = await Repository.GetPageAsync<BMMS_CATALOG1>(model.PageIndex, model.PageSize, sql, " order by OCD desc");
+            List<Catalog1Model> modelList = new List<Catalog1Model>();
+            foreach (var entity in entityList)
+            {
+                modelList.Add(EntityToModel(entity));
+            }
+            pageModel.Items = modelList;
+            return pageModel;
         }
     }
 }

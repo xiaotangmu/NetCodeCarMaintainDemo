@@ -1,10 +1,12 @@
-﻿using DateModel.Catalog;
+﻿using DataModel;
+using DateModel.Catalog;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Text;
 using System.Threading.Tasks;
 using ViewModel.Catalog;
+using ViewModel.Common;
 
 namespace Interface.Catalog
 {
@@ -17,5 +19,6 @@ namespace Interface.Catalog
         Task<bool> DeleteListByCatalog1Id(string catalog1Id, IDbTransaction transaction = null);
         Task<bool> DeleteBatch(IEnumerable<string> ids, IDbTransaction transaction = null);
         Task<bool> InsertBatch(IEnumerable<BMMS_CATALOG2> enumerable, IDbTransaction transaction = null);
+        Task<PageModel<Catalog2Model>> GetCatalog2GroupWithPagingBySearch(BaseSearchModel model);
     }
 }

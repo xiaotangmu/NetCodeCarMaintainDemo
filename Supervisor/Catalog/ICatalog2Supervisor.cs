@@ -1,9 +1,11 @@
-﻿using System;
+﻿using DataModel;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Text;
 using System.Threading.Tasks;
 using ViewModel.Catalog;
+using ViewModel.Common;
 
 namespace Supervisor.Catalog
 {
@@ -16,5 +18,6 @@ namespace Supervisor.Catalog
         Task<bool> AddBatch(IEnumerable<Catalog2AddModel> models);
         Task<bool> DeleteBatch(IEnumerable<Catalog2Model> models);
         Task<bool> DeleteListByCatalog1Id(string catalog1Id);
+        Task<PageModel<Catalog2Model>> GetCatalog2ListPageBySearch(BaseSearchModel model);
     }
 }

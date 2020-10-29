@@ -1,4 +1,5 @@
 ﻿using DapperExtensions;
+using DataModel;
 using DateModel.Catalog;
 using Interface;
 using Interface.Catalog;
@@ -9,6 +10,7 @@ using System.Data;
 using System.Text;
 using System.Threading.Tasks;
 using ViewModel.Catalog;
+using ViewModel.Common;
 
 namespace DAO.Catalog
 {
@@ -118,6 +120,31 @@ namespace DAO.Catalog
             string sql = @"delete from BMMS_CATALOG2 where PARENT_ID = @CatalogId";
             return await Repository.ExecuteAsync(sql, new { CatalogId = catalogId }, tran) > 0 ? true : false;
         }
+        public async Task<int> CountAsync()
+        {
+            string sql = "select Count(1) from BMMS_CATALOG2 where 1 = 1";
+            return await Repository.CountAsync(sql);
+        }
 
+        public async Task<PageModel<Catalog2Model>> GetCatalog2GroupWithPagingBySearch(BaseSearchModel model)
+        {
+            PageModel<Catalog2Model> pageModel = new PageModel<Catalog2Model>();
+            Catalog2Model viewModel = new Catalog2Model();
+            pageModel.TotalCount = await CountAsync();
+            if (pageModel.TotalCount == 0)
+            {
+                pageModel.Items = new List<Catalog2Model>();
+                return pageModel;
+            }
+            string sql = "select * from BMMS_CATALOG2 where 1=1";
+            IEnumerable<BMMS_CATALOG2> entityList = await Repository.GetPageAsync<BMMS_CATALOG2>(model.PageIndex, model.PageSize, sql, " order by OCD desc");
+            List<Catalog2Model> modelList = new List<Catalog2Model>();
+            foreach (var entity in entityList)
+            {
+                modelList.Add(EntityToModel(entity));
+            }
+            pageModel.Items = modelList;
+            return pageModel;
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using DAO.Catalog;
+using DataModel;
 using DateModel.Catalog;
 using Interface.Catalog;
 using Supervisor.Catalog;
@@ -227,6 +228,10 @@ namespace BLL.Catalog
             {
                 throw new MyServiceException(MsgCode.SameData, "提交的数据有重");
             }
+        }
+        public async Task<PageModel<Catalog2Model>> GetCatalog1ListPageBySearch(BaseSearchModel model)
+        {
+            return await _catalog2Dao.GetCatalog2GroupWithPagingBySearch(model);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Localization;
+﻿using DataModel;
+using Localization;
 using Microsoft.AspNetCore.Mvc;
 using Supervisor.Catalog;
 using Swashbuckle.Swagger.Annotations;
@@ -89,6 +90,23 @@ namespace WebApi.Controllers.Catalog
                     throw new MyServiceException(await Localizer.GetValueAsync("更新失败"));
                 }
                 return result;
+            });
+        }
+
+        /// <summary>
+        /// 分页获取分类信息
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> GetCatalog1ListPageBySearch([FromQuery] BaseSearchModel model)
+        {
+            return await ResponseResult(async () =>
+            {
+                if (model.PageIndex < 1 || model.PageSize < 1)
+                {
+                    throw new MyServiceException(("数据异常"));
+                }
+                return await _catalog1Supervisor.GetCatalog1ListPageBySearch(model);
             });
         }
 
