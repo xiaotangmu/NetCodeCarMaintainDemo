@@ -58,7 +58,7 @@ namespace DAO.Sku
             string sql = @"select ss.CATALOG2_ID Catalog2Id, ps.PRODUCT_NAME SkuName, ss.ID Id, ss.SKU_NO SkuNo,
                 ss.SPU_ID SpuId, ss.BRAND Brand, ss.PRICE Price, ss.UNIT Unit,
                 ss.TOTAL_COUNT TotalCount, ss.ALARM Alarm, ss.DESCRIPTION Description,
-                ss.Type type, ss.STATUS Status, ss.OLD_PARTID OldPartId
+                ss.TOOL Tool, ss.STATUS Status, ss.OLD_PARTID OldPartId
                 from SMS_SKU ss
                 LEFT JOIN PMS_SPU ps on ps.ID = ss.SPU_ID
                 where 1 = 1";
@@ -71,7 +71,7 @@ namespace DAO.Sku
             string sql = @"select ss.CATALOG2_ID Catalog2Id, ps.PRODUCT_NAME SkuName, ss.ID Id, ss.SKU_NO SkuNo,
                 ss.SPU_ID SpuId, ss.BRAND Brand, ss.PRICE Price, ss.UNIT Unit,
                 ss.TOTAL_COUNT TotalCount, ss.ALARM Alarm, ss.DESCRIPTION Description,
-                ss.Type type, ss.STATUS Status, ss.OLD_PARTID OldPartId
+                ss.TOOL Tool, ss.STATUS Status, ss.OLD_PARTID OldPartId
                 from SMS_SKU ss
                 LEFT JOIN PMS_SPU ps on ps.ID = ss.SPU_ID
                 where ps.PRODUCT_NAME like '%' + @searchStr + '%' or ss.BRAND like '%' + @searchStr + '%'
@@ -86,7 +86,7 @@ namespace DAO.Sku
             string sql = @"select ss.CATALOG2_ID Catalog2Id, ps.PRODUCT_NAME SkuName, ss.ID Id, ss.SKU_NO SkuNo,
                 ss.SPU_ID SpuId, ss.BRAND Brand, ss.PRICE Price, ss.UNIT Unit,
                 ss.TOTAL_COUNT TotalCount, ss.ALARM Alarm, ss.DESCRIPTION Description,
-                ss.Type type, ss.STATUS Status, ss.OLD_PARTID OldPartId
+                ss.TOOL Tool, ss.STATUS Status, ss.OLD_PARTID OldPartId
                 from SMS_SKU ss
                 LEFT JOIN PMS_SPU ps on ps.ID = ss.SPU_ID
                 where 1 = 1";
@@ -102,7 +102,7 @@ namespace DAO.Sku
             string sql = string.Format("select ss.CATALOG2_ID Catalog2Id, ps.PRODUCT_NAME SkuName, ss.ID Id, ss.SKU_NO SkuNo, " + 
                 "ss.SPU_ID SpuId, ss.BRAND Brand, ss.PRICE Price, ss.UNIT Unit, " + 
                 "ss.TOTAL_COUNT TotalCount, ss.ALARM Alarm, ss.DESCRIPTION Description, " +
-                "ss.Type type, ss.STATUS Status, ss.OLD_PARTID OldPartId " +
+                "ss.TOOL Tool, ss.STATUS Status, ss.OLD_PARTID OldPartId " +
                 "from SMS_SKU ss " +
                 "LEFT JOIN PMS_SPU ps on ps.ID = ss.SPU_ID " +
                 "where (ps.PRODUCT_NAME like '%' + '{0}' + '%' or ss.BRAND like '%' + '{0}' + '%' " +
