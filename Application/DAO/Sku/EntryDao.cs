@@ -67,10 +67,13 @@ namespace DAO.Sku
                     sse.PRICE Price, sse.TOTAL_PRICE TotalPrice,
                     ps.PRODUCT_NAME SkuName, ss.BRAND Brand, ss.UNIT Unit,
                     sse.STATUS Status, sse.OLD_PARTID OldPartId, ss.CATALOG2_ID Catalog2Id,
-                    sse.ADDRESS_ID AddressId, sse.SKU_ID SkuId
+                    sse.ADDRESS_ID AddressId, sse.SKU_ID SkuId, 
+					(bc1.CATALOG_NAME + '/' + bc2.CATALOG_NAME) as CatalogName 
                     from SMS_ENTRY_SKU sse 
                     left join SMS_SKU ss on ss.ID = sse.SKU_ID
                     left join PMS_SPU ps on ss.SPU_ID = ps.ID
+                    left join BMMS_CATALOG2 bc2 on bc2.ID = ps.CATALOG2_ID
+					left join BMMS_CATALOG1 bc1 on bc1.Id = bc2.PARENT_ID
                     where sse.ENTRY_ID = @id";
             return await Repository.GetGroupAsync<SkuEntryOrOutModel>(sql, new { id });
         }

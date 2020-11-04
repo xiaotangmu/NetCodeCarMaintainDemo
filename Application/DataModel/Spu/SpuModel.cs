@@ -9,6 +9,7 @@ namespace ViewModel.Spu
     public class SpuModel: SpuAddModel
     {
         public string Id { get; set; }
+        public string CatalogName { get; set; }
         public string LUC { get; set; }
         public DateTime LUD { get; set; }
     }

@@ -84,6 +84,7 @@ namespace ViewModel.Sku
         /// 产品名
         /// </summary>
         public string ProductName { get; set; }
+        public string CatalogName { get; set; }
         /// <summary>
         /// 产品规格
         /// </summary>

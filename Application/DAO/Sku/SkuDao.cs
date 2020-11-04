@@ -58,9 +58,12 @@ namespace DAO.Sku
             string sql = @"select ss.CATALOG2_ID Catalog2Id, ps.PRODUCT_NAME SkuName, ss.ID Id, ss.SKU_NO SkuNo,
                 ss.SPU_ID SpuId, ss.BRAND Brand, ss.PRICE Price, ss.UNIT Unit,
                 ss.TOTAL_COUNT TotalCount, ss.ALARM Alarm, ss.DESCRIPTION Description,
-                ss.TOOL Tool, ss.STATUS Status, ss.OLD_PARTID OldPartId
+                ss.TOOL Tool, ss.STATUS Status, ss.OLD_PARTID OldPartId, 
+				(bc1.CATALOG_NAME + '/' + bc2.CATALOG_NAME) as CatalogName 
                 from SMS_SKU ss
                 LEFT JOIN PMS_SPU ps on ps.ID = ss.SPU_ID
+				left join BMMS_CATALOG2 bc2 on bc2.ID = ps.CATALOG2_ID
+				left join BMMS_CATALOG1 bc1 on bc1.Id = bc2.PARENT_ID
                 where 1 = 1";
             IEnumerable<SkuModel> entityList = await Repository.GetGroupAsync<SkuModel>(sql);
             return entityList;
@@ -71,9 +74,12 @@ namespace DAO.Sku
             string sql = @"select ss.CATALOG2_ID Catalog2Id, ps.PRODUCT_NAME SkuName, ss.ID Id, ss.SKU_NO SkuNo,
                 ss.SPU_ID SpuId, ss.BRAND Brand, ss.PRICE Price, ss.UNIT Unit,
                 ss.TOTAL_COUNT TotalCount, ss.ALARM Alarm, ss.DESCRIPTION Description,
-                ss.TOOL Tool, ss.STATUS Status, ss.OLD_PARTID OldPartId
+                ss.TOOL Tool, ss.STATUS Status, ss.OLD_PARTID OldPartId, 
+				(bc1.CATALOG_NAME + '/' + bc2.CATALOG_NAME) as CatalogName 
                 from SMS_SKU ss
                 LEFT JOIN PMS_SPU ps on ps.ID = ss.SPU_ID
+				left join BMMS_CATALOG2 bc2 on bc2.ID = ps.CATALOG2_ID
+				left join BMMS_CATALOG1 bc1 on bc1.Id = bc2.PARENT_ID
                 where ps.PRODUCT_NAME like '%' + @searchStr + '%' or ss.BRAND like '%' + @searchStr + '%'
                     or ss.DESCRIPTION like '%' + @searchStr + '%'";
             IEnumerable<SkuModel> entityList = await Repository.GetGroupAsync<SkuModel>(sql, new { searchStr });
@@ -86,9 +92,12 @@ namespace DAO.Sku
             string sql = @"select ss.CATALOG2_ID Catalog2Id, ps.PRODUCT_NAME SkuName, ss.ID Id, ss.SKU_NO SkuNo,
                 ss.SPU_ID SpuId, ss.BRAND Brand, ss.PRICE Price, ss.UNIT Unit,
                 ss.TOTAL_COUNT TotalCount, ss.ALARM Alarm, ss.DESCRIPTION Description,
-                ss.TOOL Tool, ss.STATUS Status, ss.OLD_PARTID OldPartId
+                ss.TOOL Tool, ss.STATUS Status, ss.OLD_PARTID OldPartId, 
+				(bc1.CATALOG_NAME + '/' + bc2.CATALOG_NAME) as CatalogName 
                 from SMS_SKU ss
                 LEFT JOIN PMS_SPU ps on ps.ID = ss.SPU_ID
+				left join BMMS_CATALOG2 bc2 on bc2.ID = ps.CATALOG2_ID
+				left join BMMS_CATALOG1 bc1 on bc1.Id = bc2.PARENT_ID
                 where 1 = 1";
             SkuListWithPagingViewModel pageModel = new SkuListWithPagingViewModel();
             string countSql = "Select Count(1) from (" + sql + ") as temp";
@@ -99,12 +108,15 @@ namespace DAO.Sku
 
         public async Task<SkuListWithPagingViewModel> SelectListPageBySearch(SkuListSearchModel model)
         {
-            string sql = string.Format("select ss.CATALOG2_ID Catalog2Id, ps.PRODUCT_NAME SkuName, ss.ID Id, ss.SKU_NO SkuNo, " + 
-                "ss.SPU_ID SpuId, ss.BRAND Brand, ss.PRICE Price, ss.UNIT Unit, " + 
-                "ss.TOTAL_COUNT TotalCount, ss.ALARM Alarm, ss.DESCRIPTION Description, " +
-                "ss.TOOL Tool, ss.STATUS Status, ss.OLD_PARTID OldPartId " +
-                "from SMS_SKU ss " +
-                "LEFT JOIN PMS_SPU ps on ps.ID = ss.SPU_ID " +
+            string sql = string.Format(@"select ss.CATALOG2_ID Catalog2Id, ps.PRODUCT_NAME SkuName, ss.ID Id, ss.SKU_NO SkuNo,
+                ss.SPU_ID SpuId, ss.BRAND Brand, ss.PRICE Price, ss.UNIT Unit,
+                ss.TOTAL_COUNT TotalCount, ss.ALARM Alarm, ss.DESCRIPTION Description,
+                ss.TOOL Tool, ss.STATUS Status, ss.OLD_PARTID OldPartId,
+                (bc1.CATALOG_NAME + '/' + bc2.CATALOG_NAME) as CatalogName
+                from SMS_SKU ss
+                LEFT JOIN PMS_SPU ps on ps.ID = ss.SPU_ID
+                left join BMMS_CATALOG2 bc2 on bc2.ID = ps.CATALOG2_ID
+                left join BMMS_CATALOG1 bc1 on bc1.Id = bc2.PARENT_ID " +
                 "where (ps.PRODUCT_NAME like '%' + '{0}' + '%' or ss.BRAND like '%' + '{0}' + '%' " +
                    " or ss.DESCRIPTION like '%' + '{0}' + '%') " + 
                    (string.IsNullOrWhiteSpace(model.Catalog2Id)? "" : " AND ss.CATALOG2_ID = '{1}' "), model.SearchStr, model.Catalog2Id);

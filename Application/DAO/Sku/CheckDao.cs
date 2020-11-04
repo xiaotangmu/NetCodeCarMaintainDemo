@@ -123,8 +123,13 @@ namespace DAO.Sku
             string sql = @"select scs.ID Id, scs.CHECK_ID CheckId, scs.ADDRESS_ID AdressId, scs.CHECK_NUM CheckNum, 
                 scs.CHECK_PRICE CheckPrice, scs.PRICE Price, scs.ACCOUNT_NUM AccountNum, scs.ACCOUNT_PRICE AccountPrice,
                 scs.DIFFERENCE_NUM DifferenceNum, scs.DESCRIPTION Description,
-                scs.STATUS Status, scs.SKU_ID SkuId, scs.DIFFERENCE_PRICE DifferencPrice
+                scs.STATUS Status, scs.SKU_ID SkuId, scs.DIFFERENCE_PRICE DifferencPrice,
+                (bc1.CATALOG_NAME + '/' + bc2.CATALOG_NAME) as CatalogName 
                 from SMS_CHECK_SKU scs
+                left join SMS_SKU ss on ss.ID = scs.SKU_ID
+                LEFT JOIN PMS_SPU ps on ps.ID = ss.SPU_ID
+				left join BMMS_CATALOG2 bc2 on bc2.ID = ps.CATALOG2_ID
+				left join BMMS_CATALOG1 bc1 on bc1.Id = bc2.PARENT_ID
                 where scs.CHECK_ID = @id";
             return await Repository.GetGroupAsync<CheckSkuModel>(sql, new { id });
         }

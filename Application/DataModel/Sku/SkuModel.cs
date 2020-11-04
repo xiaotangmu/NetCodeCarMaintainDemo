@@ -20,6 +20,7 @@ namespace ViewModel.Sku
     public class SkuModel: SkuAddModel
     {
         public string Id { get; set; }
+        public string CatalogName { get; set; }
 
         /// <summary>
         /// 创建用户

@@ -85,12 +85,20 @@ namespace DAO.Spu
 
         public async Task<SpuListWithPagingModel> SelectAllWithPaging(BaseSearchModel model)
         {
-            string sql = "select * from PMS_SPU where 1 = 1";
+            string sql = @"select ps.ID Id, ps.CATALOG2_ID Catalog2Id, ps.SPU_NO SpuNo, ps.PRODUCT_NAME ProductName,
+                ps.DESCRIPTION Description, ps.OCU, ps.OCD, ps.LUC, ps.LUD, 
+                (bc1.CATALOG_NAME + '/' + bc2.CATALOG_NAME) as CatalogName
+                from PMS_SPU ps
+                left
+                join BMMS_CATALOG2 bc2 on bc2.ID = ps.CATALOG2_ID
+                left
+                join BMMS_CATALOG1 bc1 on bc2.PARENT_ID = bc1.ID
+                where 1 = 1";
             SpuListWithPagingModel pageModel = new SpuListWithPagingModel();
             string countSql = "select count(1) from PMS_SPU where 1 = 1";
             pageModel.TotalCount = await Repository.CountAsync(countSql);
-            IEnumerable<PMS_SPU> entityList = await Repository.GetPageAsync<PMS_SPU>(model.PageIndex, model.PageSize, sql, " order by OCD Desc");
-            pageModel.Items = EntityListToModelList(entityList);
+            IEnumerable<SpuModel> entityList = await Repository.GetPageAsync<SpuModel>(model.PageIndex, model.PageSize, sql, " order by OCD Desc");
+            pageModel.Items = entityList;
             return pageModel;
         }
 
@@ -98,7 +106,14 @@ namespace DAO.Spu
         {
             SpuListWithPagingModel pageModel = new SpuListWithPagingModel();
             #region 注意拼接字符串不要用@传参
-            string sql = "select * from PMS_SPU where ";
+            string sql = @"select ps.ID Id, ps.CATALOG2_ID Catalog2Id, ps.SPU_NO SpuNo, ps.PRODUCT_NAME ProductName,
+                ps.DESCRIPTION Description, ps.OCU, ps.OCD, ps.LUC, ps.LUD, 
+                (bc1.CATALOG_NAME + '/' + bc2.CATALOG_NAME) as CatalogName
+                from PMS_SPU ps
+                left
+                join BMMS_CATALOG2 bc2 on bc2.ID = ps.CATALOG2_ID
+                left
+                join BMMS_CATALOG1 bc1 on bc2.PARENT_ID = bc1.ID where ";
             if (!string.IsNullOrEmpty(model.Catalog2Id))
             {
                 sql += "CATALOG2_ID = '{0}' And";
@@ -174,9 +189,17 @@ namespace DAO.Spu
 
         public async Task<IEnumerable<SpuModel>> GetAll()
         {
-            var pSort = Predicates.Sort<PMS_SPU>(item => item.OCD, false);
-            IEnumerable<PMS_SPU> entityList = await Repository.GetListAsync<PMS_SPU>(null, new[] { pSort });
-            return EntityListToModelList(entityList);
+            string sql = @"select ps.ID Id, ps.CATALOG2_ID Catalog2Id, ps.SPU_NO SpuNo, ps.PRODUCT_NAME ProductName,
+                ps.DESCRIPTION Description, ps.OCU, ps.OCD, ps.LUC, ps.LUD, 
+                (bc1.CATALOG_NAME + '/' + bc2.CATALOG_NAME) as CatalogName
+                from PMS_SPU ps
+                left
+                join BMMS_CATALOG2 bc2 on bc2.ID = ps.CATALOG2_ID
+                left
+                join BMMS_CATALOG1 bc1 on bc2.PARENT_ID = bc1.ID
+                where 1 = 1
+                 order by OCD Desc";
+            return await Repository.GetGroupAsync<SpuModel>(sql);
         }
 
         public async Task<IEnumerable<SpuModel>> GetListByCatalog2Id(string catalog2Id)
