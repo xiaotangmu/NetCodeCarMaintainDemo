@@ -6,6 +6,7 @@ using BLL.Maintain;
 using BLL.Sku;
 using BLL.Spu;
 using BLL.System;
+using BLL.User;
 using DataModel.System;
 using Localization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -184,11 +185,12 @@ namespace WebApi
             services.AddScoped<ICatalog1Supervisor, Catalog1Supervisor>();
             services.AddScoped<ICatalog2Supervisor, Catalog2Supervisor>();
             services.AddScoped<ISpuSupervisor, SpuSupervisor>();
+            services.AddScoped<Supervisor.User.IUserSupervisor, UserSupervisor>();
 
             services.AddScoped<IDictSupervisor, DictManagement>();
             services.AddScoped<IPermissionSupervisor, PermissionManagement>();
             services.AddScoped<IRoleSupervisor, RoleManagement>();
-            services.AddScoped<IUserSupervisor, UserManagement>();
+            //services.AddScoped<IUserSupervisor, UserManagement>();
             services.AddScoped<IEmailTemplateSupervisor, EmailTemplateSupervisor>();
             services.AddScoped<ISystemConfigurationSupervisor, SystemConfigurationSupervisor>();
 
