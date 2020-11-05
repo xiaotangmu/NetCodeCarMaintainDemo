@@ -134,7 +134,7 @@ namespace WebApi.Controllers.Sku
         {
             return await ResponseResult(async () =>
             {
-                if ( model.PageIndex < 1 || model.PageIndex < 1)
+                if ( model.PageIndex < 1 || model.PageSize < 1)
                 {
                     throw new MyServiceException(("提交的数据有误"));
                 }

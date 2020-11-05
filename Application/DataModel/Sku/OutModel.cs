@@ -25,7 +25,7 @@ namespace ViewModel.Sku
         /// </summary>
         public DateTime LUD { get; set; }
 
-        public IEnumerable<SkuEntryOrOutModel> skuList { get; set; } = new List<SkuEntryOrOutModel>();
+        public IEnumerable<SkuOutModel> skuList { get; set; } = new List<SkuOutModel>();
     }
     public class OutUpdateModel : OutAddModel
     {

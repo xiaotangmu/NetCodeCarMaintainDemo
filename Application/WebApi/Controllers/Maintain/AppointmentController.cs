@@ -159,6 +159,7 @@ namespace WebApi.Controllers.Maintain
 
         /// <summary>
         /// 条件查询/模糊查询 -- 分页
+        /// 处理查询，0未处理，1已处理，2取消, -1 不开启处理查询 -- Status
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>

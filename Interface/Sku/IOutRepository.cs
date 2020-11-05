@@ -17,7 +17,7 @@ namespace Interface.Sku
         Task<string> AddOutSku(SMS_OUT_SKU entity, IDbTransaction transaction);
         Task<IEnumerable<OutModel>> GetAll();
         Task<OutListWithPagingModel> GetOutPageBySearch(OutPageSearchModel model);
-        Task<IEnumerable<SkuEntryOrOutModel>> GetListOutSkuByOutId(string id);
+        Task<IEnumerable<SkuOutModel>> GetListOutSkuByOutId(string id);
         Task<IEnumerable<SkuModel>> GetListOutSkuToolByOutId(string Id);
         Task<bool> UpdateDescriptionByOutId(string outId, string description);
         Task<bool> CheckSkuIsEnough(OutSkuAddModel outSku);

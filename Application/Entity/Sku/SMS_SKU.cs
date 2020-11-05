@@ -68,17 +68,6 @@ namespace DateModel.Sku
         public static readonly string FIELD_TYPE = "type";
         public int TOOL { get; set; }
 
-        /// <summary>
-        /// 状态，0为新（默认），1为旧
-        /// </summary>
-        public static readonly string FIELD_STATUS = "status";
-        public int STATUS { get; set; }
-
-        /// <summary>
-        /// 如果为旧，关联旧配件表ID
-        /// </summary>
-        public static readonly string FIELD_OLD_PARTID = "old_partId";
-        public string OLD_PARTID { get; set; }
 
         /// <summary>
         /// 所属分类
@@ -113,6 +102,24 @@ namespace DateModel.Sku
         /// </summary>
         public static readonly string FIELD_SKU_ID = "sku_id";
         public string SKU_ID { get; set; }
+
+        /// <summary>
+        /// 状态，0为新（默认），1为旧
+        /// </summary>
+        public static readonly string FIELD_STATUS = "status";
+        public int STATUS { get; set; }
+
+        /// <summary>
+        /// 如果为旧，关联旧配件表ID
+        /// </summary>
+        public static readonly string FIELD_OLD_PARTID = "old_partId";
+        public string OLD_PARTID { get; set; }
+
+        /// <summary>
+        /// 单价
+        /// </summary>
+        public static readonly string FIELD_PRICE = "price";
+        public decimal PRICE { get; set; }
 
         /// <summary>
         /// 房间号

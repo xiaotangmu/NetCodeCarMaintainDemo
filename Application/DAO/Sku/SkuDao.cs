@@ -58,7 +58,7 @@ namespace DAO.Sku
             string sql = @"select ss.CATALOG2_ID Catalog2Id, ps.PRODUCT_NAME SkuName, ss.ID Id, ss.SKU_NO SkuNo,
                 ss.SPU_ID SpuId, ss.BRAND Brand, ss.PRICE Price, ss.UNIT Unit,
                 ss.TOTAL_COUNT TotalCount, ss.ALARM Alarm, ss.DESCRIPTION Description,
-                ss.TOOL Tool, ss.STATUS Status, ss.OLD_PARTID OldPartId, 
+                ss.TOOL Tool, 
 				(bc1.CATALOG_NAME + '/' + bc2.CATALOG_NAME) as CatalogName 
                 from SMS_SKU ss
                 LEFT JOIN PMS_SPU ps on ps.ID = ss.SPU_ID
@@ -74,7 +74,7 @@ namespace DAO.Sku
             string sql = @"select ss.CATALOG2_ID Catalog2Id, ps.PRODUCT_NAME SkuName, ss.ID Id, ss.SKU_NO SkuNo,
                 ss.SPU_ID SpuId, ss.BRAND Brand, ss.PRICE Price, ss.UNIT Unit,
                 ss.TOTAL_COUNT TotalCount, ss.ALARM Alarm, ss.DESCRIPTION Description,
-                ss.TOOL Tool, ss.STATUS Status, ss.OLD_PARTID OldPartId, 
+                ss.TOOL Tool, 
 				(bc1.CATALOG_NAME + '/' + bc2.CATALOG_NAME) as CatalogName 
                 from SMS_SKU ss
                 LEFT JOIN PMS_SPU ps on ps.ID = ss.SPU_ID
@@ -92,7 +92,7 @@ namespace DAO.Sku
             string sql = @"select ss.CATALOG2_ID Catalog2Id, ps.PRODUCT_NAME SkuName, ss.ID Id, ss.SKU_NO SkuNo,
                 ss.SPU_ID SpuId, ss.BRAND Brand, ss.PRICE Price, ss.UNIT Unit,
                 ss.TOTAL_COUNT TotalCount, ss.ALARM Alarm, ss.DESCRIPTION Description,
-                ss.TOOL Tool, ss.STATUS Status, ss.OLD_PARTID OldPartId, 
+                ss.TOOL Tool,
 				(bc1.CATALOG_NAME + '/' + bc2.CATALOG_NAME) as CatalogName 
                 from SMS_SKU ss
                 LEFT JOIN PMS_SPU ps on ps.ID = ss.SPU_ID
@@ -111,7 +111,7 @@ namespace DAO.Sku
             string sql = string.Format(@"select ss.CATALOG2_ID Catalog2Id, ps.PRODUCT_NAME SkuName, ss.ID Id, ss.SKU_NO SkuNo,
                 ss.SPU_ID SpuId, ss.BRAND Brand, ss.PRICE Price, ss.UNIT Unit,
                 ss.TOTAL_COUNT TotalCount, ss.ALARM Alarm, ss.DESCRIPTION Description,
-                ss.TOOL Tool, ss.STATUS Status, ss.OLD_PARTID OldPartId,
+                ss.TOOL Tool,
                 (bc1.CATALOG_NAME + '/' + bc2.CATALOG_NAME) as CatalogName
                 from SMS_SKU ss
                 LEFT JOIN PMS_SPU ps on ps.ID = ss.SPU_ID
@@ -179,7 +179,7 @@ namespace DAO.Sku
                             and BRAND = @Brand
                             and UNIT = @Unit
                             and TOOL = @Tool
-                            and STATUS = @Status";
+                            ";
             IEnumerable<SMS_SKU> entityList = await Repository.GetGroupAsync<SMS_SKU>(sql, model);
             return EntityListToModelList(entityList);
         }
@@ -197,8 +197,6 @@ namespace DAO.Sku
                 Alarm = (int)entity?.ALARM,
                 Description = entity?.DESCRIPTION,
                 Tool = (int)entity?.TOOL,
-                Status = (int)entity?.STATUS,
-                OldPartId = entity?.OLD_PARTID,
                 Catalog2Id = entity?.CATALOG2_ID,
                 OCD = (DateTime)entity?.OCD,
                 LUD = (DateTime)entity?.LUD
@@ -228,7 +226,8 @@ namespace DAO.Sku
 
         public async Task<IEnumerable<SkuAddressModel>> SelectAddressBySkuId(string skuId)
         {
-            string sql = @"select s.ID Id, s.ROOM Room, s.SELF Self, s.QUANTITY Quantity 
+            string sql = @"select s.ID Id, s.ROOM Room, s.SELF Self, s.QUANTITY Quantity,
+                            s.PRICE Price, s.STATUS Status, s.OLD_PARTID OldPartId
                         from SMS_SKU_ADDRESS s
                         where SKU_ID = @skuId";
             return await Repository.GetGroupAsync<SkuAddressModel>(sql, new { skuId });
@@ -254,7 +253,8 @@ namespace DAO.Sku
 
         public async Task<SkuAddressModel> SelectAddressByAddressId(string AddressId)
         {
-            string sql = @"select ID Id, SKU_ID SkuId, ROOM Room, SELF Self, QUANTITY Quantity
+            string sql = @"select ID Id, SKU_ID SkuId, ROOM Room, SELF Self, QUANTITY Quantity,
+                            PRICE Price, STATUS Status, OLD_PARTID OldPartId
                         from SMS_SKU_ADDRESS where ID = @AddressId";
             IEnumerable<SkuAddressModel> addressList = await Repository.GetGroupAsync<SkuAddressModel>(sql, new { AddressId });
             if(addressList != null && addressList.Count() > 0)

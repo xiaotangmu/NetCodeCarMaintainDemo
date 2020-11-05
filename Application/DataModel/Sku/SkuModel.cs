@@ -16,6 +16,16 @@ namespace ViewModel.Sku
         /// </summary>
         public string AddressId { get; set; }
         public string SkuId { get; set; }
+
+    }
+    /// <summary>
+    /// 出库时用到的skuModel, 此时Id 是entrySku Id
+    /// </summary>
+    public class SkuOutModel : SkuEntryOrOutModel
+    {
+       
+        public SkuAddressModel AddressModel { get; set; } = new SkuAddressModel();
+
     }
     public class SkuModel: SkuAddModel
     {
@@ -79,14 +89,7 @@ namespace ViewModel.Sku
         /// 是否是工具，工具不作库存报警，0为配件，1为工具
         /// </summary>
         public int Tool { get; set; }
-        /// <summary>
-        /// 状态，0为新，1为旧（回收配件）
-        /// </summary>
-        public int Status { get; set; }
-        /// <summary>
-        /// 绑定旧配件
-        /// </summary>
-        public string OldPartId { get; set; }
+
         /// <summary>
         /// 所属分类
         /// </summary>
@@ -142,6 +145,13 @@ namespace ViewModel.Sku
         public string Room { get; set; }
         public string Self { get; set; }
         public int Quantity { get; set; }
+   
+        /// <summary>
+        /// 单价
+        /// </summary>
+        public decimal Price { get; set; }
+        public int Status { get; set; }
+        public string OldPartId { get; set; }
     }
 
 }

@@ -313,7 +313,7 @@ namespace BLL.Sku
                     {
                         SkuAddressModel address1 = addresslList.ToList()[i];
                         SkuAddressModel address2 = addresslList.ToList()[j];
-                        if(address1.Room.Equals(address2.Room) && address1.Self.Equals(address2.Self))
+                        if(address1.Room.Equals(address2.Room) && address1.Self.Equals(address2.Self) && address1.Status.Equals(address2.Status))
                         {
                             throw new MyServiceException(MsgCode.Duplicate_Name, "位置重复，请先合并再操作");
                         }
@@ -328,6 +328,9 @@ namespace BLL.Sku
                 SKU_ID = SkuId,
                 ROOM = model?.Room,
                 SELF = model?.Self,
+                PRICE = (decimal)model?.Price,
+                STATUS = (int)model?.Status,
+                OLD_PARTID = model?.OldPartId,
                 QUANTITY = (int)model?.Quantity
             };
         }
@@ -357,8 +360,6 @@ namespace BLL.Sku
                 ALARM = (int)model?.Alarm,
                 DESCRIPTION = model?.Description,
                 TOOL = (int)model?.Tool,
-                STATUS = (int)model?.Status,
-                OLD_PARTID = model?.OldPartId,
                 CATALOG2_ID = model?.Catalog2Id,
                 SPU_ID = model?.SpuId
             };

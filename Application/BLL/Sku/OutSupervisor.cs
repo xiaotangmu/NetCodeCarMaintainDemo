@@ -262,7 +262,10 @@ namespace BLL.Sku
                 foreach(var sku in item.skuList)
                 {
                     sku.attrList = await _skuDao.SelectAttrBySkuId(sku.SkuId);
+                    // 获取位置信息
+                    sku.AddressModel = await _skuDao.SelectAddressByAddressId(sku.AddressId);
                 }
+
             }
             return pageModel;
         }
