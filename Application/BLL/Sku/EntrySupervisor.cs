@@ -198,7 +198,11 @@ namespace BLL.Sku
             List<EntrySkuAddModel> entrySkuList2 = new List<EntrySkuAddModel>();
             foreach (var item in skuList)
             {
-                entrySkuMap1.Add(item.AddressId, item);
+                if (!entrySkuMap1.ContainsKey(item.AddressId)) 
+                {
+                    entrySkuMap1.Add(item.AddressId, item);
+                }
+                
             }
             // 计算具体位置库存数量变化
             foreach (var item in entrySkuList)

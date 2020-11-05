@@ -188,7 +188,10 @@ namespace BLL.Sku
             List<OutSkuAddModel> outSkuList2 = new List<OutSkuAddModel>();
             foreach (var item in skuList)
             {
-                outSkuMap1.Add(item.AddressId, item);
+                if (!outSkuMap1.ContainsKey(item.AddressId))
+                {
+                    outSkuMap1.Add(item.AddressId, item);
+                }
             }
             // 计算具体位置库存数量变化
             foreach (var item in outSkuList)

@@ -99,9 +99,9 @@ namespace DAO.Sku
         {
             // 更新具体地址数量
             string sql = @"update SMS_SKU_ADDRESS
-                    set QUANTITY = (QUANTITY + @Quantity)
-                    set OLD_PARTID = @OldPartId
+                    set QUANTITY = (QUANTITY + @Quantity) , OLD_PARTID = @OldPartId
                     where ID = @AddressId";
+
             return await Repository.ExecuteAsync(sql, new { Quantity = model.Quantity, AddressId = model.AddressId, OldPartId = model.OldPartId }, transaction) > 1 ? true : false;
         }
         public async Task<bool> DeleteEntrySkuByEntryId(string entryId, IDbTransaction transaction = null)
