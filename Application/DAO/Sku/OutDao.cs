@@ -62,7 +62,7 @@ namespace DAO.Sku
 
         public async Task<OutListWithPagingModel> GetOutPageBySearch(OutPageSearchModel model)
         {
-            string strSql = @"select DISTINCT sn.ID Id, sn.OPERATOR Operartor, sn.TOTAL_PRICE TotalPrice,
+            string strSql = @"select DISTINCT sn.ID Id, sn.OPERATOR Operator, sn.TOTAL_PRICE TotalPrice,
                     sn.OUT_DATE OutDate, sn.BATCH Batch, sn.CLIENT_ID ClientId,
                     sn.DESCRIPTION Description, sn.OUT_NO OutNo
                     from SMS_OUT sn

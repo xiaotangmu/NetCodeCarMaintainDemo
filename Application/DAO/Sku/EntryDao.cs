@@ -29,7 +29,7 @@ namespace DAO.Sku
 
         public async Task<IEnumerable<EntryModel>> GetAll()
         {
-            string sql = @"select sn.ID Id, sn.OPERATOR Operartor, sn.TOTAL_PRICE TotalPrice,
+            string sql = @"select sn.ID Id, sn.OPERATOR Operator, sn.TOTAL_PRICE TotalPrice,
                     sn.ENTRY_DATE EntryDate, sn.BATCH Batch, sn.SUPPLIER_ID SupplierId,
                     sn.DESCRIPTION Description, sn.ENTRY_NO EntryNo
                     from SMS_ENTRY sn where 1 = 1";
@@ -39,7 +39,7 @@ namespace DAO.Sku
 
         public async Task<EntryListWithPagingModel> GetEntryPageBySearch(EntryPageSearchModel model)
         {
-            string strSql = @"select DISTINCT sn.ID Id, sn.OPERATOR Operartor, sn.TOTAL_PRICE TotalPrice,
+            string strSql = @"select DISTINCT sn.ID Id, sn.OPERATOR Operator, sn.TOTAL_PRICE TotalPrice,
                     sn.ENTRY_DATE EntryDate, sn.BATCH Batch, sn.SUPPLIER_ID SupplierId,
                     sn.DESCRIPTION Description, sn.ENTRY_NO EntryNo
                     from SMS_ENTRY sn
