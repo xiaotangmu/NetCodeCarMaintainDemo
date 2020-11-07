@@ -12,7 +12,7 @@
  Target Server Version : 14001000
  File Encoding         : 65001
 
- Date: 29/10/2020 16:07:21
+ Date: 07/11/2020 13:56:26
 */
 
 
@@ -381,6 +381,9 @@ GO
 -- ----------------------------
 -- Records of MMS_APPOINTMENT
 -- ----------------------------
+INSERT INTO [dbo].[MMS_APPOINTMENT] ([ID], [APPOINTMENT_NO], [COMPANY_ID], [CAR_LICENSE], [DESCRIPTION], [APPOINTMENT_DATE], [TYPE], [PHONE], [CONTACT], [STATUS], [REMARK], [OCU], [OCD], [LUC], [LUD]) VALUES (N'0a3211611be24b878ff8390bdfef88b0', N'20201111dddss001', N'哒哒', N'粤B88888', N'爆胎', N'2020-11-11 16:00:00.000', N'大货车', N'123456789', N'张三', N'1', N'无', NULL, N'2020-11-05 13:17:04.877', NULL, N'2020-11-06 11:41:50.577')
+GO
+
 
 -- ----------------------------
 -- Table structure for MMS_MAINTAIN
@@ -711,16 +714,16 @@ GO
 -- ----------------------------
 -- Records of PMS_SPU
 -- ----------------------------
-INSERT INTO [dbo].[PMS_SPU] ([ID], [CATALOG2_ID], [SPU_NO], [PRODUCT_NAME], [DESCRIPTION], [OCU], [OCD], [LUC], [LUD]) VALUES (N'23477d9ce1144e80a18662b4886c6a1e', N'string2', NULL, N'string3', N'string', NULL, N'10 19 2020  4:48PM', NULL, N'10 19 2020  4:48PM')
+INSERT INTO [dbo].[PMS_SPU] ([ID], [CATALOG2_ID], [SPU_NO], [PRODUCT_NAME], [DESCRIPTION], [OCU], [OCD], [LUC], [LUD]) VALUES (N'07bdae310ae0432eac760e04e7e824a6', N'0d6f1ec8b8b14b5d9ed5194019c952ad', NULL, N'test', N'test', NULL, N'11  5 2020  5:19PM', NULL, N'11  5 2020  5:19PM')
 GO
 
-INSERT INTO [dbo].[PMS_SPU] ([ID], [CATALOG2_ID], [SPU_NO], [PRODUCT_NAME], [DESCRIPTION], [OCU], [OCD], [LUC], [LUD]) VALUES (N'3d5cae2ab2914ab9ab8a1ac308e6ed0d', N'string', NULL, N'string', N'string', NULL, N'10 19 2020  4:23PM', NULL, N'10 19 2020  4:23PM')
+INSERT INTO [dbo].[PMS_SPU] ([ID], [CATALOG2_ID], [SPU_NO], [PRODUCT_NAME], [DESCRIPTION], [OCU], [OCD], [LUC], [LUD]) VALUES (N'23477d9ce1144e80a18662b4886c6a1e', N'string2', NULL, N'string3', N'string', NULL, N'10 19 2020  4:48PM', NULL, N'11  5 2020 11:04AM')
 GO
 
-INSERT INTO [dbo].[PMS_SPU] ([ID], [CATALOG2_ID], [SPU_NO], [PRODUCT_NAME], [DESCRIPTION], [OCU], [OCD], [LUC], [LUD]) VALUES (N'd7ed3c8162cb41bb87073530891717e5', N'string2', NULL, N'string2', N'string', NULL, N'10 19 2020  4:48PM', NULL, N'10 19 2020  4:48PM')
+INSERT INTO [dbo].[PMS_SPU] ([ID], [CATALOG2_ID], [SPU_NO], [PRODUCT_NAME], [DESCRIPTION], [OCU], [OCD], [LUC], [LUD]) VALUES (N'994ec977cbee486497fdf69da2b639d7', N'61d067af77db48858ac452c97009ddbd', NULL, N'fxh', N'fxh', NULL, N'11  4 2020  1:21PM', NULL, N'11  4 2020  1:21PM')
 GO
 
-INSERT INTO [dbo].[PMS_SPU] ([ID], [CATALOG2_ID], [SPU_NO], [PRODUCT_NAME], [DESCRIPTION], [OCU], [OCD], [LUC], [LUD]) VALUES (N'df28ab9c0fb5413db5436e69dac9d00c', N'string', NULL, N'你好吗', N'string', NULL, N'10 20 2020  9:09AM', NULL, N'10 20 2020  9:09AM')
+INSERT INTO [dbo].[PMS_SPU] ([ID], [CATALOG2_ID], [SPU_NO], [PRODUCT_NAME], [DESCRIPTION], [OCU], [OCD], [LUC], [LUD]) VALUES (N'd7ed3c8162cb41bb87073530891717e5', N'0d6f1ec8b8b14b5d9ed5194019c952ad', NULL, N'string2', N'string', NULL, N'10 19 2020  4:48PM', NULL, N'10 19 2020  4:48PM')
 GO
 
 
@@ -745,13 +748,7 @@ GO
 -- ----------------------------
 -- Records of PMS_SPU_ATTR
 -- ----------------------------
-INSERT INTO [dbo].[PMS_SPU_ATTR] ([ID], [ATTR_ID], [SPU_ID]) VALUES (N'1', N'9f1d47e2cbbc477db6c1e4ecbbb862ba', N'23477d9ce1144e80a18662b4886c6a1e')
-GO
-
-INSERT INTO [dbo].[PMS_SPU_ATTR] ([ID], [ATTR_ID], [SPU_ID]) VALUES (N'1bc92de23a50488c82099d85bc2fbdcf', N'string', N'df28ab9c0fb5413db5436e69dac9d00c')
-GO
-
-INSERT INTO [dbo].[PMS_SPU_ATTR] ([ID], [ATTR_ID], [SPU_ID]) VALUES (N'43bd668189094108bffc3af7640a6c7a', N'df6afd21adc541e08c15711ca3afe15d', N'3d5cae2ab2914ab9ab8a1ac308e6ed0d')
+INSERT INTO [dbo].[PMS_SPU_ATTR] ([ID], [ATTR_ID], [SPU_ID]) VALUES (N'288dd8bbc8784abc83933a76ddf47cf8', N'9f1d47e2cbbc477db6c1e4ecbbb862ba', N'994ec977cbee486497fdf69da2b639d7')
 GO
 
 
@@ -776,16 +773,7 @@ GO
 -- ----------------------------
 -- Records of PMS_SPU_ATTR_VALUE
 -- ----------------------------
-INSERT INTO [dbo].[PMS_SPU_ATTR_VALUE] ([ID], [SPU_ATTR_ID], [VALUE]) VALUES (N'1', N'1', N'xx')
-GO
-
-INSERT INTO [dbo].[PMS_SPU_ATTR_VALUE] ([ID], [SPU_ATTR_ID], [VALUE]) VALUES (N'2', N'1', N'dd')
-GO
-
-INSERT INTO [dbo].[PMS_SPU_ATTR_VALUE] ([ID], [SPU_ATTR_ID], [VALUE]) VALUES (N'5f6786704aad4f59bfd73ce9cf068078', N'43bd668189094108bffc3af7640a6c7a', N'string')
-GO
-
-INSERT INTO [dbo].[PMS_SPU_ATTR_VALUE] ([ID], [SPU_ATTR_ID], [VALUE]) VALUES (N'6d376bdf512e4ae8b35ac529e1b17df3', N'1bc92de23a50488c82099d85bc2fbdcf', N'string')
+INSERT INTO [dbo].[PMS_SPU_ATTR_VALUE] ([ID], [SPU_ATTR_ID], [VALUE]) VALUES (N'7c567ab6773b4cef975c5000bfdcfae1', N'288dd8bbc8784abc83933a76ddf47cf8', N'testfxh')
 GO
 
 
@@ -1045,7 +1033,9 @@ CREATE TABLE [dbo].[SMS_ENTRY] (
   [OCU] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
   [OCD] datetime  NULL,
   [LUC] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
-  [LUD] datetime  NULL
+  [LUD] datetime  NULL,
+  [IS_MAINTAIN] int DEFAULT ((0)) NULL,
+  [MAINTAIN_ID] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL
 )
 GO
 
@@ -1087,14 +1077,25 @@ EXEC sp_addextendedproperty
 'COLUMN', N'DESCRIPTION'
 GO
 
+EXEC sp_addextendedproperty
+'MS_Description', N'0不是绑定维修单，1绑定维修单',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_ENTRY',
+'COLUMN', N'IS_MAINTAIN'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'绑定维修单',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_ENTRY',
+'COLUMN', N'MAINTAIN_ID'
+GO
+
 
 -- ----------------------------
 -- Records of SMS_ENTRY
 -- ----------------------------
-INSERT INTO [dbo].[SMS_ENTRY] ([ID], [ENTRY_NO], [OPERATOR], [TOTAL_PRICE], [ENTRY_DATE], [BATCH], [SUPPLIER_ID], [DESCRIPTION], [OCU], [OCD], [LUC], [LUD]) VALUES (N'9462c709bac34a57a5ef4c5a90e5a08e', N'20201022string01', N'string', N'.00', N'2020-10-22 00:00:00.000', N'1', N'string', N'string', NULL, N'2020-10-29 15:53:21.770', NULL, N'2020-10-29 15:53:21.770')
-GO
-
-INSERT INTO [dbo].[SMS_ENTRY] ([ID], [ENTRY_NO], [OPERATOR], [TOTAL_PRICE], [ENTRY_DATE], [BATCH], [SUPPLIER_ID], [DESCRIPTION], [OCU], [OCD], [LUC], [LUD]) VALUES (N'ea07774b7b3c41e4bf2ebf259df22e7d', N'20201022string02', N'string', N'.00', N'2020-10-22 00:00:00.000', N'2', N'string', N'string', NULL, N'2020-10-29 15:57:36.670', NULL, N'2020-10-29 15:57:36.670')
+INSERT INTO [dbo].[SMS_ENTRY] ([ID], [ENTRY_NO], [OPERATOR], [TOTAL_PRICE], [ENTRY_DATE], [BATCH], [SUPPLIER_ID], [DESCRIPTION], [OCU], [OCD], [LUC], [LUD], [IS_MAINTAIN], [MAINTAIN_ID]) VALUES (N'99067c08f1ed4156b0aa8021c49ada32', N'20201101xxx02', N'xxx', N'4.00', N'2020-11-01 16:00:00.000', N'1', N'xxx', N'xxxx', NULL, N'2020-11-06 14:17:42.307', NULL, N'2020-11-07 10:32:11.610', NULL, NULL)
 GO
 
 
@@ -1181,16 +1182,7 @@ GO
 -- ----------------------------
 -- Records of SMS_ENTRY_SKU
 -- ----------------------------
-INSERT INTO [dbo].[SMS_ENTRY_SKU] ([ID], [ENTRY_ID], [SKU_ID], [QUANTITY], [PRICE], [TOTAL_PRICE], [STATUS], [OLD_PARTID], [ADDRESS_ID]) VALUES (N'117cd235f35749e2955d31c731bbb872', N'ea07774b7b3c41e4bf2ebf259df22e7d', N'string', N'3', N'.00', N'.00', N'1', N'1', N'string')
-GO
-
-INSERT INTO [dbo].[SMS_ENTRY_SKU] ([ID], [ENTRY_ID], [SKU_ID], [QUANTITY], [PRICE], [TOTAL_PRICE], [STATUS], [OLD_PARTID], [ADDRESS_ID]) VALUES (N'8d0a78ebb9424b36bff730638d6b291b', N'ea07774b7b3c41e4bf2ebf259df22e7d', N'string', N'3', N'.00', N'.00', N'2', N'1', N'string')
-GO
-
-INSERT INTO [dbo].[SMS_ENTRY_SKU] ([ID], [ENTRY_ID], [SKU_ID], [QUANTITY], [PRICE], [TOTAL_PRICE], [STATUS], [OLD_PARTID], [ADDRESS_ID]) VALUES (N'b6e27e4ca55b4cd19a4f049a1de372a9', N'9462c709bac34a57a5ef4c5a90e5a08e', N'string', N'1', N'.00', N'.00', N'1', N'1', N'string')
-GO
-
-INSERT INTO [dbo].[SMS_ENTRY_SKU] ([ID], [ENTRY_ID], [SKU_ID], [QUANTITY], [PRICE], [TOTAL_PRICE], [STATUS], [OLD_PARTID], [ADDRESS_ID]) VALUES (N'cfe2a6890a5a410cb1f17b4ef7d7cd96', N'9462c709bac34a57a5ef4c5a90e5a08e', N'string', N'2', N'.00', N'.00', N'2', N'1', N'string')
+INSERT INTO [dbo].[SMS_ENTRY_SKU] ([ID], [ENTRY_ID], [SKU_ID], [QUANTITY], [PRICE], [TOTAL_PRICE], [STATUS], [OLD_PARTID], [ADDRESS_ID]) VALUES (N'26aee2957650444092d4c599575dc6fd', N'99067c08f1ed4156b0aa8021c49ada32', N'72a85844809945a481b85c0b72bd4113', N'1', N'4.00', N'4.00', N'0', N'', N'3009c45eeffa4cc6abea1054361a1e47')
 GO
 
 
@@ -1273,10 +1265,7 @@ GO
 -- ----------------------------
 -- Records of SMS_OUT
 -- ----------------------------
-INSERT INTO [dbo].[SMS_OUT] ([ID], [OUT_NO], [OPERATOR], [OUT_DATE], [TOTAL_PRICE], [BATCH], [DESCRIPTION], [CLIENT_ID], [OCU], [OCD], [LUC], [LUD]) VALUES (N'446902cb3b8744c9b5fbb3c41b602f99', N'string', N'string', N'04 30 2020 12:00AM', N'2.00', N'1', N'string', N'string', NULL, N'2020-10-22 16:12:41.847', NULL, N'2020-10-22 16:12:41.847')
-GO
-
-INSERT INTO [dbo].[SMS_OUT] ([ID], [OUT_NO], [OPERATOR], [OUT_DATE], [TOTAL_PRICE], [BATCH], [DESCRIPTION], [CLIENT_ID], [OCU], [OCD], [LUC], [LUD]) VALUES (N'4544b43cc46d4e178a11d4f551581a28', N'20200430string06', N'string', N'04 30 2020 12:00AM', N'4.00', N'6', N'string', N'string', NULL, N'2020-10-22 16:18:10.170', NULL, N'2020-10-22 16:18:10.170')
+INSERT INTO [dbo].[SMS_OUT] ([ID], [OUT_NO], [OPERATOR], [OUT_DATE], [TOTAL_PRICE], [BATCH], [DESCRIPTION], [CLIENT_ID], [OCU], [OCD], [LUC], [LUD]) VALUES (N'4544b43cc46d4e178a11d4f551581a28', N'20200430string06', N'string', N'04 30 2020 12:00AM', N'5.00', N'6', N'string', N'string', NULL, N'2020-10-22 16:18:10.170', NULL, N'2020-11-07 10:34:39.177')
 GO
 
 
@@ -1348,10 +1337,7 @@ GO
 -- ----------------------------
 -- Records of SMS_OUT_SKU
 -- ----------------------------
-INSERT INTO [dbo].[SMS_OUT_SKU] ([ID], [OUT_ID], [SKU_ID], [QUANTITY], [PRICE], [TOTAL_PRICE], [TOOL], [ADDRESS_ID]) VALUES (N'0d618c611342444484adeb95522caea5', N'446902cb3b8744c9b5fbb3c41b602f99', N'1', N'2', N'22.00', N'44.00', N'1', N'1')
-GO
-
-INSERT INTO [dbo].[SMS_OUT_SKU] ([ID], [OUT_ID], [SKU_ID], [QUANTITY], [PRICE], [TOTAL_PRICE], [TOOL], [ADDRESS_ID]) VALUES (N'bd41125979f448f28c50e8b23384fe14', N'4544b43cc46d4e178a11d4f551581a28', N'2', N'2', N'22.00', N'44.00', N'1', N'1')
+INSERT INTO [dbo].[SMS_OUT_SKU] ([ID], [OUT_ID], [SKU_ID], [QUANTITY], [PRICE], [TOTAL_PRICE], [TOOL], [ADDRESS_ID]) VALUES (N'55438db0f7084f4383cb1e2d30b20f61', N'4544b43cc46d4e178a11d4f551581a28', N'72a85844809945a481b85c0b72bd4113', N'1', N'5.00', N'5.00', N'0', N'3009c45eeffa4cc6abea1054361a1e47')
 GO
 
 
@@ -1374,8 +1360,6 @@ CREATE TABLE [dbo].[SMS_SKU] (
   [ALARM] int  NULL,
   [DESCRIPTION] varchar(1024) COLLATE Chinese_PRC_CI_AS  NULL,
   [TOOL] int  NULL,
-  [STATUS] int  NULL,
-  [OLD_PARTID] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
   [CATALOG2_ID] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
   [OCU] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
   [OCD] datetime  NULL,
@@ -1423,7 +1407,7 @@ EXEC sp_addextendedproperty
 GO
 
 EXEC sp_addextendedproperty
-'MS_Description', N'单价',
+'MS_Description', N'参考单价',
 'SCHEMA', N'dbo',
 'TABLE', N'SMS_SKU',
 'COLUMN', N'PRICE'
@@ -1465,20 +1449,6 @@ EXEC sp_addextendedproperty
 GO
 
 EXEC sp_addextendedproperty
-'MS_Description', N'状态，0为新，1为旧（回收配件）',
-'SCHEMA', N'dbo',
-'TABLE', N'SMS_SKU',
-'COLUMN', N'STATUS'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'绑定旧配件表',
-'SCHEMA', N'dbo',
-'TABLE', N'SMS_SKU',
-'COLUMN', N'OLD_PARTID'
-GO
-
-EXEC sp_addextendedproperty
 'MS_Description', N'绑定二级分类',
 'SCHEMA', N'dbo',
 'TABLE', N'SMS_SKU',
@@ -1517,10 +1487,7 @@ GO
 -- ----------------------------
 -- Records of SMS_SKU
 -- ----------------------------
-INSERT INTO [dbo].[SMS_SKU] ([ID], [SKU_NO], [SKU_NAME], [SPU_ID], [BRAND], [PRICE], [UNIT], [TOTAL_COUNT], [ALARM], [DESCRIPTION], [TOOL], [STATUS], [OLD_PARTID], [CATALOG2_ID], [OCU], [OCD], [LUC], [LUD]) VALUES (N'1', N'no', N'name', N'spu', N'brand', N'22.00', N'unit', NULL, N'3', N'descr', N'0', N'0', N'oldpart', N'cata', NULL, N'2020-10-20 16:05:04.000', NULL, NULL)
-GO
-
-INSERT INTO [dbo].[SMS_SKU] ([ID], [SKU_NO], [SKU_NAME], [SPU_ID], [BRAND], [PRICE], [UNIT], [TOTAL_COUNT], [ALARM], [DESCRIPTION], [TOOL], [STATUS], [OLD_PARTID], [CATALOG2_ID], [OCU], [OCD], [LUC], [LUD]) VALUES (N'2', N'no', N'string3', N'd7ed3c8162cb41bb87073530891717e5', N'brand', N'22.00', N'unit', N'3', N'3', N'descr', N'0', N'0', N'oldpart', N'cata', NULL, N'2020-10-24 16:05:09.000', NULL, NULL)
+INSERT INTO [dbo].[SMS_SKU] ([ID], [SKU_NO], [SKU_NAME], [SPU_ID], [BRAND], [PRICE], [UNIT], [TOTAL_COUNT], [ALARM], [DESCRIPTION], [TOOL], [CATALOG2_ID], [OCU], [OCD], [LUC], [LUD]) VALUES (N'72a85844809945a481b85c0b72bd4113', NULL, N'test', N'07bdae310ae0432eac760e04e7e824a6', N'ttttttttttttttttttttttt', N'1.00', NULL, N'0', N'1', N'ttttttttttttt', N'1', N'0d6f1ec8b8b14b5d9ed5194019c952ad', NULL, N'2020-11-05 17:28:16.557', NULL, N'2020-11-07 10:12:37.573')
 GO
 
 
@@ -1532,11 +1499,14 @@ IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[SM
 GO
 
 CREATE TABLE [dbo].[SMS_SKU_ADDRESS] (
-  [ID] varchar(50) COLLATE Chinese_PRC_CI_AS  NOT NULL,
+  [ID] varchar(50) COLLATE Chinese_PRC_CI_AS DEFAULT ((0)) NOT NULL,
   [SKU_ID] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
   [ROOM] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
   [SELF] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
-  [QUANTITY] int  NULL
+  [QUANTITY] int DEFAULT ((0)) NULL,
+  [STATUS] int DEFAULT ((0)) NULL,
+  [OLD_PARTID] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL,
+  [PRICE] decimal(18,2)  NULL
 )
 GO
 
@@ -1557,14 +1527,25 @@ EXEC sp_addextendedproperty
 'COLUMN', N'QUANTITY'
 GO
 
+EXEC sp_addextendedproperty
+'MS_Description', N'记录新旧，0新，1旧',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_SKU_ADDRESS',
+'COLUMN', N'STATUS'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'绑定旧来源',
+'SCHEMA', N'dbo',
+'TABLE', N'SMS_SKU_ADDRESS',
+'COLUMN', N'OLD_PARTID'
+GO
+
 
 -- ----------------------------
 -- Records of SMS_SKU_ADDRESS
 -- ----------------------------
-INSERT INTO [dbo].[SMS_SKU_ADDRESS] ([ID], [SKU_ID], [ROOM], [SELF], [QUANTITY]) VALUES (N'1', N'2', N'd', N'd', N'0')
-GO
-
-INSERT INTO [dbo].[SMS_SKU_ADDRESS] ([ID], [SKU_ID], [ROOM], [SELF], [QUANTITY]) VALUES (N'2', N'2', N'd', N'x', N'3')
+INSERT INTO [dbo].[SMS_SKU_ADDRESS] ([ID], [SKU_ID], [ROOM], [SELF], [QUANTITY], [STATUS], [OLD_PARTID], [PRICE]) VALUES (N'3009c45eeffa4cc6abea1054361a1e47', N'72a85844809945a481b85c0b72bd4113', N'1', N'2', N'0', N'0', N'', N'.00')
 GO
 
 
@@ -1603,9 +1584,6 @@ GO
 -- ----------------------------
 -- Records of SMS_SKU_ATTR_VALUE
 -- ----------------------------
-INSERT INTO [dbo].[SMS_SKU_ATTR_VALUE] ([SKU_ID], [SPU_ATTR_VALUE_ID], [ID]) VALUES (N'2', N'5f6786704aad4f59bfd73ce9cf068078', N'1')
-GO
-
 
 -- ----------------------------
 -- Table structure for SMS_SKU_LOG
@@ -1767,30 +1745,88 @@ GO
 
 
 -- ----------------------------
--- Table structure for ums_user
+-- Table structure for UMS_USER
 -- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[ums_user]') AND type IN ('U'))
-	DROP TABLE [dbo].[ums_user]
+IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[UMS_USER]') AND type IN ('U'))
+	DROP TABLE [dbo].[UMS_USER]
 GO
 
-CREATE TABLE [dbo].[ums_user] (
-  [id] int  IDENTITY(1,1) NOT NULL,
-  [UserName] varchar(30) COLLATE Chinese_PRC_CI_AS  NOT NULL,
-  [Pwd] varchar(30) COLLATE Chinese_PRC_CI_AS  NULL
+CREATE TABLE [dbo].[UMS_USER] (
+  [ID] varchar(50) COLLATE Chinese_PRC_CI_AS  NOT NULL,
+  [USER_NAME] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
+  [PWD] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
+  [SALT] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
+  [OCD] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
+  [LUD] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
+  [OCU] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL,
+  [LUC] varchar(255) COLLATE Chinese_PRC_CI_AS  NULL
 )
 GO
 
-ALTER TABLE [dbo].[ums_user] SET (LOCK_ESCALATION = TABLE)
+ALTER TABLE [dbo].[UMS_USER] SET (LOCK_ESCALATION = TABLE)
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'主键',
+'SCHEMA', N'dbo',
+'TABLE', N'UMS_USER',
+'COLUMN', N'ID'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'用户名',
+'SCHEMA', N'dbo',
+'TABLE', N'UMS_USER',
+'COLUMN', N'USER_NAME'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'密码',
+'SCHEMA', N'dbo',
+'TABLE', N'UMS_USER',
+'COLUMN', N'PWD'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'盐值',
+'SCHEMA', N'dbo',
+'TABLE', N'UMS_USER',
+'COLUMN', N'SALT'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'创建时间',
+'SCHEMA', N'dbo',
+'TABLE', N'UMS_USER',
+'COLUMN', N'OCD'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'最后更新时间',
+'SCHEMA', N'dbo',
+'TABLE', N'UMS_USER',
+'COLUMN', N'LUD'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'忽略',
+'SCHEMA', N'dbo',
+'TABLE', N'UMS_USER',
+'COLUMN', N'OCU'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'忽略',
+'SCHEMA', N'dbo',
+'TABLE', N'UMS_USER',
+'COLUMN', N'LUC'
 GO
 
 
 -- ----------------------------
--- Records of ums_user
+-- Records of UMS_USER
 -- ----------------------------
-SET IDENTITY_INSERT [dbo].[ums_user] ON
-GO
-
-SET IDENTITY_INSERT [dbo].[ums_user] OFF
+INSERT INTO [dbo].[UMS_USER] ([ID], [USER_NAME], [PWD], [SALT], [OCD], [LUD], [OCU], [LUC]) VALUES (N'95cc0872c94942d5b4ca51e4d95c5cfa', N'string', N'string', NULL, N'11  4 2020  9:55AM', N'11  4 2020  9:55AM', NULL, NULL)
 GO
 
 
@@ -2123,16 +2159,9 @@ GO
 
 
 -- ----------------------------
--- Auto increment value for ums_user
+-- Primary Key structure for table UMS_USER
 -- ----------------------------
-DBCC CHECKIDENT ('[dbo].[ums_user]', RESEED, 1)
-GO
-
-
--- ----------------------------
--- Primary Key structure for table ums_user
--- ----------------------------
-ALTER TABLE [dbo].[ums_user] ADD CONSTRAINT [PK__ums_user__3213E83FCA685212] PRIMARY KEY CLUSTERED ([id])
+ALTER TABLE [dbo].[UMS_USER] ADD CONSTRAINT [PK__UMS_USER__3214EC274C1C5E4C] PRIMARY KEY CLUSTERED ([ID])
 WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
 ON [PRIMARY]
 GO

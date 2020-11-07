@@ -6,12 +6,31 @@ using ViewModel.Sku;
 
 namespace ViewModel.Maintain
 {
+    public class MaintainEntryShowModel {
+        
+        public string MaintainNo { get; set; }
+        public string CompanyName { get; set; }
+        public string CarLicense { get; set; }
+        /// <summary>
+        /// 车型
+        /// </summary>
+        public string Type { get; set; }
+        /// <summary>
+        /// 开始时间
+        /// </summary>
+        public DateTime StartDate { get; set; }
+        /// <summary>
+        /// 归还车主签字时间
+        /// </summary>
+        public DateTime ReturnDate { get; set; }
+    }
     public class MaintainShowModel: MaintainModel
     {
         public string CompanyName { get; set; }
         public string Type { get; set; }
         public string Contact { get; set; }
         public string Phone { get; set; }
+        public string CarLicense { get; set; }
     }
     public class MaintainModel: MaintainAddModel
     {

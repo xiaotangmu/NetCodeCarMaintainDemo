@@ -21,5 +21,6 @@ namespace Supervisor.Maintain
         Task<bool> UpdateMaintainNoRelation(MaintainModel model);
         Task<bool> UpdateWithOldPart(MaintainModel model);
         Task<bool> UpdateWithTool(MaintainModel model);
+        Task<IEnumerable<MaintainShowModel>> GetNoDealToolOrPartWithMaintain();
     }
 }

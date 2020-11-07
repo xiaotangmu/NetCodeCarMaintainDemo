@@ -450,6 +450,35 @@ namespace BLL.Maintain
         {
             return await _mainDao.UpdateMaintainNoRelation(model);
         }
+
+        public async Task<IEnumerable<MaintainShowModel>> GetNoDealToolOrPartWithMaintain()
+        {
+            IEnumerable<MaintainShowModel> modelList = await _mainDao.GetNoDealToolOrPartWithMaintain();
+            // 过滤已经处理的工具或配件
+            await GetPartList(modelList);
+            IEnumerable<MaintainToolModel> toolList = new List<MaintainToolModel>();
+            IEnumerable<MaintainOldPartModel> oldPartList = new List<MaintainOldPartModel>();
+            foreach (var model in modelList)
+            {
+                foreach(var tool in model.ToolList)
+                {
+                    if(tool.Status == 0)
+                    {
+                        toolList.Append(tool);
+                    }
+                }
+                model.ToolList = toolList;
+                foreach (var old in model.OldPartList)
+                {
+                    if (old.Status == 0)
+                    {
+                        oldPartList.Append(old);
+                    }
+                }
+                model.OldPartList = oldPartList;
+            }
+            return modelList;
+        }
     }
     /// <summary>
     ///  MaintainOldPartAddModel 去重比较器

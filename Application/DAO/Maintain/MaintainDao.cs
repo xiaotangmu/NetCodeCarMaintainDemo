@@ -4,6 +4,7 @@ using ORM;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ViewModel.Common;
@@ -59,6 +60,23 @@ namespace DAO.Maintain
             Repository.DbSession.Connection.Dispose();
         }
 
+        public async Task<IEnumerable<MaintainShowModel>> GetNoDealToolOrPartWithMaintain()
+        {
+            string sql = @"select DISTINCT mm.ID Id, mm.MAINTAIN_NO MaintainNo, mm.STAFF Staff,
+                    mm.APPOINTMENT_ID AppointmentId, mm.START_DATE StartDate,
+                    mm.STATUS Status, mm.RETURN_DATE ReturnDate, mm.OPERATOR Operator,
+                    mm.OCU, mm.OCD, mm.LUC, mm.LUD , cc.COMPANY CompanyName, ma.TYPE Type,
+                    ma.CONTACT Contact, ma.PHONE Phone, ma.CAR_LICENSE CarLicense
+                    from MMS_MAINTAIN mm
+                    left join MMS_APPOINTMENT ma on mm.APPOINTMENT_ID = ma.ID
+                    left join CMS_CLIENT cc on cc.ID = ma.COMPANY_ID 
+                    left join MMS_MAINTAIN_TOOL mmt on mm.ID = mmt.MAINTAIN_ID
+                    left join MMS_MAINTAIN_OLDPART mmo on mmo.MAINTAIN_ID = mm.ID
+                    where mmt.STATUS = 0 OR mmo.STATUS = 0
+                     order by mm.OCD Desc";
+            return await Repository.GetGroupAsync<MaintainShowModel>(sql);
+        }
+
         public async Task<IEnumerable<MaintainOldPartModel>> GetOldPartsByMaintainId(string id)
         {
             string sql = @"select ss.SKU_NAME SkuName, ss.BRAND Brand, ss.UNIT Unit,
@@ -101,7 +119,8 @@ namespace DAO.Maintain
         {
             string sql = @"select ss.SKU_NAME SkuName, ss.BRAND Brand, ss.UNIT Unit,
                     sos.PRICE Price, sos.QUANTITY TotalCount, mmt.STATUS Status, 
-                    mmt.REMARK Remark, mmt.DEAL_NUM DealNum, mmt.NUM num, mmt.COMPENSATION Compensation
+                    mmt.REMARK Remark, mmt.DEAL_NUM DealNum, mmt.NUM num, mmt.COMPENSATION Compensation,
+                    mmt.ID Id, mmt.OUT_SKU_ID as OutSkuId
                     from MMS_MAINTAIN_TOOL mmt 
                     LEFT JOIN SMS_OUT_SKU sos on sos.ID = mmt.OUT_SKU_ID
                     Left join SMS_SKU_ADDRESS ssa on ssa.ID = sos.ADDRESS_ID 
@@ -225,7 +244,7 @@ namespace DAO.Maintain
                     mm.APPOINTMENT_ID AppointmentId, mm.START_DATE StartDate,
                     mm.STATUS Status, mm.RETURN_DATE ReturnDate, mm.OPERATOR Operator,
                     mm.OCU, mm.OCD, mm.LUC, mm.LUD, cc.COMPANY CompanyName, ma.TYPE Type,
-                    ma.CONTACT Contact, ma.PHONE Phone
+                    ma.CONTACT Contact, ma.PHONE Phone, ma.CAR_LICENSE CarLicense
                     from MMS_MAINTAIN mm
                     left join MMS_APPOINTMENT ma on mm.APPOINTMENT_ID = ma.ID
                     left join CMS_CLIENT cc on cc.ID = ma.COMPANY_ID 
@@ -239,7 +258,7 @@ namespace DAO.Maintain
                     mm.APPOINTMENT_ID AppointmentId, mm.START_DATE StartDate,
                     mm.STATUS Status, mm.RETURN_DATE ReturnDate, mm.OPERATOR Operator,
                     mm.OCU, mm.OCD, mm.LUC, mm.LUD , cc.COMPANY CompanyName, ma.TYPE Type,
-                    ma.CONTACT Contact, ma.PHONE Phone
+                    ma.CONTACT Contact, ma.PHONE Phone, ma.CAR_LICENSE CarLicense
                     from MMS_MAINTAIN mm
                     left join MMS_APPOINTMENT ma on mm.APPOINTMENT_ID = ma.ID
                     left join CMS_CLIENT cc on cc.ID = ma.COMPANY_ID 
@@ -265,6 +284,18 @@ namespace DAO.Maintain
             pageModel.TotalCount = await Repository.CountAsync(countSql);
             pageModel.Items = await Repository.GetPageAsync<MaintainShowModel>(model.PageIndex, model.PageSize, sql, " order by mm.OCD Desc");
             return pageModel;
+        }
+
+        public async Task<MaintainEntryShowModel> SelectMaintainInfoById(string id)
+        {
+            string sql = @"select mm.MAINTAIN_NO MaintainNo, mm.START_DATE StartDate,
+                    mm.RETURN_DATE ReturnDate, cc.COMPANY CompanyName, ma.TYPE Type,
+                    ma.CONTACT Contact, ma.PHONE Phone, ma.CAR_LICENSE CarLicense
+                    from MMS_MAINTAIN mm
+                    left join MMS_APPOINTMENT ma on mm.APPOINTMENT_ID = ma.ID
+                    left join CMS_CLIENT cc on cc.ID = ma.COMPANY_ID 
+                    where ID = @id";
+            return (await Repository.GetGroupAsync<MaintainEntryShowModel>(sql, new { id })).First();
         }
 
         public async Task<bool> UpdateMaintainNoRelation(MaintainModel model, IDbTransaction transaction = null)

@@ -5,14 +5,14 @@
  Source Server Type    : PostgreSQL
  Source Server Version : 100014
  Source Host           : localhost:5432
- Source Catalog        : postgres
+ Source Catalog        : maintain
  Source Schema         : public
 
  Target Server Type    : PostgreSQL
  Target Server Version : 100014
  File Encoding         : 65001
 
- Date: 06/11/2020 15:42:07
+ Date: 07/11/2020 13:56:00
 */
 
 
@@ -34,10 +34,6 @@ COMMENT ON COLUMN "public"."bmms_catalog1"."catalog_name" IS '一级分类名';
 COMMENT ON COLUMN "public"."bmms_catalog1"."description" IS '描述';
 
 -- ----------------------------
--- Records of bmms_catalog1
--- ----------------------------
-
--- ----------------------------
 -- Table structure for bmms_catalog2
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."bmms_catalog2";
@@ -55,10 +51,6 @@ CREATE TABLE "public"."bmms_catalog2" (
 COMMENT ON COLUMN "public"."bmms_catalog2"."catalog_name" IS '二级分类名';
 COMMENT ON COLUMN "public"."bmms_catalog2"."description" IS '分类描述';
 COMMENT ON COLUMN "public"."bmms_catalog2"."parent_id" IS '绑定一级分类';
-
--- ----------------------------
--- Records of bmms_catalog2
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for bmms_catalog_attr
@@ -81,10 +73,6 @@ COMMENT ON COLUMN "public"."bmms_catalog_attr"."ocu" IS '创建账号';
 COMMENT ON COLUMN "public"."bmms_catalog_attr"."ocd" IS '创建时间';
 COMMENT ON COLUMN "public"."bmms_catalog_attr"."luc" IS '最后更新账号';
 COMMENT ON COLUMN "public"."bmms_catalog_attr"."lud" IS '最后更新时间';
-
--- ----------------------------
--- Records of bmms_catalog_attr
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for cms_client
@@ -114,10 +102,6 @@ COMMENT ON COLUMN "public"."cms_client"."type" IS '车型';
 COMMENT ON COLUMN "public"."cms_client"."description" IS '描述/备注';
 
 -- ----------------------------
--- Records of cms_client
--- ----------------------------
-
--- ----------------------------
 -- Table structure for common_type
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."common_type";
@@ -133,10 +117,6 @@ COMMENT ON COLUMN "public"."common_type"."type_no" IS '字段编号';
 COMMENT ON COLUMN "public"."common_type"."title" IS '主题';
 COMMENT ON COLUMN "public"."common_type"."type_name" IS '字段名';
 COMMENT ON COLUMN "public"."common_type"."description" IS '描述';
-
--- ----------------------------
--- Records of common_type
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for mms_appointment
@@ -172,16 +152,12 @@ COMMENT ON COLUMN "public"."mms_appointment"."status" IS '是否处理，0未处
 COMMENT ON COLUMN "public"."mms_appointment"."remark" IS '备注';
 
 -- ----------------------------
--- Records of mms_appointment
--- ----------------------------
-
--- ----------------------------
 -- Table structure for mms_maintain
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."mms_maintain";
 CREATE TABLE "public"."mms_maintain" (
   "id" varchar(50) COLLATE "pg_catalog"."default" NOT NULL,
-  "maintain_id" varchar(50) COLLATE "pg_catalog"."default",
+  "maintain_no" varchar(50) COLLATE "pg_catalog"."default",
   "staff" varchar(255) COLLATE "pg_catalog"."default",
   "appointment_id" varchar(50) COLLATE "pg_catalog"."default",
   "start_date" date,
@@ -194,17 +170,13 @@ CREATE TABLE "public"."mms_maintain" (
   "lud" timestamp(6)
 )
 ;
-COMMENT ON COLUMN "public"."mms_maintain"."maintain_id" IS '维修编号';
+COMMENT ON COLUMN "public"."mms_maintain"."maintain_no" IS '维修编号';
 COMMENT ON COLUMN "public"."mms_maintain"."staff" IS '员工';
 COMMENT ON COLUMN "public"."mms_maintain"."appointment_id" IS '关联预约单';
 COMMENT ON COLUMN "public"."mms_maintain"."start_date" IS '开始时间';
 COMMENT ON COLUMN "public"."mms_maintain"."status" IS '是否已签字，0没有，1处理完';
 COMMENT ON COLUMN "public"."mms_maintain"."return_date" IS '归还日期';
 COMMENT ON COLUMN "public"."mms_maintain"."operator" IS '操作员';
-
--- ----------------------------
--- Records of mms_maintain
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for mms_maintain_oldpart
@@ -230,10 +202,6 @@ COMMENT ON COLUMN "public"."mms_maintain_oldpart"."remark" IS '备注';
 COMMENT ON COLUMN "public"."mms_maintain_oldpart"."deal_num" IS '已经处理的数量';
 
 -- ----------------------------
--- Records of mms_maintain_oldpart
--- ----------------------------
-
--- ----------------------------
 -- Table structure for mms_maintain_out
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."mms_maintain_out";
@@ -245,10 +213,6 @@ CREATE TABLE "public"."mms_maintain_out" (
 ;
 COMMENT ON COLUMN "public"."mms_maintain_out"."maitain_id" IS '关联维修单';
 COMMENT ON COLUMN "public"."mms_maintain_out"."out_id" IS '关联出库单';
-
--- ----------------------------
--- Records of mms_maintain_out
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for mms_maintain_tool
@@ -274,10 +238,6 @@ COMMENT ON COLUMN "public"."mms_maintain_tool"."compensation" IS '赔偿金';
 COMMENT ON COLUMN "public"."mms_maintain_tool"."num" IS '数量';
 
 -- ----------------------------
--- Records of mms_maintain_tool
--- ----------------------------
-
--- ----------------------------
 -- Table structure for pms_spu
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."pms_spu";
@@ -299,10 +259,6 @@ COMMENT ON COLUMN "public"."pms_spu"."product_name" IS '产品名';
 COMMENT ON COLUMN "public"."pms_spu"."description" IS '描述';
 
 -- ----------------------------
--- Records of pms_spu
--- ----------------------------
-
--- ----------------------------
 -- Table structure for pms_spu_attr
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."pms_spu_attr";
@@ -312,10 +268,6 @@ CREATE TABLE "public"."pms_spu_attr" (
   "spu_id" varchar(50) COLLATE "pg_catalog"."default"
 )
 ;
-
--- ----------------------------
--- Records of pms_spu_attr
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for pms_spu_attr_value
@@ -328,10 +280,6 @@ CREATE TABLE "public"."pms_spu_attr_value" (
 )
 ;
 COMMENT ON COLUMN "public"."pms_spu_attr_value"."value" IS '属性值';
-
--- ----------------------------
--- Records of pms_spu_attr_value
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for sms_check
@@ -361,10 +309,6 @@ COMMENT ON COLUMN "public"."sms_check"."check_price" IS '盘点总金额';
 COMMENT ON COLUMN "public"."sms_check"."difference_price" IS '相差总金额，正为多了，负为少了';
 COMMENT ON COLUMN "public"."sms_check"."description" IS '备注';
 COMMENT ON COLUMN "public"."sms_check"."status" IS '是否解决，0解决，1为解决';
-
--- ----------------------------
--- Records of sms_check
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for sms_check_sku
@@ -400,10 +344,6 @@ COMMENT ON COLUMN "public"."sms_check_sku"."sku_id" IS '预留字段';
 COMMENT ON COLUMN "public"."sms_check_sku"."difference_price" IS '相差金额，正多，负少';
 
 -- ----------------------------
--- Records of sms_check_sku
--- ----------------------------
-
--- ----------------------------
 -- Table structure for sms_entry
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."sms_entry";
@@ -419,7 +359,9 @@ CREATE TABLE "public"."sms_entry" (
   "ocu" varchar(255) COLLATE "pg_catalog"."default",
   "ocd" timestamp(6),
   "luc" varchar(255) COLLATE "pg_catalog"."default",
-  "lud" timestamp(6)
+  "lud" timestamp(6),
+  "is_maintain" int4 DEFAULT 0,
+  "maintain_id" varchar(50) COLLATE "pg_catalog"."default"
 )
 ;
 COMMENT ON COLUMN "public"."sms_entry"."entry_no" IS '入库编号';
@@ -427,10 +369,8 @@ COMMENT ON COLUMN "public"."sms_entry"."operator" IS '操作员';
 COMMENT ON COLUMN "public"."sms_entry"."batch" IS '批次';
 COMMENT ON COLUMN "public"."sms_entry"."supplier_id" IS '关联供应商';
 COMMENT ON COLUMN "public"."sms_entry"."description" IS '备注';
-
--- ----------------------------
--- Records of sms_entry
--- ----------------------------
+COMMENT ON COLUMN "public"."sms_entry"."is_maintain" IS '0不是维修单，1是';
+COMMENT ON COLUMN "public"."sms_entry"."maintain_id" IS '关联维修单';
 
 -- ----------------------------
 -- Table structure for sms_entry_sku
@@ -458,10 +398,6 @@ COMMENT ON COLUMN "public"."sms_entry_sku"."old_partid" IS '如果是旧，绑�
 COMMENT ON COLUMN "public"."sms_entry_sku"."address_id" IS '地址';
 
 -- ----------------------------
--- Records of sms_entry_sku
--- ----------------------------
-
--- ----------------------------
 -- Table structure for sms_out
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."sms_out";
@@ -470,7 +406,7 @@ CREATE TABLE "public"."sms_out" (
   "out_no" varchar(50) COLLATE "pg_catalog"."default",
   "operator" varchar(255) COLLATE "pg_catalog"."default",
   "out_date" date,
-  "total_date" numeric(10,2),
+  "total_price" numeric(10,2),
   "batch" int2,
   "description" varchar(255) COLLATE "pg_catalog"."default",
   "client_id" varchar(50) COLLATE "pg_catalog"."default",
@@ -483,14 +419,10 @@ CREATE TABLE "public"."sms_out" (
 COMMENT ON COLUMN "public"."sms_out"."out_no" IS '出库单号';
 COMMENT ON COLUMN "public"."sms_out"."operator" IS '操作员';
 COMMENT ON COLUMN "public"."sms_out"."out_date" IS '出库日期';
-COMMENT ON COLUMN "public"."sms_out"."total_date" IS '总金额';
+COMMENT ON COLUMN "public"."sms_out"."total_price" IS '总金额';
 COMMENT ON COLUMN "public"."sms_out"."batch" IS '批次';
 COMMENT ON COLUMN "public"."sms_out"."description" IS '备注';
 COMMENT ON COLUMN "public"."sms_out"."client_id" IS '关联客户';
-
--- ----------------------------
--- Records of sms_out
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for sms_out_sku
@@ -514,10 +446,6 @@ COMMENT ON COLUMN "public"."sms_out_sku"."price" IS '出库单价';
 COMMENT ON COLUMN "public"."sms_out_sku"."total_price" IS '总金额';
 COMMENT ON COLUMN "public"."sms_out_sku"."tool" IS '0是配件，1是工具';
 COMMENT ON COLUMN "public"."sms_out_sku"."address_id" IS '关联具体库存';
-
--- ----------------------------
--- Records of sms_out_sku
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for sms_sku
@@ -555,10 +483,6 @@ COMMENT ON COLUMN "public"."sms_sku"."tool" IS '是否是工具，0为配件，1
 COMMENT ON COLUMN "public"."sms_sku"."catalog2_id" IS '绑定二级分类';
 
 -- ----------------------------
--- Records of sms_sku
--- ----------------------------
-
--- ----------------------------
 -- Table structure for sms_sku_address
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."sms_sku_address";
@@ -579,10 +503,6 @@ COMMENT ON COLUMN "public"."sms_sku_address"."status" IS '记录新旧，0新，
 COMMENT ON COLUMN "public"."sms_sku_address"."old_partid" IS '绑定旧来源';
 
 -- ----------------------------
--- Records of sms_sku_address
--- ----------------------------
-
--- ----------------------------
 -- Table structure for sms_sku_attr_value
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."sms_sku_attr_value";
@@ -594,10 +514,6 @@ CREATE TABLE "public"."sms_sku_attr_value" (
 ;
 COMMENT ON COLUMN "public"."sms_sku_attr_value"."spu_attr_value_id" IS '属性值';
 COMMENT ON COLUMN "public"."sms_sku_attr_value"."sku_id" IS '库存';
-
--- ----------------------------
--- Records of sms_sku_attr_value
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for ums_user
@@ -617,10 +533,6 @@ CREATE TABLE "public"."ums_user" (
 COMMENT ON COLUMN "public"."ums_user"."user_name" IS '用户名';
 COMMENT ON COLUMN "public"."ums_user"."pwd" IS '密码';
 COMMENT ON COLUMN "public"."ums_user"."salt" IS '盐值';
-
--- ----------------------------
--- Records of ums_user
--- ----------------------------
 
 -- ----------------------------
 -- Primary Key structure for table bmms_catalog1

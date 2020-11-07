@@ -22,5 +22,9 @@ namespace DateModel.Sku
         public string SUPPLIER_ID { get; set; }
         public static readonly string FIELD_DESCRIPTION = "description";
         public string DESCRIPTION { get; set; }
+        public static readonly string FIELD_IS_MAINTAIN = "is_maintain";
+        public int IS_MAINTAIN { get; set; }
+        public static readonly string FIELD_MAINTAIN_ID = "maintain_id";
+        public string MAINTAIN_ID { get; set; }
     }
 }

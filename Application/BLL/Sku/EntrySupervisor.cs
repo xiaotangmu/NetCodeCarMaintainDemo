@@ -1,5 +1,7 @@
-﻿using DAO.Sku;
+﻿using DAO.Maintain;
+using DAO.Sku;
 using DateModel.Sku;
+using Interface.Maintain;
 using Interface.Sku;
 using NPOI.OpenXmlFormats.Dml;
 using NPOI.SS.Formula.Functions;
@@ -11,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ViewModel.Common;
 using ViewModel.CustomException;
+using ViewModel.Maintain;
 using ViewModel.Sku;
 
 namespace BLL.Sku
@@ -19,10 +22,12 @@ namespace BLL.Sku
     {
         public IEntryRepository _entryDao;
         public ISkuRepository _skuDao;
-        public EntrySupervisor(IEntryRepository entryDao = null, ISkuRepository skuDao = null)
+        public IMaintainRepository _maintainDao;
+        public EntrySupervisor(IEntryRepository entryDao = null, ISkuRepository skuDao = null, IMaintainRepository maintainDao = null)
         {
             _entryDao = InitDAO<EntryDao>(entryDao) as EntryDao;
             _skuDao = new SkuDao(_entryDao.Repository);
+            _maintainDao = new MaintainDao(_entryDao.Repository);
         }
 
         public async Task<bool> Delete(string Id)
@@ -57,8 +62,6 @@ namespace BLL.Sku
             // 1. 查重
             IEnumerable<EntrySkuAddModel> entrySkuList = model.entrySkuList;
             IsRepeatAndThrowException(entrySkuList);
-            // 2. 生成入库单号 入库时间(年月日 + 供应商 + 批次) ： 2019012200101
-            //model.EntryNo = string.Format("{0:yyyyMMdd}", model.EntryDate) + model.SupplierId.PadLeft(3, '0') + model.Batch.ToString().PadLeft(2,'0');
             // 3. 查是否存在
             bool exist = await _entryDao.IsExistByEntryNo(model.EntryNo);
             if (exist)
@@ -258,7 +261,21 @@ namespace BLL.Sku
             IEnumerable<EntryModel> entryList = await _entryDao.GetAll();
             // 2. 获取 EntrySku
             await GetSkuListReturnEntryList(entryList);
+            // 3. 获取 维修单信息
+            foreach(var item in entryList)
+            {
+                await GetMaintainEntryShowModel(item);
+            }
             return entryList;
+        }
+        public async Task GetMaintainEntryShowModel(EntryModel item)
+        {
+            // 判断是否是为维修单入库
+            if (item.IsMaintain == 1 && string.IsNullOrWhiteSpace(item.MaintainId))
+            {
+                // 获取维修单
+                item.maintainShowModel = await _maintainDao.SelectMaintainInfoById(item.MaintainId);
+            }
         }
         public async Task GetSkuListReturnEntryList(IEnumerable<EntryModel> modelList)
         {
@@ -283,6 +300,11 @@ namespace BLL.Sku
             EntryListWithPagingModel pageModel = await _entryDao.GetEntryPageBySearch(model);
             // 获取EntrySku
             await GetSkuListReturnEntryList(pageModel.Items);
+            // 3. 获取 维修单信息
+            foreach (var item in pageModel.Items)
+            {
+                await GetMaintainEntryShowModel(item);
+            }
             return pageModel;
         }
 
@@ -320,7 +342,9 @@ namespace BLL.Sku
                 TOTAL_PRICE = (decimal)model?.TotalPrice,
                 ENTRY_DATE = (DateTime)model?.EntryDate,
                 BATCH = (int)model?.Batch,
-                SUPPLIER_ID = model?.SupplierId
+                SUPPLIER_ID = model?.SupplierId,
+                IS_MAINTAIN = (int)model?.IsMaintain,
+                MAINTAIN_ID = model?.MaintainId
             };
         }
         /// <summary>

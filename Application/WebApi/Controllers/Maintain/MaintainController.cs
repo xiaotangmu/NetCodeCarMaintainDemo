@@ -132,7 +132,7 @@ namespace WebApi.Controllers.Maintain
         }
 
         /// <summary>
-        /// 条件查询/模糊查询 -- 分页
+        /// 条件查询/模糊查询 -- 分页 , 当下所有状态 0未处理，1已处理，-1 不理会
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
@@ -148,6 +148,20 @@ namespace WebApi.Controllers.Maintain
                 return await _maintainSupervisor.GetListPageBySearch(model);
             });
         }
+        /// <summary>
+        /// 获取所有有未处理工具和配件的维修单, 用于维修单入库下拉选择
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> GetNoDealToolOrPartWithMaintain()
+        {
+            return await ResponseResult(async () =>
+            {
+                return await _maintainSupervisor.GetNoDealToolOrPartWithMaintain();
+            });
+        }
+
         /// <summary>
         /// 1. 零件栏打开，更新，只更新大框
         /// </summary>

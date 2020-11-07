@@ -38,5 +38,7 @@ namespace Interface.Maintain
         Task<IEnumerable<SkuModel>> GetSkusByMaintainId(string id);
         Task<bool> DeleteNoDealToolByMaintainId(string id, IDbTransaction transaction);
         Task<bool> DeleteNoDealOldPartByMaintainId(string id, IDbTransaction transaction);
+        Task<MaintainEntryShowModel> SelectMaintainInfoById(string id);
+        Task<IEnumerable<MaintainShowModel>> GetNoDealToolOrPartWithMaintain();
     }
 }

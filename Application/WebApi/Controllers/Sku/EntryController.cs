@@ -37,10 +37,25 @@ namespace WebApi.Controllers.Sku
         {
             return await ResponseResult(async () =>
             {
-                if (string.IsNullOrWhiteSpace(model.Operator) || string.IsNullOrWhiteSpace(model.SupplierId))
+                if (string.IsNullOrWhiteSpace(model.Operator))
                 {
-                    throw new MyServiceException("操作人员或供应商为空");
+                    throw new MyServiceException("操作人员为空");
                 }
+                if (model.IsMaintain == 1)
+                {
+                    if (string.IsNullOrWhiteSpace(model.MaintainId))
+                    {
+                        throw new MyServiceException("维修单为空");
+                    }
+                }
+                else
+                {
+                    if (string.IsNullOrWhiteSpace(model.SupplierId))
+                    {
+                        throw new MyServiceException("供应商为空");
+                    }
+                }
+                
                 if (model.EntryDate == null || model.EntryDate > DateTime.Now || model.EntryDate.Year < 1900)
                 {
                     throw new MyServiceException("入库时间异常");
@@ -53,8 +68,17 @@ namespace WebApi.Controllers.Sku
                 {
                     throw new MyServiceException("添加的库存为空");
                 }
-                // 生成入库单号： 入库时间(年月日 + 供应商 + 批次) ： 2019012200101
-                model.EntryNo = string.Format("{0:yyyyMMdd}", model.EntryDate) + model.SupplierId.PadLeft(3, '0') + model.Batch.ToString().PadLeft(2, '0');
+                 
+                if(model.IsMaintain == 1)
+                {
+                    // 生成入库单号： 入库时间(年月日 + 供应商（维修单处理默认：000） + 批次) ： 2019012200101
+                    model.EntryNo = string.Format("{0:yyyyMMdd}", model.EntryDate) + "000" + model.Batch.ToString().PadLeft(2, '0');
+                }
+                else
+                {
+                    // 生成入库单号： 入库时间(年月日 + 供应商 + 批次) ： 2019012200101
+                    model.EntryNo = string.Format("{0:yyyyMMdd}", model.EntryDate) + model.SupplierId.PadLeft(3, '0') + model.Batch.ToString().PadLeft(2, '0');
+                }
                 string result = await _entrySupervisor.Add(model);
                 if (!string.IsNullOrEmpty(result))
                 {

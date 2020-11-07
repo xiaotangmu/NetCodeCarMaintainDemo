@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using ViewModel.Maintain;
 
 namespace ViewModel.Sku
 {
@@ -24,6 +25,8 @@ namespace ViewModel.Sku
         /// 最后更新时间
         /// </summary>
         public DateTime LUD { get; set; }
+
+        public MaintainEntryShowModel maintainShowModel { get; set; } = new MaintainEntryShowModel();
 
         public IEnumerable<SkuEntryOrOutModel> skuList { get; set; } = new List<SkuEntryOrOutModel>();
     }
@@ -61,6 +64,14 @@ namespace ViewModel.Sku
         public string SupplierId { get; set; }
         public string SupplierName { get; set; }
         public string Description { get; set; }
+        /// <summary>
+        /// 是否为维修单配件入库 -- 0不是，1是
+        /// </summary>
+        public int IsMaintain { get; set; }
+        /// <summary>
+        /// 维修单配件入库时绑定入库单
+        /// </summary>
+        public string MaintainId { get; set; }
         public IEnumerable<EntrySkuAddModel> entrySkuList { get; set; } = new List<EntrySkuAddModel>(); 
     }
 
