@@ -138,6 +138,7 @@ namespace DAO.Sku
 							UNIT = @UNIT,
 							TOTAL_COUNT = @TOTAL_COUNT,
 							ALARM = @ALARM,
+							TOOL = @TOOL,
                             LUD = @LUD
                         where ID = @ID";
             return await Repository.ExecuteAsync(sql,

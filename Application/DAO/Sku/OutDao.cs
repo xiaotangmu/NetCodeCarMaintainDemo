@@ -50,7 +50,8 @@ namespace DAO.Sku
                     ps.PRODUCT_NAME SkuName, ss.BRAND Brand, ss.UNIT Unit,
                      ss.CATALOG2_ID Catalog2Id,
                     sse.ADDRESS_ID AddressId, sse.SKU_ID SkuId,
-                    (bc1.CATALOG_NAME + '/' + bc2.CATALOG_NAME) as CatalogName 
+                    (bc1.CATALOG_NAME + '/' + bc2.CATALOG_NAME) as CatalogName,
+                    ss.TOOL as Tool
                     from SMS_OUT_SKU sse 
                     left join SMS_SKU ss on ss.ID = sse.SKU_ID
                     left join PMS_SPU ps on ss.SPU_ID = ps.ID
