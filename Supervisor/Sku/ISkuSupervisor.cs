@@ -18,5 +18,8 @@ namespace Supervisor.Sku
         Task<SkuListWithPagingViewModel> GetListPageBySearch(SkuListSearchModel model);
         Task<SkuListWithPagingViewModel> GetListPage(BaseSearchModel model);
         Task<IEnumerable<SkuModel>> GetAll();
+        Task<IEnumerable<SkuAttrModel>> GetSkuAttrListBySkuId(string id);
+        Task<IEnumerable<SkuAddressModel>> GetSkuAddressListBySkuId(string id);
+        Task<SkuModel> GetSkuById(string id);
     }
 }

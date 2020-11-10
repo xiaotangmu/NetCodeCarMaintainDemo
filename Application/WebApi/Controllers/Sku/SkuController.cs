@@ -171,5 +171,42 @@ namespace WebApi.Controllers.Sku
                 return await _skuSupervisor.GetAll();
             });
         }
+
+        /// <summary>
+        /// 获取SkuById
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> GetSkuById(string id)
+        {
+            return await ResponseResult(async () =>
+            {
+                return await _skuSupervisor.GetSkuById(id);
+            });
+        }
+        /// <summary>
+        /// 获取Sku地址list
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> GetSkuAddressListBySkuId(string id)
+        {
+            return await ResponseResult(async () =>
+            {
+                return await _skuSupervisor.GetSkuAddressListBySkuId(id);
+            });
+        }
+        /// <summary>
+        /// 获取Sku属性list
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> GetSkuAttrListBySkuId(string id)
+        {
+            return await ResponseResult(async () =>
+            {
+                return await _skuSupervisor.GetSkuAttrListBySkuId(id);
+            });
+        }
     }
 }

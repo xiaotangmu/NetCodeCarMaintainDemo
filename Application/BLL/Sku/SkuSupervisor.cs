@@ -378,5 +378,30 @@ namespace BLL.Sku
             //entity.OCU = model?.OCU;
             return entity;
         }
+
+        public async Task<SkuModel> GetSkuById(string id)
+        {
+            // 搜索
+            SkuModel model = await _skuDao.SelectSkuById(id);
+            if(model != null)
+            {
+                // 1. 获取属性值
+                IEnumerable<SkuAttrModel> attrList = await _skuDao.SelectAttrBySkuId(id);
+                model.attrList = attrList;
+                // 1. 获取地址
+                IEnumerable<SkuAddressModel> addressList = await _skuDao.SelectAddressBySkuId(model.Id);
+                model.addressList = addressList;
+            }
+            return model;
+        }
+
+        public async Task<IEnumerable<SkuAddressModel>> GetSkuAddressListBySkuId(string id)
+        {
+            return await _skuDao.SelectAddressBySkuId(id);
+        }
+        public async Task<IEnumerable<SkuAttrModel>> GetSkuAttrListBySkuId(string id)
+        {
+            return await _skuDao.SelectAttrBySkuId(id);
+        }
     }
 }

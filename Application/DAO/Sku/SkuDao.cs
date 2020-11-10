@@ -298,5 +298,21 @@ namespace DAO.Sku
             IEnumerable<SMS_SKU> entityList = await Repository.GetGroupAsync<SMS_SKU>(sql, new { addressId });
             return EntityToModel(entityList.First());
         }
+
+        public async Task<SkuModel> SelectSkuById(string id)
+        {
+            string sql = @"select ss.CATALOG2_ID Catalog2Id, ps.PRODUCT_NAME SkuName, ss.ID Id, ss.SKU_NO SkuNo,
+                ss.SPU_ID SpuId, ss.BRAND Brand, ss.PRICE Price, ss.UNIT Unit,
+                ss.TOTAL_COUNT TotalCount, ss.ALARM Alarm, ss.DESCRIPTION Description,
+                ss.TOOL Tool,
+				(bc1.CATALOG_NAME + '/' + bc2.CATALOG_NAME) as CatalogName 
+                from SMS_SKU ss
+                LEFT JOIN PMS_SPU ps on ps.ID = ss.SPU_ID
+				left join BMMS_CATALOG2 bc2 on bc2.ID = ps.CATALOG2_ID
+				left join BMMS_CATALOG1 bc1 on bc1.Id = bc2.PARENT_ID
+                where ss.ID = @id";
+            
+            return await Repository.GetFirstAsync<SkuModel>(sql, new { id });
+        }
     }
 }

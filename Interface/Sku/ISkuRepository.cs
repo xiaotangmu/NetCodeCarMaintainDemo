@@ -30,5 +30,6 @@ namespace Interface.Sku
         Task<SkuAddressModel> SelectAddressByAddressId(string AddressId);
         Task<bool> UpdateSkuTotalCountByAddressId(string addressId, IDbTransaction transaction);
         Task<SkuModel> GetSkuByAddressId(string addressId);
+        Task<SkuModel> SelectSkuById(string id);
     }
 }

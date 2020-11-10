@@ -163,40 +163,6 @@ namespace WebApi.Controllers.Maintain
         }
 
         /// <summary>
-        /// 1. 零件栏打开，更新，只更新大框
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        //[HttpPost]
-        //public async Task<IActionResult> Update(MaintainModel model)
-        //{
-        //    return await ResponseResult(async () =>
-        //    {
-        //        if (string.IsNullOrWhiteSpace(model.Operator))
-        //        {
-        //            throw new MyServiceException("负责人为空");
-        //        }
-        //        if (string.IsNullOrWhiteSpace(model.MaintainNo))
-        //        {
-        //            throw new MyServiceException("维修单为空");
-        //        }
-        //        if (model.StartDate == null || model.StartDate.Year < 1900)
-        //        {
-        //            throw new MyServiceException("数据异常");
-        //        }
-        //        bool result = await _maintainSupervisor.Update(model);
-        //        if (result)
-        //        {
-        //            await LogOperation(await Localizer.GetValueAsync("更新维修单：") + model.MaintainNo);
-        //        }
-        //        else
-        //        {
-        //            throw new MyServiceException(await Localizer.GetValueAsync("添加预约失败"));
-        //        }
-        //        return result;
-        //    });
-        //}
-        /// <summary>
         /// 更新出库单栏
         /// </summary>
         /// <param name="model"></param>
@@ -245,13 +211,9 @@ namespace WebApi.Controllers.Maintain
                 {
                     throw new MyServiceException("负责人为空");
                 }
-                if (string.IsNullOrWhiteSpace(model.MaintainNo))
-                {
-                    throw new MyServiceException("维修单为空");
-                }
                 if (model.StartDate == null || model.StartDate.Year < 1900)
                 {
-                    throw new MyServiceException("数据异常");
+                    throw new MyServiceException("日期数据异常");
                 }
                 bool result = await _maintainSupervisor.UpdateWithTool(model);
                 if (result)
@@ -280,13 +242,9 @@ namespace WebApi.Controllers.Maintain
                 {
                     throw new MyServiceException("负责人为空");
                 }
-                if (string.IsNullOrWhiteSpace(model.MaintainNo))
-                {
-                    throw new MyServiceException("维修单为空");
-                }
                 if (model.StartDate == null || model.StartDate.Year < 1900)
                 {
-                    throw new MyServiceException("数据异常");
+                    throw new MyServiceException("日期数据异常");
                 }
                 bool result = await _maintainSupervisor.UpdateWithOldPart(model);
                 if (result)
