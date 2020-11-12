@@ -31,7 +31,8 @@ namespace DAO.Sku
         {
             string sql = @"select sn.ID Id, sn.OPERATOR Operator, sn.TOTAL_PRICE TotalPrice,
                     sn.ENTRY_DATE EntryDate, sn.BATCH Batch, sn.SUPPLIER_ID SupplierId,
-                    sn.DESCRIPTION Description, sn.ENTRY_NO EntryNo
+                    sn.DESCRIPTION Description, sn.ENTRY_NO EntryNo, sn.IS_MAINTAIN as IsMaintain,
+                    sn.MAINTAIN_ID MaintainId
                     from SMS_ENTRY sn where 1 = 1";
             IEnumerable<EntryModel> entityList = await Repository.GetGroupAsync<EntryModel>(sql);
             return entityList;
@@ -41,7 +42,8 @@ namespace DAO.Sku
         {
             string strSql = @"select DISTINCT sn.ID Id, sn.OPERATOR Operator, sn.TOTAL_PRICE TotalPrice,
                     sn.ENTRY_DATE EntryDate, sn.BATCH Batch, sn.SUPPLIER_ID SupplierId,
-                    sn.DESCRIPTION Description, sn.ENTRY_NO EntryNo
+                    sn.DESCRIPTION Description, sn.ENTRY_NO EntryNo, sn.IS_MAINTAIN as IsMaintain,
+                    sn.MAINTAIN_ID MaintainId
                     from SMS_ENTRY sn
                     left join SMS_ENTRY_SKU sse on sn.ID = sse.ENTRY_ID
                     left join SMS_SKU ss on ss.ID = sse.SKU_ID

@@ -202,7 +202,7 @@ namespace BLL.Sku
             // 添加属性值
             foreach (var attr in spuAttrModelList)
             {
-                string SpuAttrId = await _skuDao.AddAttrValue(SkuAttrModelToEntityNoId(attr, SpuId), transaction);
+                await _skuDao.AddAttrValue(SkuAttrModelToEntityNoId(attr, SpuId), transaction);
             }
         }
         public async Task<int> AddSpuAddressAndCountQuantity(IEnumerable<SkuAddressModel> skuAddressModelList, string SpuId, IDbTransaction transaction)

@@ -12,7 +12,7 @@
  Target Server Version : 100014
  File Encoding         : 65001
 
- Date: 09/11/2020 16:21:22
+ Date: 11/11/2020 15:58:20
 */
 
 
@@ -32,10 +32,10 @@ CREATE TABLE "public"."bmms_catalog1" (
 ;
 COMMENT ON COLUMN "public"."bmms_catalog1"."catalog_name" IS '一级分类名';
 COMMENT ON COLUMN "public"."bmms_catalog1"."description" IS '描述';
-
--- ----------------------------
--- Records of bmms_catalog1
--- ----------------------------
+COMMENT ON COLUMN "public"."bmms_catalog1"."ocu" IS '创建账号';
+COMMENT ON COLUMN "public"."bmms_catalog1"."ocd" IS '创建时间';
+COMMENT ON COLUMN "public"."bmms_catalog1"."luc" IS '最后更新账号';
+COMMENT ON COLUMN "public"."bmms_catalog1"."lud" IS '最后更新时间';
 
 -- ----------------------------
 -- Table structure for bmms_catalog2
@@ -55,10 +55,10 @@ CREATE TABLE "public"."bmms_catalog2" (
 COMMENT ON COLUMN "public"."bmms_catalog2"."catalog_name" IS '二级分类名';
 COMMENT ON COLUMN "public"."bmms_catalog2"."description" IS '分类描述';
 COMMENT ON COLUMN "public"."bmms_catalog2"."parent_id" IS '绑定一级分类';
-
--- ----------------------------
--- Records of bmms_catalog2
--- ----------------------------
+COMMENT ON COLUMN "public"."bmms_catalog2"."ocu" IS '创建账号';
+COMMENT ON COLUMN "public"."bmms_catalog2"."ocd" IS '创建时间';
+COMMENT ON COLUMN "public"."bmms_catalog2"."luc" IS '最后更新账号';
+COMMENT ON COLUMN "public"."bmms_catalog2"."lud" IS '最后更新时间';
 
 -- ----------------------------
 -- Table structure for bmms_catalog_attr
@@ -81,10 +81,6 @@ COMMENT ON COLUMN "public"."bmms_catalog_attr"."ocu" IS '创建账号';
 COMMENT ON COLUMN "public"."bmms_catalog_attr"."ocd" IS '创建时间';
 COMMENT ON COLUMN "public"."bmms_catalog_attr"."luc" IS '最后更新账号';
 COMMENT ON COLUMN "public"."bmms_catalog_attr"."lud" IS '最后更新时间';
-
--- ----------------------------
--- Records of bmms_catalog_attr
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for cms_client
@@ -112,10 +108,10 @@ COMMENT ON COLUMN "public"."cms_client"."contact" IS '联系人';
 COMMENT ON COLUMN "public"."cms_client"."email" IS '联系邮箱';
 COMMENT ON COLUMN "public"."cms_client"."type" IS '车型';
 COMMENT ON COLUMN "public"."cms_client"."description" IS '描述/备注';
-
--- ----------------------------
--- Records of cms_client
--- ----------------------------
+COMMENT ON COLUMN "public"."cms_client"."ocu" IS '创建账号';
+COMMENT ON COLUMN "public"."cms_client"."ocd" IS '创建时间';
+COMMENT ON COLUMN "public"."cms_client"."luc" IS '最后更新账号';
+COMMENT ON COLUMN "public"."cms_client"."lud" IS '最后更新时间';
 
 -- ----------------------------
 -- Table structure for common_type
@@ -133,10 +129,6 @@ COMMENT ON COLUMN "public"."common_type"."type_no" IS '字段编号';
 COMMENT ON COLUMN "public"."common_type"."title" IS '主题';
 COMMENT ON COLUMN "public"."common_type"."type_name" IS '字段名';
 COMMENT ON COLUMN "public"."common_type"."description" IS '描述';
-
--- ----------------------------
--- Records of common_type
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for mms_appointment
@@ -170,10 +162,10 @@ COMMENT ON COLUMN "public"."mms_appointment"."phone" IS '联系电话';
 COMMENT ON COLUMN "public"."mms_appointment"."contact" IS '联系人';
 COMMENT ON COLUMN "public"."mms_appointment"."status" IS '是否处理，0未处理，1已处理，2取消';
 COMMENT ON COLUMN "public"."mms_appointment"."remark" IS '备注';
-
--- ----------------------------
--- Records of mms_appointment
--- ----------------------------
+COMMENT ON COLUMN "public"."mms_appointment"."ocu" IS '创建账号';
+COMMENT ON COLUMN "public"."mms_appointment"."ocd" IS '创建时间';
+COMMENT ON COLUMN "public"."mms_appointment"."luc" IS '最后更新账号';
+COMMENT ON COLUMN "public"."mms_appointment"."lud" IS '最后更新时间';
 
 -- ----------------------------
 -- Table structure for mms_maintain
@@ -201,10 +193,10 @@ COMMENT ON COLUMN "public"."mms_maintain"."start_date" IS '开始时间';
 COMMENT ON COLUMN "public"."mms_maintain"."status" IS '是否已签字，0没有，1处理完';
 COMMENT ON COLUMN "public"."mms_maintain"."return_date" IS '归还日期';
 COMMENT ON COLUMN "public"."mms_maintain"."operator" IS '操作员';
-
--- ----------------------------
--- Records of mms_maintain
--- ----------------------------
+COMMENT ON COLUMN "public"."mms_maintain"."ocu" IS '创建账号';
+COMMENT ON COLUMN "public"."mms_maintain"."ocd" IS '创建日期';
+COMMENT ON COLUMN "public"."mms_maintain"."luc" IS '最后更新账号';
+COMMENT ON COLUMN "public"."mms_maintain"."lud" IS '最后更新时间';
 
 -- ----------------------------
 -- Table structure for mms_maintain_oldpart
@@ -230,10 +222,6 @@ COMMENT ON COLUMN "public"."mms_maintain_oldpart"."remark" IS '备注';
 COMMENT ON COLUMN "public"."mms_maintain_oldpart"."deal_num" IS '已经处理的数量';
 
 -- ----------------------------
--- Records of mms_maintain_oldpart
--- ----------------------------
-
--- ----------------------------
 -- Table structure for mms_maintain_out
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."mms_maintain_out";
@@ -245,10 +233,6 @@ CREATE TABLE "public"."mms_maintain_out" (
 ;
 COMMENT ON COLUMN "public"."mms_maintain_out"."maitain_id" IS '关联维修单';
 COMMENT ON COLUMN "public"."mms_maintain_out"."out_id" IS '关联出库单';
-
--- ----------------------------
--- Records of mms_maintain_out
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for mms_maintain_tool
@@ -274,10 +258,6 @@ COMMENT ON COLUMN "public"."mms_maintain_tool"."compensation" IS '赔偿金';
 COMMENT ON COLUMN "public"."mms_maintain_tool"."num" IS '数量';
 
 -- ----------------------------
--- Records of mms_maintain_tool
--- ----------------------------
-
--- ----------------------------
 -- Table structure for pms_spu
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."pms_spu";
@@ -297,10 +277,10 @@ COMMENT ON COLUMN "public"."pms_spu"."catalog2_id" IS '关联二级分类';
 COMMENT ON COLUMN "public"."pms_spu"."spu_no" IS '产品编号';
 COMMENT ON COLUMN "public"."pms_spu"."product_name" IS '产品名';
 COMMENT ON COLUMN "public"."pms_spu"."description" IS '描述';
-
--- ----------------------------
--- Records of pms_spu
--- ----------------------------
+COMMENT ON COLUMN "public"."pms_spu"."ocu" IS '创建账号';
+COMMENT ON COLUMN "public"."pms_spu"."ocd" IS '创建时间';
+COMMENT ON COLUMN "public"."pms_spu"."luc" IS '最后更新账号';
+COMMENT ON COLUMN "public"."pms_spu"."lud" IS '最后更新时间';
 
 -- ----------------------------
 -- Table structure for pms_spu_attr
@@ -314,10 +294,6 @@ CREATE TABLE "public"."pms_spu_attr" (
 ;
 
 -- ----------------------------
--- Records of pms_spu_attr
--- ----------------------------
-
--- ----------------------------
 -- Table structure for pms_spu_attr_value
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."pms_spu_attr_value";
@@ -328,10 +304,6 @@ CREATE TABLE "public"."pms_spu_attr_value" (
 )
 ;
 COMMENT ON COLUMN "public"."pms_spu_attr_value"."value" IS '属性值';
-
--- ----------------------------
--- Records of pms_spu_attr_value
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for sms_check
@@ -361,10 +333,10 @@ COMMENT ON COLUMN "public"."sms_check"."check_price" IS '盘点总金额';
 COMMENT ON COLUMN "public"."sms_check"."difference_price" IS '相差总金额，正为多了，负为少了';
 COMMENT ON COLUMN "public"."sms_check"."description" IS '备注';
 COMMENT ON COLUMN "public"."sms_check"."status" IS '是否解决，0解决，1为解决';
-
--- ----------------------------
--- Records of sms_check
--- ----------------------------
+COMMENT ON COLUMN "public"."sms_check"."ocu" IS '创建账号';
+COMMENT ON COLUMN "public"."sms_check"."ocd" IS '创建时间';
+COMMENT ON COLUMN "public"."sms_check"."luc" IS '最后更新账号';
+COMMENT ON COLUMN "public"."sms_check"."lud" IS '最后更新时间';
 
 -- ----------------------------
 -- Table structure for sms_check_sku
@@ -400,10 +372,6 @@ COMMENT ON COLUMN "public"."sms_check_sku"."sku_id" IS '预留字段';
 COMMENT ON COLUMN "public"."sms_check_sku"."difference_price" IS '相差金额，正多，负少';
 
 -- ----------------------------
--- Records of sms_check_sku
--- ----------------------------
-
--- ----------------------------
 -- Table structure for sms_entry
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."sms_entry";
@@ -429,12 +397,12 @@ COMMENT ON COLUMN "public"."sms_entry"."operator" IS '操作员';
 COMMENT ON COLUMN "public"."sms_entry"."batch" IS '批次';
 COMMENT ON COLUMN "public"."sms_entry"."supplier_id" IS '关联供应商';
 COMMENT ON COLUMN "public"."sms_entry"."description" IS '备注';
+COMMENT ON COLUMN "public"."sms_entry"."ocu" IS '创建账号';
+COMMENT ON COLUMN "public"."sms_entry"."ocd" IS '创建时间';
+COMMENT ON COLUMN "public"."sms_entry"."luc" IS ' 最后更新账号';
+COMMENT ON COLUMN "public"."sms_entry"."lud" IS '最后更新时间';
 COMMENT ON COLUMN "public"."sms_entry"."is_maintain" IS '0不是维修单，1是';
 COMMENT ON COLUMN "public"."sms_entry"."maintain_id" IS '关联维修单';
-
--- ----------------------------
--- Records of sms_entry
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for sms_entry_sku
@@ -462,10 +430,6 @@ COMMENT ON COLUMN "public"."sms_entry_sku"."old_partid" IS '如果是旧，绑�
 COMMENT ON COLUMN "public"."sms_entry_sku"."address_id" IS '地址';
 
 -- ----------------------------
--- Records of sms_entry_sku
--- ----------------------------
-
--- ----------------------------
 -- Table structure for sms_out
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."sms_out";
@@ -491,10 +455,10 @@ COMMENT ON COLUMN "public"."sms_out"."total_price" IS '总金额';
 COMMENT ON COLUMN "public"."sms_out"."batch" IS '批次';
 COMMENT ON COLUMN "public"."sms_out"."description" IS '备注';
 COMMENT ON COLUMN "public"."sms_out"."client_id" IS '关联客户';
-
--- ----------------------------
--- Records of sms_out
--- ----------------------------
+COMMENT ON COLUMN "public"."sms_out"."ocu" IS '创建账号';
+COMMENT ON COLUMN "public"."sms_out"."ocd" IS '创建时间';
+COMMENT ON COLUMN "public"."sms_out"."luc" IS '最后更新账号';
+COMMENT ON COLUMN "public"."sms_out"."lud" IS '最后更新时间';
 
 -- ----------------------------
 -- Table structure for sms_out_sku
@@ -518,10 +482,6 @@ COMMENT ON COLUMN "public"."sms_out_sku"."price" IS '出库单价';
 COMMENT ON COLUMN "public"."sms_out_sku"."total_price" IS '总金额';
 COMMENT ON COLUMN "public"."sms_out_sku"."tool" IS '0是配件，1是工具';
 COMMENT ON COLUMN "public"."sms_out_sku"."address_id" IS '关联具体库存';
-
--- ----------------------------
--- Records of sms_out_sku
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for sms_sku
@@ -557,10 +517,10 @@ COMMENT ON COLUMN "public"."sms_sku"."alarm" IS '警报值';
 COMMENT ON COLUMN "public"."sms_sku"."description" IS '备注';
 COMMENT ON COLUMN "public"."sms_sku"."tool" IS '是否是工具，0为配件，1为工具';
 COMMENT ON COLUMN "public"."sms_sku"."catalog2_id" IS '绑定二级分类';
-
--- ----------------------------
--- Records of sms_sku
--- ----------------------------
+COMMENT ON COLUMN "public"."sms_sku"."ocu" IS '创建账号';
+COMMENT ON COLUMN "public"."sms_sku"."ocd" IS '创建时间';
+COMMENT ON COLUMN "public"."sms_sku"."luc" IS '最后更新账号';
+COMMENT ON COLUMN "public"."sms_sku"."lud" IS '最后更新时间';
 
 -- ----------------------------
 -- Table structure for sms_sku_address
@@ -583,10 +543,6 @@ COMMENT ON COLUMN "public"."sms_sku_address"."status" IS '记录新旧，0新，
 COMMENT ON COLUMN "public"."sms_sku_address"."old_partid" IS '绑定旧来源';
 
 -- ----------------------------
--- Records of sms_sku_address
--- ----------------------------
-
--- ----------------------------
 -- Table structure for sms_sku_attr_value
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."sms_sku_attr_value";
@@ -600,10 +556,6 @@ COMMENT ON COLUMN "public"."sms_sku_attr_value"."spu_attr_value_id" IS '属性�
 COMMENT ON COLUMN "public"."sms_sku_attr_value"."sku_id" IS '库存';
 
 -- ----------------------------
--- Records of sms_sku_attr_value
--- ----------------------------
-
--- ----------------------------
 -- Table structure for system_dict
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."system_dict";
@@ -612,9 +564,9 @@ CREATE TABLE "public"."system_dict" (
   "code" varchar(50) COLLATE "pg_catalog"."default",
   "type_code" varchar(50) COLLATE "pg_catalog"."default",
   "text" varchar(255) COLLATE "pg_catalog"."default",
-  "is_leaf" int4 DEFAULT 1,
-  "sort_number" int4,
-  "is_delete" int4 DEFAULT 0,
+  "is_leaf" varchar(32) COLLATE "pg_catalog"."default" DEFAULT '1'::character varying,
+  "sort_number" varchar(32) COLLATE "pg_catalog"."default",
+  "is_delete" varchar(32) COLLATE "pg_catalog"."default" DEFAULT '0'::character varying,
   "description" varchar(1024) COLLATE "pg_catalog"."default",
   "remark1" varchar(1024) COLLATE "pg_catalog"."default",
   "remark2" varchar(1024) COLLATE "pg_catalog"."default",
@@ -622,7 +574,7 @@ CREATE TABLE "public"."system_dict" (
   "ocd" timestamp(6),
   "luc" varchar(50) COLLATE "pg_catalog"."default",
   "lud" timestamp(6),
-  "is_use" int4
+  "is_use" varchar(32) COLLATE "pg_catalog"."default" DEFAULT '1'::character varying
 )
 ;
 COMMENT ON COLUMN "public"."system_dict"."code" IS '字典编码';
@@ -641,9 +593,25 @@ COMMENT ON COLUMN "public"."system_dict"."lud" IS '最后更新时间';
 COMMENT ON COLUMN "public"."system_dict"."is_use" IS '是否启用，1启用，0未启用';
 
 -- ----------------------------
--- Records of system_dict
+-- Table structure for system_login_log
 -- ----------------------------
-INSERT INTO "public"."system_dict" VALUES ('1', 'ResetPassWord', 'Root', '123456', 1, NULL, 0, '创建账号的默认密码', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+DROP TABLE IF EXISTS "public"."system_login_log";
+CREATE TABLE "public"."system_login_log" (
+  "id" varchar(50) COLLATE "pg_catalog"."default" NOT NULL,
+  "ip" varchar(255) COLLATE "pg_catalog"."default",
+  "login_time" timestamp(6),
+  "status" varchar(32) COLLATE "pg_catalog"."default",
+  "remark1" varchar(1024) COLLATE "pg_catalog"."default",
+  "remark2" varchar(1024) COLLATE "pg_catalog"."default",
+  "login_name" varchar(255) COLLATE "pg_catalog"."default"
+)
+;
+COMMENT ON COLUMN "public"."system_login_log"."ip" IS 'ip地址';
+COMMENT ON COLUMN "public"."system_login_log"."login_time" IS '登录时间';
+COMMENT ON COLUMN "public"."system_login_log"."status" IS '登录状态 0注销 1登录';
+COMMENT ON COLUMN "public"."system_login_log"."remark1" IS '备注一';
+COMMENT ON COLUMN "public"."system_login_log"."remark2" IS '备注二';
+COMMENT ON COLUMN "public"."system_login_log"."login_name" IS '登录账号';
 
 -- ----------------------------
 -- Table structure for system_operation_log
@@ -677,17 +645,6 @@ COMMENT ON COLUMN "public"."system_operation_log"."luc" IS '最后更新账号';
 COMMENT ON COLUMN "public"."system_operation_log"."lud" IS '最后更新时间';
 
 -- ----------------------------
--- Records of system_operation_log
--- ----------------------------
-INSERT INTO "public"."system_operation_log" VALUES ('5d1cf5ace9874209b2bf17ed50e57728', NULL, '2020-11-09 14:22:19.055297', '新增用户：xiao', '/UserManagement/AddUser', '', NULL, NULL, NULL, '2020-11-09 14:22:19.05528', NULL, '2020-11-09 14:22:19.055283');
-INSERT INTO "public"."system_operation_log" VALUES ('939930158ac2408c82396455d30f16ad', NULL, '2020-11-09 14:38:05.040542', '新增用户：hello', '/UserManagement/AddUser', '', NULL, NULL, NULL, '2020-11-09 14:38:05.040537', NULL, '2020-11-09 14:38:05.040538');
-INSERT INTO "public"."system_operation_log" VALUES ('dea751ce91364e378e578daf1b0dc47a', NULL, '2020-11-09 14:38:59.918906', '新增用户：xiao', '/UserManagement/AddUser', '', NULL, NULL, NULL, '2020-11-09 14:38:59.9189', NULL, '2020-11-09 14:38:59.918901');
-INSERT INTO "public"."system_operation_log" VALUES ('3b360b85c54d4d368a5869c826c63557', NULL, '2020-11-09 14:47:13.091543', '新增用户：string', '/UserManagement/AddUser', '', NULL, NULL, NULL, '2020-11-09 14:47:13.09137', NULL, '2020-11-09 14:47:13.091371');
-INSERT INTO "public"."system_operation_log" VALUES ('28b6a871db79492eaaeb89071bbc073e', NULL, '2020-11-09 14:47:30.4401', '新增用户：string', '/UserManagement/AddUser', '', NULL, NULL, NULL, '2020-11-09 14:47:30.440093', NULL, '2020-11-09 14:47:30.440094');
-INSERT INTO "public"."system_operation_log" VALUES ('01308190135249d7a0c97c67a0f7bc56', NULL, '2020-11-09 14:49:53.067952', '新增用户：string', '/UserManagement/AddUser', '', NULL, NULL, NULL, '2020-11-09 14:49:53.067946', NULL, '2020-11-09 14:49:53.067948');
-INSERT INTO "public"."system_operation_log" VALUES ('e70a682b97094856b93d5eb7fd99abc1', NULL, '2020-11-09 15:49:39.189725', '新增用户：hello', '/UserManagement/AddUser', '', NULL, NULL, NULL, '2020-11-09 15:49:39.189597', NULL, '2020-11-09 15:49:39.1896');
-
--- ----------------------------
 -- Table structure for system_permission
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."system_permission";
@@ -696,8 +653,8 @@ CREATE TABLE "public"."system_permission" (
   "code" varchar(50) COLLATE "pg_catalog"."default",
   "name" varchar(255) COLLATE "pg_catalog"."default",
   "parent_code" varchar(255) COLLATE "pg_catalog"."default",
-  "type" int4,
-  "sort_name" int4,
+  "type" varchar(32) COLLATE "pg_catalog"."default",
+  "sort_name" varchar(32) COLLATE "pg_catalog"."default",
   "remark1" varchar(1024) COLLATE "pg_catalog"."default",
   "remark2" varchar(1024) COLLATE "pg_catalog"."default",
   "ocu" varchar(50) COLLATE "pg_catalog"."default",
@@ -719,10 +676,6 @@ COMMENT ON COLUMN "public"."system_permission"."luc" IS '更新时间';
 COMMENT ON COLUMN "public"."system_permission"."lud" IS '最后更新时间';
 
 -- ----------------------------
--- Records of system_permission
--- ----------------------------
-
--- ----------------------------
 -- Table structure for system_permission_resource
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."system_permission_resource";
@@ -740,10 +693,6 @@ COMMENT ON COLUMN "public"."system_permission_resource"."remark1" IS '备注一'
 COMMENT ON COLUMN "public"."system_permission_resource"."remark2" IS '备注二';
 
 -- ----------------------------
--- Records of system_permission_resource
--- ----------------------------
-
--- ----------------------------
 -- Table structure for system_resource
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."system_resource";
@@ -753,14 +702,15 @@ CREATE TABLE "public"."system_resource" (
   "name" varchar(255) COLLATE "pg_catalog"."default",
   "parent_code" varchar(255) COLLATE "pg_catalog"."default",
   "url" varchar(255) COLLATE "pg_catalog"."default",
-  "type" int4,
-  "sort_num" int4,
+  "type" varchar(32) COLLATE "pg_catalog"."default",
+  "sort_num" varchar(32) COLLATE "pg_catalog"."default",
   "remark1" varchar(1024) COLLATE "pg_catalog"."default",
   "remark2" varchar(1024) COLLATE "pg_catalog"."default",
   "ocu" varchar(50) COLLATE "pg_catalog"."default",
   "ocd" timestamp(6),
   "luc" varchar(50) COLLATE "pg_catalog"."default",
-  "lud" timestamp(6)
+  "lud" timestamp(6),
+  "level" varchar(32) COLLATE "pg_catalog"."default" DEFAULT '0'::character varying
 )
 ;
 COMMENT ON COLUMN "public"."system_resource"."code" IS '权限编码';
@@ -775,10 +725,7 @@ COMMENT ON COLUMN "public"."system_resource"."ocu" IS '权限编码';
 COMMENT ON COLUMN "public"."system_resource"."ocd" IS '创建时间';
 COMMENT ON COLUMN "public"."system_resource"."luc" IS '最后更新时人';
 COMMENT ON COLUMN "public"."system_resource"."lud" IS '最后更新时间';
-
--- ----------------------------
--- Records of system_resource
--- ----------------------------
+COMMENT ON COLUMN "public"."system_resource"."level" IS '级别，默认为0';
 
 -- ----------------------------
 -- Table structure for system_role
@@ -788,7 +735,7 @@ CREATE TABLE "public"."system_role" (
   "id" varchar(50) COLLATE "pg_catalog"."default" NOT NULL,
   "code" varchar(255) COLLATE "pg_catalog"."default",
   "name" varchar(255) COLLATE "pg_catalog"."default",
-  "is_use" int4 DEFAULT 1,
+  "is_use" varchar(32) COLLATE "pg_catalog"."default" DEFAULT '1'::character varying,
   "remark1" varchar(1024) COLLATE "pg_catalog"."default",
   "remark2" varchar(1024) COLLATE "pg_catalog"."default",
   "ocu" varchar(50) COLLATE "pg_catalog"."default",
@@ -808,10 +755,6 @@ COMMENT ON COLUMN "public"."system_role"."luc" IS '最后更新人';
 COMMENT ON COLUMN "public"."system_role"."lud" IS '最后更新时间';
 
 -- ----------------------------
--- Records of system_role
--- ----------------------------
-
--- ----------------------------
 -- Table structure for system_role_permission
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."system_role_permission";
@@ -829,10 +772,6 @@ COMMENT ON COLUMN "public"."system_role_permission"."remark1" IS '备注一';
 COMMENT ON COLUMN "public"."system_role_permission"."remark2" IS '备注二';
 
 -- ----------------------------
--- Records of system_role_permission
--- ----------------------------
-
--- ----------------------------
 -- Table structure for system_user
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."system_user";
@@ -840,7 +779,7 @@ CREATE TABLE "public"."system_user" (
   "id" varchar(50) COLLATE "pg_catalog"."default" NOT NULL,
   "account" varchar(50) COLLATE "pg_catalog"."default",
   "password" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
-  "is_use" int4 DEFAULT 1,
+  "is_use" varchar(32) COLLATE "pg_catalog"."default" DEFAULT '1'::character varying,
   "remark1" varchar(1024) COLLATE "pg_catalog"."default",
   "remark2" varchar(1024) COLLATE "pg_catalog"."default",
   "ocu" varchar(50) COLLATE "pg_catalog"."default",
@@ -860,15 +799,6 @@ COMMENT ON COLUMN "public"."system_user"."luc" IS '更新人';
 COMMENT ON COLUMN "public"."system_user"."lud" IS '最后更新时间';
 
 -- ----------------------------
--- Records of system_user
--- ----------------------------
-INSERT INTO "public"."system_user" VALUES ('b2c249db008c4f1091513257ea4820df', 'xiao', '1000:H2E/Sov4K05EHytwbVWkrd/z6Y15Ymo9:wD6p/7ClAL7N/i5VyyA+nL1A4eo3+Ulw', 1, NULL, NULL, NULL, '2020-11-09 14:38:59.912528', NULL, '2020-11-09 14:38:59.912523');
-INSERT INTO "public"."system_user" VALUES ('08893c213e534a85a4b5c1c41106c78b', 'string', '1000:h+0zbO7/G7jhy+foFC9F/g1btclWUf0/:oAFTOxEPdbnTrk0i6LDS7B6xOkYtrvNX', 1, NULL, NULL, NULL, '2020-11-09 14:47:12.957396', NULL, '2020-11-09 14:47:12.957355');
-INSERT INTO "public"."system_user" VALUES ('a61e9f6c141049b7ab561adbc53a1203', 'string', '1000:qO0s1SzLPHKhtyX/+ui3avuq9T8/MvFR:qsYvzSw7tp2hOH+K87z0lX9D86JcUnAY', 1, NULL, NULL, NULL, '2020-11-09 14:47:24.661784', NULL, '2020-11-09 14:47:24.661764');
-INSERT INTO "public"."system_user" VALUES ('0a7f6e74492a49e3b1338e765e2f0fff', 'string', '1000:Pz1vNTsq/aRY93JPQWTT/3Fi0yjz+2Sv:c4bDI23k7mfCIj0hffJZTt8bgiXAW/cz', 1, NULL, NULL, NULL, '2020-11-09 14:49:53.065534', NULL, '2020-11-09 14:49:53.065524');
-INSERT INTO "public"."system_user" VALUES ('9b140fb1fa7c43d0a5fdc7c0bf5f75d2', 'hello', '1000:fw90zzMxp9R8IQs/wVUbZcTl4ksi2wU6:+4gRkmOg9Ou3TJ3AZaVCTvN7w0T0zbr4', 1, NULL, NULL, NULL, '2020-11-09 15:46:52.10365', NULL, '2020-11-09 15:46:52.087012');
-
--- ----------------------------
 -- Table structure for system_user_role
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."system_user_role";
@@ -884,10 +814,6 @@ COMMENT ON COLUMN "public"."system_user_role"."user_id" IS '用户id';
 COMMENT ON COLUMN "public"."system_user_role"."role_id" IS '角色id';
 COMMENT ON COLUMN "public"."system_user_role"."remark1" IS '备注一';
 COMMENT ON COLUMN "public"."system_user_role"."remark2" IS '备注二';
-
--- ----------------------------
--- Records of system_user_role
--- ----------------------------
 
 -- ----------------------------
 -- Primary Key structure for table bmms_catalog1
@@ -1003,6 +929,11 @@ ALTER TABLE "public"."sms_sku_attr_value" ADD CONSTRAINT "SMS_SKU_ATTR_pkey" PRI
 -- Primary Key structure for table system_dict
 -- ----------------------------
 ALTER TABLE "public"."system_dict" ADD CONSTRAINT "system_dict_pkey" PRIMARY KEY ("id");
+
+-- ----------------------------
+-- Primary Key structure for table system_login_log
+-- ----------------------------
+ALTER TABLE "public"."system_login_log" ADD CONSTRAINT "system_login_log_pkey" PRIMARY KEY ("id");
 
 -- ----------------------------
 -- Primary Key structure for table system_operation_log

@@ -271,7 +271,7 @@ namespace BLL.Sku
         public async Task GetMaintainEntryShowModel(EntryModel item)
         {
             // 判断是否是为维修单入库
-            if (item.IsMaintain == 1 && string.IsNullOrWhiteSpace(item.MaintainId))
+            if (item.IsMaintain == 1 && !string.IsNullOrWhiteSpace(item.MaintainId))
             {
                 // 获取维修单
                 item.maintainShowModel = await _maintainDao.SelectMaintainInfoById(item.MaintainId);

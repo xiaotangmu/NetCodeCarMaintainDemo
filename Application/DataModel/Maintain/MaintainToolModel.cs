@@ -7,6 +7,7 @@ namespace ViewModel.Maintain
 {
     public class MaintainToolModel : MaintainToolUpdateModel
     {
+        public string SkuId { get; set; }
         #region 用于返回方便看工具信息
         public string SkuName { get; set; }
         public string Brand { get; set; }

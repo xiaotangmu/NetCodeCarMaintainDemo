@@ -16,5 +16,7 @@ namespace Supervisor.Spu
         Task<SpuListWithPagingModel> GetAllWithPaging(BaseSearchModel model);
         Task<IEnumerable<SpuModel>> GetAll();
         Task<IEnumerable<SpuModel>> GetListByCatalog2Id(string Catalog2Id);
+        Task<IEnumerable<SpuAttrModel>> GetSpuAttrListBySpuId(string spuId);
+        Task<SpuModel> GetSpuById(string id);
     }
 }

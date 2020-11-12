@@ -25,5 +25,6 @@ namespace Interface
         Task<IEnumerable<SpuAttrValueModel>> SelectAttrValueBySpuAttrId(string SpuAttrId);
         Task<IEnumerable<SpuModel>> GetAll();
         Task<IEnumerable<SpuModel>> GetListByCatalog2Id(string catalog2Id);
+        Task<SpuModel> SelectSpuById(string id);
     }
 }

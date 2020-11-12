@@ -116,11 +116,11 @@ namespace DAO.Spu
                 join BMMS_CATALOG1 bc1 on bc2.PARENT_ID = bc1.ID where ";
             if (!string.IsNullOrEmpty(model.Catalog2Id))
             {
-                sql += "CATALOG2_ID = '{0}' And";
+                sql += "ps.CATALOG2_ID = '{0}' And";
             }
             if (!string.IsNullOrEmpty(model.ProductName))
             {
-                sql += " PRODUCT_NAME like '%' + '{1}' + '%' And";
+                sql += " ps.PRODUCT_NAME like '%' + '{1}' + '%' And";
             }
             sql = string.Format(sql, model.Catalog2Id, model.ProductName);
             // 去除多余And
@@ -129,9 +129,8 @@ namespace DAO.Spu
             string countSql = "Select Count(1) from (" + sql + ") as temp";
             pageModel.TotalCount = await Repository.CountAsync(countSql);
 
-            IEnumerable<PMS_SPU> entityList = await Repository.GetPageAsync<PMS_SPU>(model.PageIndex, model.PageSize, sql, "order by OCD desc",
+            pageModel.Items = await Repository.GetPageAsync<SpuModel>(model.PageIndex, model.PageSize, sql, "order by OCD desc",
                 model, null);
-            pageModel.Items = EntityListToModelList(entityList);
             return pageModel;
             #endregion
 
@@ -209,6 +208,20 @@ namespace DAO.Spu
             var pSort = Predicates.Sort<PMS_SPU>(item => item.OCD, false);
             IEnumerable<PMS_SPU> entityList = await Repository.GetListAsync<PMS_SPU>(pGroup, new[] { pSort });
             return EntityListToModelList(entityList);
+        }
+
+        public async Task<SpuModel> SelectSpuById(string id)
+        {
+            string sql = @"select ps.ID Id, ps.CATALOG2_ID Catalog2Id, ps.SPU_NO SpuNo, ps.PRODUCT_NAME ProductName,
+                ps.DESCRIPTION Description, ps.OCU, ps.OCD, ps.LUC, ps.LUD, 
+                (bc1.CATALOG_NAME + '/' + bc2.CATALOG_NAME) as CatalogName
+                from PMS_SPU ps
+                left
+                join BMMS_CATALOG2 bc2 on bc2.ID = ps.CATALOG2_ID
+                left
+                join BMMS_CATALOG1 bc1 on bc2.PARENT_ID = bc1.ID
+                where ps.ID = @id ";
+            return await Repository.GetFirstAsync<SpuModel>(sql, new { id });
         }
     }
 }

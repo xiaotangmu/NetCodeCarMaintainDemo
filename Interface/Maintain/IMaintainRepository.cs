@@ -40,5 +40,6 @@ namespace Interface.Maintain
         Task<bool> DeleteNoDealOldPartByMaintainId(string id, IDbTransaction transaction);
         Task<MaintainEntryShowModel> SelectMaintainInfoById(string id);
         Task<IEnumerable<MaintainShowModel>> GetNoDealToolOrPartWithMaintain();
+        Task<MaintainShowModel> SelectMaintainAllInfoById(string id);
     }
 }

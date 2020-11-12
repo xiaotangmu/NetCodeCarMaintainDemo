@@ -120,7 +120,7 @@ namespace DAO.Maintain
             string sql = @"select ss.SKU_NAME SkuName, ss.BRAND Brand, ss.UNIT Unit,
                     sos.PRICE Price, sos.QUANTITY TotalCount, mmt.STATUS Status, 
                     mmt.REMARK Remark, mmt.DEAL_NUM DealNum, mmt.NUM num, mmt.COMPENSATION Compensation,
-                    mmt.ID Id, mmt.OUT_SKU_ID as OutSkuId
+                    mmt.ID Id, mmt.OUT_SKU_ID as OutSkuId, ss.ID as SkuId
                     from MMS_MAINTAIN_TOOL mmt 
                     LEFT JOIN SMS_OUT_SKU sos on sos.ID = mmt.OUT_SKU_ID
                     Left join SMS_SKU_ADDRESS ssa on ssa.ID = sos.ADDRESS_ID 
@@ -267,7 +267,7 @@ namespace DAO.Maintain
                     where ";
             // 预约时间范围，联系人，联系电话，车牌号，公司名, 描述
             strSql += (string.IsNullOrWhiteSpace(model.SearchStr)) ? " 1 = 1 " : @" (mm.MAINTAIN_NO like '%' + '{0}' + '%' OR mm.STAFF like 
-                    '%' + '{0}' + '%' OR mm.OPERATOR like '{0}' OR ma.CAR_LICENSE like
+                    '%' + '{0}' + '%' OR mm.OPERATOR like '%' + '{0}' + '%' OR ma.CAR_LICENSE like
                     '%' + '{0}' + '%' OR cc.COMPANY like '%' + '{0}' + '%' OR ma.CONTACT
                     like '%' + '{0}' + '%' OR ma.PHONE like '%' + '{0}' + '%') ";    // 还可查供应商 待定 
             strSql += model?.StartTime.Year > 1900 ? " and mm.START_DATE >= '{1}' " : "";
@@ -286,6 +286,20 @@ namespace DAO.Maintain
             return pageModel;
         }
 
+        public async Task<MaintainShowModel> SelectMaintainAllInfoById(string id)
+        {
+            string sql = @"select mm.ID Id, mm.MAINTAIN_NO MaintainNo, mm.STAFF Staff,
+                    mm.APPOINTMENT_ID AppointmentId, mm.START_DATE StartDate,
+                    mm.STATUS Status, mm.RETURN_DATE ReturnDate, mm.OPERATOR Operator,
+                    mm.OCU, mm.OCD, mm.LUC, mm.LUD, cc.COMPANY CompanyName, ma.TYPE Type,
+                    ma.CONTACT Contact, ma.PHONE Phone, ma.CAR_LICENSE CarLicense
+                    from MMS_MAINTAIN mm
+                    left join MMS_APPOINTMENT ma on mm.APPOINTMENT_ID = ma.ID
+                    left join CMS_CLIENT cc on cc.ID = ma.COMPANY_ID 
+                    where mm.ID = @id";
+            return await Repository.GetFirstAsync<MaintainShowModel>(sql, new { id });
+        }
+
         public async Task<MaintainEntryShowModel> SelectMaintainInfoById(string id)
         {
             string sql = @"select mm.MAINTAIN_NO MaintainNo, mm.START_DATE StartDate,
@@ -294,7 +308,7 @@ namespace DAO.Maintain
                     from MMS_MAINTAIN mm
                     left join MMS_APPOINTMENT ma on mm.APPOINTMENT_ID = ma.ID
                     left join CMS_CLIENT cc on cc.ID = ma.COMPANY_ID 
-                    where ID = @id";
+                    where mm.ID = @id";
             return (await Repository.GetGroupAsync<MaintainEntryShowModel>(sql, new { id })).First();
         }
 

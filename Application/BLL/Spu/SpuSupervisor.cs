@@ -113,17 +113,21 @@ namespace BLL.Spu
         {
             foreach (var model in modelList)
             {
-                // 1. 获取属性
-                IEnumerable<SpuAttrModel> attrList =  await _spuDao.SelectAttrBySpuId(model.Id);
-                // 2. 获取属性值
-                foreach (var attr in attrList)
-                {
-                    IEnumerable<SpuAttrValueModel> valueList = await _spuDao.SelectAttrValueBySpuAttrId(attr.Id);
-                    attr.ValueList = valueList;
-                }
-                model.SpuAttrModelList = attrList;
+                await GetSpuAttrAndAttrValueByOne(model);
             }
             return modelList;
+        }
+        public async Task GetSpuAttrAndAttrValueByOne(SpuModel model)
+        {
+            // 1. 获取属性
+            IEnumerable<SpuAttrModel> attrList = await _spuDao.SelectAttrBySpuId(model.Id);
+            // 2. 获取属性值
+            foreach (var attr in attrList)
+            {
+                IEnumerable<SpuAttrValueModel> valueList = await _spuDao.SelectAttrValueBySpuAttrId(attr.Id);
+                attr.ValueList = valueList;
+            }
+            model.SpuAttrModelList = attrList;
         }
         /// <summary>
         /// 添加属性和属性值
@@ -294,6 +298,26 @@ namespace BLL.Spu
             // 放入属性和属性值
             await GetSpuAttrAndAttrValue(modelList);
             return modelList;
+        }
+
+        public async Task<IEnumerable<SpuAttrModel>> GetSpuAttrListBySpuId(string spuId)
+        {
+            IEnumerable<SpuAttrModel> attrList = await _spuDao.SelectAttrBySpuId(spuId);
+            foreach(var item in attrList)
+            {
+                item.ValueList = await _spuDao.SelectAttrValueBySpuAttrId(item.Id);
+            }
+            return attrList;
+        }
+
+        public async Task<SpuModel> GetSpuById(string id)
+        {
+            SpuModel model = await _spuDao.SelectSpuById(id);
+            if(model != null)
+            {
+                await GetSpuAttrAndAttrValueByOne(model);
+            }
+            return model;
         }
     }
 }

@@ -181,33 +181,41 @@ namespace BLL.Maintain
         {
             foreach (var model in modelList)
             {
-                // 获取维修工具
-                IEnumerable<MaintainToolModel> toolList = await _mainDao.GetToolsByMaintainId(model.Id);
-                foreach (var tool in toolList)
-                {
-                    // 获取工具规格
-                    IEnumerable<SkuAttrModel> attrList = await _mainDao.GetToolTypeById(tool.Id);
-                    tool.AttrList = attrList;
-                }
-                model.ToolList = toolList;
-                // 获取维修旧配件
-                IEnumerable<MaintainOldPartModel> oldPartList = await _mainDao.GetOldPartsByMaintainId(model.Id);
-                foreach (var old in oldPartList)
-                {
-                    // 获取旧配件规格
-                    IEnumerable<SkuAttrModel> attrList = await _mainDao.GetOldPartTypeById(old.Id);
-                }
-                model.OldPartList = oldPartList;
-                // 获取维修用到配件
-                IEnumerable<SkuModel> skuList = await _mainDao.GetSkusByMaintainId(model.Id);
-                foreach (var sku in skuList)
-                {
-                    // 获取配件规格
-                    IEnumerable<SkuAttrModel> attrList = await _skuDao.SelectAttrBySkuId(sku.Id);
-                }
-                model.SkuList = skuList;
+                await GetPart(model);
             }
             return modelList;
+        }
+        public async Task GetPart(MaintainShowModel model)
+        {
+            if(model == null || string.IsNullOrWhiteSpace(model.Id))
+            {
+                return;
+            }
+            // 获取维修工具
+            IEnumerable<MaintainToolModel> toolList = await _mainDao.GetToolsByMaintainId(model.Id);
+            foreach (var tool in toolList)
+            {
+                // 获取工具规格
+                IEnumerable<SkuAttrModel> attrList = await _mainDao.GetToolTypeById(tool.Id);
+                tool.AttrList = attrList;
+            }
+            model.ToolList = toolList;
+            // 获取维修旧配件
+            IEnumerable<MaintainOldPartModel> oldPartList = await _mainDao.GetOldPartsByMaintainId(model.Id);
+            foreach (var old in oldPartList)
+            {
+                // 获取旧配件规格
+                IEnumerable<SkuAttrModel> attrList = await _mainDao.GetOldPartTypeById(old.Id);
+            }
+            model.OldPartList = oldPartList;
+            // 获取维修用到配件
+            IEnumerable<SkuModel> skuList = await _mainDao.GetSkusByMaintainId(model.Id);
+            foreach (var sku in skuList)
+            {
+                // 获取配件规格
+                IEnumerable<SkuAttrModel> attrList = await _skuDao.SelectAttrBySkuId(sku.Id);
+            }
+            model.SkuList = skuList;
         }
 
         public async Task<PageModel<MaintainShowModel>> GetListPageBySearch(MaintainPageSearchModel model)
@@ -500,6 +508,13 @@ namespace BLL.Maintain
                 model.OldPartList = oldPartList;
             }
             return modelList;
+        }
+
+        public async Task<MaintainShowModel> GetMaintainById(string id)
+        {
+            MaintainShowModel model = await _mainDao.SelectMaintainAllInfoById(id);
+            await GetPart(model);
+            return model;
         }
     }
     /// <summary>

@@ -130,6 +130,22 @@ namespace WebApi.Controllers.Maintain
                 return await _maintainSupervisor.GetAll();
             });
         }
+        /// <summary>
+        /// 根据维修单id 获取维修单信息
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> GetMaintainById(string id)
+        {
+            return await ResponseResult(async () =>
+            {
+                if (string.IsNullOrWhiteSpace(id))
+                {
+                    throw new MyServiceException("数据为空");
+                }
+                return await _maintainSupervisor.GetMaintainById(id);
+            });
+        }
 
         /// <summary>
         /// 条件查询/模糊查询 -- 分页 , 当下所有状态 0未处理，1已处理，-1 不理会

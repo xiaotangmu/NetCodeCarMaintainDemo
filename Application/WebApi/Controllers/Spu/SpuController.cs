@@ -125,6 +125,38 @@ namespace WebApi.Controllers.Spu
                 return await _spuSupervisor.GetSpuListWithPaging(model);
             });
         }
+        /// <summary>
+        /// 根据spu ID 获取属性列表
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> GetSpuAttrListBySpuId(string spuId)
+        {
+            return await ResponseResult(async () =>
+            {
+                if (string.IsNullOrWhiteSpace(spuId))
+                {
+                    throw new MyServiceException(("数据异常"));
+                }
+                return await _spuSupervisor.GetSpuAttrListBySpuId(spuId);
+            });
+        }
+        /// <summary>
+        /// 根据ID 获取spu
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> GetSpuById(string id)
+        {
+            return await ResponseResult(async () =>
+            {
+                if (string.IsNullOrWhiteSpace(id))
+                {
+                    throw new MyServiceException(("数据异常"));
+                }
+                return await _spuSupervisor.GetSpuById(id);
+            });
+        }
 
         /// <summary>
         /// 获取所有产品分页
