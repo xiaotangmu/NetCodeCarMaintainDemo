@@ -53,6 +53,7 @@ namespace DAO.Sku
                     (bc1.CATALOG_NAME + '/' + bc2.CATALOG_NAME) as CatalogName,
                     ss.TOOL as Tool
                     from SMS_OUT_SKU sse 
+                    left join SMS_OUT so on so.ID = sse.OUT_ID
                     left join SMS_SKU ss on ss.ID = sse.SKU_ID
                     left join PMS_SPU ps on ss.SPU_ID = ps.ID
                     left join BMMS_CATALOG2 bc2 on bc2.ID = ps.CATALOG2_ID
