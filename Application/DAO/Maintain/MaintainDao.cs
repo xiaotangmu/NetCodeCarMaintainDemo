@@ -309,7 +309,7 @@ namespace DAO.Maintain
                     left join MMS_APPOINTMENT ma on mm.APPOINTMENT_ID = ma.ID
                     left join CMS_CLIENT cc on cc.ID = ma.COMPANY_ID 
                     where mm.ID = @id";
-            return (await Repository.GetGroupAsync<MaintainEntryShowModel>(sql, new { id })).First();
+            return await Repository.GetFirstAsync<MaintainEntryShowModel>(sql, new { id });
         }
 
         public async Task<bool> UpdateMaintainNoRelation(MaintainModel model, IDbTransaction transaction = null)

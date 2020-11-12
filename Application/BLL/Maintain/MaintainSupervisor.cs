@@ -486,15 +486,15 @@ namespace BLL.Maintain
             IEnumerable<MaintainShowModel> modelList = await _mainDao.GetNoDealToolOrPartWithMaintain();
             // 过滤已经处理的工具或配件
             await GetPartList(modelList);
-            IEnumerable<MaintainToolModel> toolList = new List<MaintainToolModel>();
-            IEnumerable<MaintainOldPartModel> oldPartList = new List<MaintainOldPartModel>();
+            List<MaintainToolModel> toolList = new List<MaintainToolModel>();
+            List<MaintainOldPartModel> oldPartList = new List<MaintainOldPartModel>();
             foreach (var model in modelList)
             {
                 foreach(var tool in model.ToolList)
                 {
                     if(tool.Status == 0)
                     {
-                        toolList.Append(tool);
+                        toolList.Add(tool);
                     }
                 }
                 model.ToolList = toolList;
@@ -502,7 +502,7 @@ namespace BLL.Maintain
                 {
                     if (old.Status == 0)
                     {
-                        oldPartList.Append(old);
+                        oldPartList.Add(old);
                     }
                 }
                 model.OldPartList = oldPartList;
