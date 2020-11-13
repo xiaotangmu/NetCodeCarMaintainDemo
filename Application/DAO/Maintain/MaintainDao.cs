@@ -104,7 +104,7 @@ namespace DAO.Maintain
 
         public async Task<IEnumerable<SkuModel>> GetSkusByMaintainId(string id)
         {
-            string sql = @"select ss.SKU_NAME SkuName, ss.BRAND Brand, ss.UNIT Unit,
+            string sql = @"select ss.ID as Id, ss.SKU_NAME SkuName, ss.BRAND Brand, ss.UNIT Unit,
                     sos.PRICE Price, sos.QUANTITY TotalCount
                     from MMS_MAINTAIN_OUT mmo
                     LEFT JOIN SMS_OUT so on so.ID = mmo.OUT_ID

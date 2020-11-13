@@ -290,7 +290,7 @@ namespace BLL.Sku
             // 获取参数
             foreach (var sku in model.skuList)
             {
-                sku.attrList = await _skuDao.SelectAttrBySkuId(sku.SkuId);
+                sku.AttrList = await _skuDao.SelectAttrBySkuId(sku.SkuId);
             }
         }
 

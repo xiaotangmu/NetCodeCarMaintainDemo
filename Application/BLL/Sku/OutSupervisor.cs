@@ -264,7 +264,7 @@ namespace BLL.Sku
                 // 获取规格
                 foreach(var sku in item.skuList)
                 {
-                    sku.attrList = await _skuDao.SelectAttrBySkuId(sku.SkuId);
+                    sku.AttrList = await _skuDao.SelectAttrBySkuId(sku.SkuId);
                     // 获取位置信息
                     sku.AddressModel = await _skuDao.SelectAddressByAddressId(sku.AddressId);
                 }

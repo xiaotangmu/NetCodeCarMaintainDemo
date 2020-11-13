@@ -98,7 +98,7 @@ namespace ViewModel.Sku
         /// <summary>
         /// 库存属性值
         /// </summary>
-        public IEnumerable<SkuAttrModel> attrList = new List<SkuAttrModel>();
+        public IEnumerable<SkuAttrModel> AttrList = new List<SkuAttrModel>();
 
         public IEnumerable<SkuAddressModel> addressList = new List<SkuAddressModel>();
 

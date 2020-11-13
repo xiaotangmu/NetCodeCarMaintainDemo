@@ -206,6 +206,7 @@ namespace BLL.Maintain
             {
                 // 获取旧配件规格
                 IEnumerable<SkuAttrModel> attrList = await _mainDao.GetOldPartTypeById(old.Id);
+                old.AttrList = attrList;
             }
             model.OldPartList = oldPartList;
             // 获取维修用到配件
@@ -214,6 +215,7 @@ namespace BLL.Maintain
             {
                 // 获取配件规格
                 IEnumerable<SkuAttrModel> attrList = await _skuDao.SelectAttrBySkuId(sku.Id);
+                sku.AttrList = attrList;
             }
             model.SkuList = skuList;
         }
